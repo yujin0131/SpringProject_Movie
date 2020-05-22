@@ -25,4 +25,9 @@ public class MovieListController {
 		return Common.Movie.VIEW_PATH + "movie_list_rank.jsp"; 
 	}
 	
+	@RequestMapping("/movieQuery.do")
+	public String movieQuery() {
+		return Common.Movie.VIEW_PATH + "movie_query.jsp"; 
+	}
+	
 }

@@ -17,6 +17,13 @@
 		};
 
 		
+		/* function load_list_toPoster(){
+			//192.168.1.101:9090/vs/list.do
+			var url ='http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
+			var param = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&releaseDts=20200519&releaseDte=20200618&listCount=10';
+			sendRequest( url, param, resultFn, "GET" );
+		} */
+		
 		//목록을 가져오는 함수
 		function load_list(){
 			//192.168.1.101:9090/vs/list.do
@@ -32,28 +39,24 @@
 				
 				var data = xhr.responseText;
 				var json = eval("["+data+"]");
-				alert(data);
 				
-				
-				for(var i=0 ; i<json[0].boxOfficeResult.dailyBoxOfficeList[0].length ; i++){
+				var movie_list =document.getElementById("movie_list");
+				for(var i=0 ; i<json[0].boxOfficeResult.dailyBoxOfficeList.length ; i++){
 					var li = document.createElement("li");//영화 제목
-			    	li.innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[0].movieNm;
-			    	var liID=json[0].boxOfficeResult.dailyBoxOfficeList[0].movieCd;
-			    	
-			    	li.id = liID;
-			    	movie_list2.appendChild(li);
+			    	li.innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].movieNm;
+			    	movie_list.appendChild(li);
 			    	
 			    	var rank = document.createElement("div");//영화 순위
-			    	relDate.innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[0].rank+" 위";
-			    	movie_list2.appendChild(rank);
+			    	rank.innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].rank+" 위";
+			    	movie_list.appendChild(rank);
 			    	
-			    	var salesShare = document.createElement("div");//영화 누적관객수
-			    	salesShare.innerHTML=json[0].Data[0].Result[i].salesShare+"분";
-			    	movie_list2.appendChild(salesShare);
+			    	var salesShare = document.createElement("div"); //영화 예매율
+			    	salesShare.innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].salesShare;
+			    	movie_list.appendChild(salesShare);
 			    	
 			    	var audiAcc = document.createElement("div");//영화 누적관객수
-			    	audiAcc.innerHTML=json[0].Data[0].Result[i].audiAcc+"분";
-			    	movie_list2.appendChild(audiAcc);
+			    	audiAcc.innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].audiAcc+"명";
+			    	movie_list.appendChild(audiAcc);
 
 			    	
 				}
@@ -66,12 +69,18 @@
 	</script>
 </head>
 <body>
+	<div>
+		<a href="/movie/movieReleaseList.do">상영 예정작</a>
+		<a href="/movie/movieRankList.do">무비 차트(일간)(주간)</a>
+		<a href="/movie/movieQuery.do">영화 검색</a>
+	</div>
+	
 	<div id="container">
 		<div id="contents">
 			<div id="movie_chart">
 				<div id="chart_title"></div>
 				<div id="select_movie_list">
-					<ul id="movie_list2">
+					<ul id="movie_list">
 					</ul>
 				</div>
 			

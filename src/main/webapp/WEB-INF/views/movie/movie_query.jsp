@@ -4,16 +4,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>무비 - 상영 예정작</title>
+<title>무비 - 영화 검색</title>
 
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/movie_list.css">
 	
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
 	<script type="text/javascript">
-	
-		window.onload=function(){
-			load_list();
-		};
 		
 		//여러개 포스터 잘라쓰기
 		function cutPoster(posters) {
@@ -28,10 +24,10 @@
 		}
 		
 		//목록을 가져오는 함수
-		function load_list(){
-			//192.168.1.101:9090/vs/list.do
+		function movieQuery( f ){
+			var query = f.query.value.trim();
 			var url ='http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
-			var param = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&releaseDts=20200519&releaseDte=20200618&listCount=10';
+			var param = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&sort=prodYear,1&query='+query;
 			sendRequest( url, param, resultFn, "GET" );
 			
 		}
@@ -82,6 +78,12 @@
 	</div>
 	
 	<div id="container">
+		<form>
+			검색해주세요 : <input name="query" value="검색">
+			<input type="button" value="검색"
+						onclick="movieQuery(this.form);">
+		</form>
+		
 		<div id="contents">
 			<div id="movie_chart">
 				<div id="chart_title"></div>
