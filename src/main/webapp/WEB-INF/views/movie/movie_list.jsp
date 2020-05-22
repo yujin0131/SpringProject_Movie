@@ -15,6 +15,8 @@
 			load_list();
 		};
 		
+	
+		
 		//목록을 가져오는 함수
 		function load_list(){
 			//192.168.1.101:9090/vs/list.do
@@ -29,9 +31,10 @@
 			if( xhr.readyState == 4 && xhr.status == 200 ){
 				
 				var data = xhr.responseText;
+				var json = eval("["+data+"]");
 				alert(data);
-				/* var json = eval(data); */
 				
+				document.getElementById("disp").innerHTML = json[0].Data[0].Result[0].title;
 				
 			}
 			
@@ -39,8 +42,9 @@
 	</script>
 </head>
 <body>
-	<div id="disp"></div>
-	
+	<div id="disp">
+		
+	</div>
 	
 </body>
 </html>
