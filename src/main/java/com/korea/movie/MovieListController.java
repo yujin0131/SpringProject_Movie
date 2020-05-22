@@ -15,9 +15,14 @@ public class MovieListController {
 		this.movieListDAO = movieListDAO;
 	}
 	
-	@RequestMapping( value= {"/", "/movieList.do"} )
-	public String insert_form() {
-		return Common.Movie.VIEW_PATH + "movie_list.jsp"; 
+	@RequestMapping( value= {"/", "/movieReleaseList.do"} )
+	public String movieReleaseList() {
+		return Common.Movie.VIEW_PATH + "movie_list_release.jsp"; 
+	}
+	
+	@RequestMapping("/movieRankList.do")
+	public String movieRankList() {
+		return Common.Movie.VIEW_PATH + "movie_list_rank.jsp"; 
 	}
 	
 }
