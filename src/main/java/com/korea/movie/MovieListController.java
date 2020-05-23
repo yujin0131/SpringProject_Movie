@@ -38,4 +38,5 @@ public class MovieListController {
 		model.addAttribute("movieSeq", movieSeq);
 		return Common.Movie.VIEW_PATH + "movie_detail.jsp";
 	}
+	
 }

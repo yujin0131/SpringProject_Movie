@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>영화 그 이상의 감동. 상영 예정작</title>
+<title>영화 그 이상의 감동. CGW</title>
 
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/movie_list.css">
 	

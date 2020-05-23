@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>영화 그 이상의 감동. 영화 검색</title>
+<title>영화 그 이상의 감동. CGW</title>
 
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/movie_list.css">
 	
@@ -54,28 +55,12 @@
 					var movie_container = "movie_list_"+i;//영화 정보 담는 컨테이너
 			    	var moviePoster = cutPoster(json[0].Data[0].Result[i].posters);//json형식으로 넘어온 값이 여러개의 포스터일 경우 하나의 포스터를 가져옴
 			    	
-			    	document.getElementById("movie_movieSeq_"+i).value=json[0].Data[0].Result[i].movieSeq;//영화 코드
+			    	document.getElementById("movie_movieId_"+i).value=json[0].Data[0].Result[i].movieId;//영화 코드1
+			    	document.getElementById("movie_movieSeq_"+i).value=json[0].Data[0].Result[i].movieSeq;//영화 코드2
 			    	document.getElementById("movie_list_title_"+i).innerHTML=json[0].Data[0].Result[i].title;//영화 제목
 			    	document.getElementById("movie_list_poster_"+i+"_img").src=moviePoster;//포스터
 			    	document.getElementById("movie_list_relDate_"+i).innerHTML=json[0].Data[0].Result[i].repRlsDate+" 개봉";//개봉일
 			    	document.getElementById("movie_list_runtime_"+i).innerHTML=json[0].Data[0].Result[i].runtime+"분";//상영시간
-					
-					/* var movieTitle = document.createElement("div");//영화 제목
-					movieTitle.innerHTML=json[0].Data[0].Result[i].title;
-					
-			    	var moviePoster = document.createElement("img");//영화 포스터
-			    	moviePoster.src=cutPoster(json[0].Data[0].Result[i].posters);
-			    	
-			    	var relDate = document.createElement("div");//영화 개봉일
-			    	relDate.innerHTML=json[0].Data[0].Result[i].repRlsDate+" 개봉";
-			    	
-			    	var runtime = document.createElement("div");//상영시간
-			    	runtime.innerHTML=json[0].Data[0].Result[i].runtime+"분";
-			    	
-			    	document.getElementById(movie_container).appendChild(movieTitle);
-			    	document.getElementById(movie_container).appendChild(moviePoster);
-			    	document.getElementById(movie_container).appendChild(relDate);
-			    	document.getElementById(movie_container).appendChild(runtime); */
 			    	
 				}
 				
