@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>무비 - 상영 예정작</title>
+<title>영화 그 이상의 감동. 상영 예정작</title>
 
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/movie_list.css">
 	
@@ -27,6 +29,11 @@
 			  return posters;
 		}
 		
+		//이미지 클릭시 상세보기 "reply_form.do?idx=${vo.idx}&page=${param.page}";
+		function imgclick(){
+			location.href = "movieInfoDetail.do";
+		}
+		
 		//목록을 가져오는 함수
 		function load_list(){
 			//192.168.1.101:9090/vs/list.do
@@ -44,34 +51,40 @@
 				var json = eval("["+data+"]");		
 				
 				for(var i=0 ; i<json[0].Data[0].Result.length ; i++){
-					var li = document.createElement("li");//영화 제목
-			    	li.innerHTML=json[0].Data[0].Result[i].title;
-			    	li.value=json[0].Data[0].Result[i].title;
-			    	var liID=json[0].Data[0].Result[i].movieSeq;
-			    	
-			    	li.id = liID;
-			    	movie_list.appendChild(li);
 					
-			    	var moviePoster = document.createElement("img");//영화 포스터
-			    	moviePoster.src=cutPoster(json[0].Data[0].Result[i].posters);
-			    	movie_list.appendChild(moviePoster);
+					var movie_container = "movie_list_"+i;//영화 정보 담는 컨테이너
+					
+					/* var movieTitle = document.createElement("div"); //영화 제목
+					movieTitle.innerHTML=json[0].Data[0].Result[i].title; */
+					
+			    	/* var moviePoster = document.createElement("img");//영화 포스터 */
+			    	var moviePoster = cutPoster(json[0].Data[0].Result[i].posters);//json형식으로 넘어온 값이 여러개의 포스터일 경우 하나의 포스터를 가져옴
 			    	
-			    	var relDate = document.createElement("div");//영화 개봉일
+			    	/* var relDate = document.createElement("div");//영화 개봉일
 			    	relDate.innerHTML=json[0].Data[0].Result[i].repRlsDate+" 개봉";
-			    	movie_list.appendChild(relDate);
 			    	
-			    	var runtime = document.createElement("div");//영화 개봉일
-			    	runtime.innerHTML=json[0].Data[0].Result[i].runtime+"분";
-			    	movie_list.appendChild(runtime);
+			    	var runtime = document.createElement("div");//영화 상영 시간
+			    	runtime.innerHTML=json[0].Data[0].Result[i].runtime+"분"; */
+			    	
+			    	document.getElementById("movie_movieSeq_"+i).value=json[0].Data[0].Result[i].movieSeq;
+			    	document.getElementById("movie_list_title_"+i).innerHTML=json[0].Data[0].Result[i].title;
+			    	document.getElementById("movie_list_poster_"+i+"_img").src=moviePoster;
+			    	document.getElementById("movie_list_relDate_"+i).innerHTML=json[0].Data[0].Result[i].repRlsDate+" 개봉";
+			    	document.getElementById("movie_list_runtime_"+i).innerHTML=json[0].Data[0].Result[i].runtime+"분";
 
 			    	
 				}
 				
-				/* document.getElementById("disp").innerHTML = json[0].Data[0].Result[0].title;
-			 	location.href="add_jsonTypeMovieInfo.do?data=${data}"; */
 			}
 			
 		}
+		
+		function detail( movieSeq ){
+			
+			return location.href="movieInfoDetail.do?movieSeq="+movieSeq;
+			
+		}
+		
 	</script>
 </head>
 <body>
@@ -79,14 +92,25 @@
 		<a href="/movie/movieReleaseList.do">상영 예정작</a>
 		<a href="/movie/movieRankList.do">무비 차트(일간)(주간)</a>
 		<a href="/movie/movieQuery.do">영화 검색</a>
-	</div>
-	
+	</div> 
 	<div id="container">
 		<div id="contents">
 			<div id="movie_chart">
-				<div id="chart_title"></div>
-				<div id="select_movie_list">
-					<ul id="movie_list">
+				<div id="chart_title"><h4>상영 예정작</h4></div>
+				
+				<div id="select_movie_lists">
+					<ul id="movie_lists">
+						<c:forEach var="n" begin="0" end="9" step="1">
+							<li id="movie_list_${n}" style="margin:10px">
+									<input type="hidden" id="movie_movieSeq_${n}">
+									<div id="movie_list_title_${n}"></div>
+									<div id="movie_list_poster_${n}">
+										<img id="movie_list_poster_${n}_img" onclick="detail(movie_movieSeq_${n}.value);">
+									</div>
+									<div id="movie_list_relDate_${n}"></div>
+									<div id="movie_list_runtime_${n}"></div>
+							</li>
+						</c:forEach>
 					</ul>
 				</div>
 			

@@ -1,6 +1,7 @@
 package com.korea.movie;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import common.Common;
@@ -30,4 +31,10 @@ public class MovieListController {
 		return Common.Movie.VIEW_PATH + "movie_query.jsp"; 
 	}
 	
+	@RequestMapping("/movieInfoDetail.do")
+	public String goMovieInfoDetail( Model model, String movieSeq ) {
+		
+		model.addAttribute("movieSeq", movieSeq);
+		return Common.Movie.VIEW_PATH + "movie_detail.jsp";
+	}
 }

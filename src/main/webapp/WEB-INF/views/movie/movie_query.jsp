@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>무비 - 영화 검색</title>
+<title>영화 그 이상의 감동. 영화 검색</title>
 
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/movie_list.css">
 	
@@ -21,6 +23,14 @@
 			    posters = "${ pageContext.request.contextPath }/resources/img/nullImg.png";
 			  }
 			  return posters;
+		}
+		
+		//loading문구 지우기
+		function text_del(){
+
+		    var delText = document.getElementById("searchText");
+		    delText.removeChild( delText.children[0] );
+		    
 		}
 		
 		//목록을 가져오는 함수
@@ -40,31 +50,29 @@
 				var json = eval("["+data+"]");		
 				
 				for(var i=0 ; i<json[0].Data[0].Result.length ; i++){
-					var li = document.createElement("li");//영화 제목
-			    	li.innerHTML=json[0].Data[0].Result[i].title;
-			    	li.value=json[0].Data[0].Result[i].title;
-			    	var liID=json[0].Data[0].Result[i].movieSeq;
-			    	
-			    	li.id = liID;
-			    	movie_list.appendChild(li);
+					
+					var movie_container = "movie_list_"+i;//영화 정보 담는 컨테이너
+					
+					var movieTitle = document.createElement("div");//영화 제목
+					movieTitle.innerHTML=json[0].Data[0].Result[i].title;
 					
 			    	var moviePoster = document.createElement("img");//영화 포스터
 			    	moviePoster.src=cutPoster(json[0].Data[0].Result[i].posters);
-			    	movie_list.appendChild(moviePoster);
 			    	
 			    	var relDate = document.createElement("div");//영화 개봉일
 			    	relDate.innerHTML=json[0].Data[0].Result[i].repRlsDate+" 개봉";
-			    	movie_list.appendChild(relDate);
 			    	
-			    	var runtime = document.createElement("div");//영화 개봉일
+			    	var runtime = document.createElement("div");//상영시간
 			    	runtime.innerHTML=json[0].Data[0].Result[i].runtime+"분";
-			    	movie_list.appendChild(runtime);
-
+			    	
+			    	document.getElementById(movie_container).appendChild(movieTitle);
+			    	document.getElementById(movie_container).appendChild(moviePoster);
+			    	document.getElementById(movie_container).appendChild(relDate);
+			    	document.getElementById(movie_container).appendChild(runtime);
 			    	
 				}
 				
-				/* document.getElementById("disp").innerHTML = json[0].Data[0].Result[0].title;
-			 	location.href="add_jsonTypeMovieInfo.do?data=${data}"; */
+				text_del();
 			}
 			
 		}
@@ -79,16 +87,22 @@
 	
 	<div id="container">
 		<form>
-			검색해주세요 : <input name="query" value="검색">
+			검색해주세요 : <input id="query">
 			<input type="button" value="검색"
 						onclick="movieQuery(this.form);">
 		</form>
 		
 		<div id="contents">
 			<div id="movie_chart">
-				<div id="chart_title"></div>
+				<div id="chart_title">검색결과 </div>
 				<div id="select_movie_list">
 					<ul id="movie_list">
+					
+						<li id="searchText"><h3>어떤 영화가 궁금한가요? </h3></li>
+						
+						<c:forEach var="n" begin="0" end="9" step="1">
+							<li id="movie_list_${n}"></li>
+						</c:forEach>
 					</ul>
 				</div>
 			

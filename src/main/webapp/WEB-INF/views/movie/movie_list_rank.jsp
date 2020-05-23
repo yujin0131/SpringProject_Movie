@@ -6,8 +6,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>무비 - 무비차트</title>
+<title>영화 그 이상의 감동. 무비차트</title>
 
+	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/movie_list.css">
 	
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
 	<script type="text/javascript">
@@ -24,6 +25,13 @@
 			sendRequest( url, param, resultFn, "GET" );
 		} */
 		
+		//loading문구 지우기
+		function loading_del(){
+
+		    var loadingText = document.getElementById("loadingText");
+		    loadingText.removeChild( loadingText.children[0] );
+		    
+		}
 		//목록을 가져오는 함수
 		function load_list(){
 			//192.168.1.101:9090/vs/list.do
@@ -42,27 +50,32 @@
 				
 				var movie_list =document.getElementById("movie_list");
 				for(var i=0 ; i<json[0].boxOfficeResult.dailyBoxOfficeList.length ; i++){
-					var li = document.createElement("li");//영화 제목
-			    	li.innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].movieNm;
-			    	movie_list.appendChild(li);
+					
+					var movie_container = "movie_list_"+i;//영화 정보 담는 컨테이너
+					
+					var movieTitle = document.createElement("div");//영화 제목
+					movieTitle.innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].movieNm;
 			    	
 			    	var rank = document.createElement("div");//영화 순위
 			    	rank.innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].rank+" 위";
-			    	movie_list.appendChild(rank);
 			    	
 			    	var salesShare = document.createElement("div"); //영화 예매율
 			    	salesShare.innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].salesShare;
-			    	movie_list.appendChild(salesShare);
 			    	
 			    	var audiAcc = document.createElement("div");//영화 누적관객수
 			    	audiAcc.innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].audiAcc+"명";
-			    	movie_list.appendChild(audiAcc);
-
 			    	
+			    	
+			    	
+			    	document.getElementById(movie_container).appendChild(movieTitle);
+			    	document.getElementById(movie_container).appendChild(rank);
+			    	document.getElementById(movie_container).appendChild(salesShare);
+			    	document.getElementById(movie_container).appendChild(audiAcc);
+
 				}
 				
-				/* document.getElementById("disp").innerHTML = json[0].Data[0].Result[0].title;
-			 	location.href="add_jsonTypeMovieInfo.do?data=${data}"; */
+				loading_del();
+				
 			}
 			
 		}
@@ -78,9 +91,15 @@
 	<div id="container">
 		<div id="contents">
 			<div id="movie_chart">
-				<div id="chart_title"></div>
+				<div id="chart_title">무비 차트(일간)(주간)</div>
 				<div id="select_movie_list">
 					<ul id="movie_list">
+						
+						<li id="loadingText"><h3>Loading...</h3></li>
+					
+						<c:forEach var="n" begin="0" end="9" step="1">
+							<li id="movie_list_${n}"></li>
+						</c:forEach>
 					</ul>
 				</div>
 			
