@@ -32,8 +32,9 @@ public class MovieListController {
 	}
 	
 	@RequestMapping("/movieInfoDetail.do")
-	public String goMovieInfoDetail( Model model, String movieSeq ) {
+	public String goMovieInfoDetail( Model model, String movieId, String movieSeq ) {
 		
+		model.addAttribute("movieId", movieId);
 		model.addAttribute("movieSeq", movieSeq);
 		return Common.Movie.VIEW_PATH + "movie_detail.jsp";
 	}

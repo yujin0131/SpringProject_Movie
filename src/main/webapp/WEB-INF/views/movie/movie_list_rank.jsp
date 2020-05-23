@@ -53,25 +53,14 @@
 					
 					var movie_container = "movie_list_"+i;//영화 정보 담는 컨테이너
 					
-					var movieTitle = document.createElement("div");//영화 제목
-					movieTitle.innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].movieNm;
+					document.getElementById("movie_movieCd_"+i).value=json[0].boxOfficeResult.dailyBoxOfficeList[i].movieCd;//영화 코드(영진위)
+			    	document.getElementById("movie_list_movieNm_"+i).innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].movieNm;;//영화 제목
+			    	/* document.getElementById("movie_list_poster_"+i+"_img").src=moviePoster;//포스터 */
+			    	document.getElementById("movie_list_rank_"+i).innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].rank+" 위";//순위
+			    	document.getElementById("movie_list_salesShare_"+i).innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].salesShare+" %";//예매율
+			    	document.getElementById("movie_list_audiAcc_"+i).innerHTML="누적관객수 : "+json[0].boxOfficeResult.dailyBoxOfficeList[i].audiAcc+"명";//누적관객수
+			    	document.getElementById("movie_list_openDt_"+i).innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].openDt+"개봉";//개봉일
 			    	
-			    	var rank = document.createElement("div");//영화 순위
-			    	rank.innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].rank+" 위";
-			    	
-			    	var salesShare = document.createElement("div"); //영화 예매율
-			    	salesShare.innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].salesShare;
-			    	
-			    	var audiAcc = document.createElement("div");//영화 누적관객수
-			    	audiAcc.innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].audiAcc+"명";
-			    	
-			    	
-			    	
-			    	document.getElementById(movie_container).appendChild(movieTitle);
-			    	document.getElementById(movie_container).appendChild(rank);
-			    	document.getElementById(movie_container).appendChild(salesShare);
-			    	document.getElementById(movie_container).appendChild(audiAcc);
-
 				}
 				
 				loading_del();
@@ -98,7 +87,14 @@
 						<li id="loadingText"><h3>Loading...</h3></li>
 					
 						<c:forEach var="n" begin="0" end="9" step="1">
-							<li id="movie_list_${n}"></li>
+							<li id="movie_list_${n}" style="margin:10px">
+									<input type="hidden" id="movie_movieCd_${n}">
+									<div id="movie_list_movieNm_${n}"></div>
+									<div id="movie_list_rank_${n}"></div>
+									<div id="movie_list_salesShare_${n}"></div>
+									<div id="movie_list_audiAcc_${n}"></div>
+									<div id="movie_list_openDt_${n}"></div>
+							</li>
 						</c:forEach>
 					</ul>
 				</div>

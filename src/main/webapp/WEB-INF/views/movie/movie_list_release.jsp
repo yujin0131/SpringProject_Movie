@@ -53,36 +53,23 @@
 				for(var i=0 ; i<json[0].Data[0].Result.length ; i++){
 					
 					var movie_container = "movie_list_"+i;//영화 정보 담는 컨테이너
-					
-					/* var movieTitle = document.createElement("div"); //영화 제목
-					movieTitle.innerHTML=json[0].Data[0].Result[i].title; */
-					
-			    	/* var moviePoster = document.createElement("img");//영화 포스터 */
 			    	var moviePoster = cutPoster(json[0].Data[0].Result[i].posters);//json형식으로 넘어온 값이 여러개의 포스터일 경우 하나의 포스터를 가져옴
 			    	
-			    	/* var relDate = document.createElement("div");//영화 개봉일
-			    	relDate.innerHTML=json[0].Data[0].Result[i].repRlsDate+" 개봉";
-			    	
-			    	var runtime = document.createElement("div");//영화 상영 시간
-			    	runtime.innerHTML=json[0].Data[0].Result[i].runtime+"분"; */
-			    	
-			    	document.getElementById("movie_movieSeq_"+i).value=json[0].Data[0].Result[i].movieSeq;
-			    	document.getElementById("movie_list_title_"+i).innerHTML=json[0].Data[0].Result[i].title;
-			    	document.getElementById("movie_list_poster_"+i+"_img").src=moviePoster;
-			    	document.getElementById("movie_list_relDate_"+i).innerHTML=json[0].Data[0].Result[i].repRlsDate+" 개봉";
-			    	document.getElementById("movie_list_runtime_"+i).innerHTML=json[0].Data[0].Result[i].runtime+"분";
-
+			    	document.getElementById("movie_movieId_"+i).value=json[0].Data[0].Result[i].movieId;//영화 코드1
+			    	document.getElementById("movie_movieSeq_"+i).value=json[0].Data[0].Result[i].movieSeq;//영화 코드2
+			    	document.getElementById("movie_list_title_"+i).innerHTML=json[0].Data[0].Result[i].title;//영화 제목
+			    	document.getElementById("movie_list_poster_"+i+"_img").src=moviePoster;//포스터
+			    	document.getElementById("movie_list_relDate_"+i).innerHTML=json[0].Data[0].Result[i].repRlsDate+" 개봉";//개봉일
+			    	document.getElementById("movie_list_runtime_"+i).innerHTML=json[0].Data[0].Result[i].runtime+"분";//상영시간
 			    	
 				}
 				
 			}
 			
 		}
-		
-		function detail( movieSeq ){
-			
-			return location.href="movieInfoDetail.do?movieSeq="+movieSeq;
-			
+		//영화 코드 컨트롤러로 넘기기
+		function detail( movieId, movieSeq ){
+			return location.href="movieInfoDetail.do?movieId="+movieId+"&movieSeq="+movieSeq;
 		}
 		
 	</script>
@@ -102,10 +89,11 @@
 					<ul id="movie_lists">
 						<c:forEach var="n" begin="0" end="9" step="1">
 							<li id="movie_list_${n}" style="margin:10px">
+									<input type="hidden" id="movie_movieId_${n}">
 									<input type="hidden" id="movie_movieSeq_${n}">
 									<div id="movie_list_title_${n}"></div>
 									<div id="movie_list_poster_${n}">
-										<img id="movie_list_poster_${n}_img" onclick="detail(movie_movieSeq_${n}.value);">
+										<img id="movie_list_poster_${n}_img" onclick="detail(movie_movieId_${n}.value, movie_movieSeq_${n}.value);">
 									</div>
 									<div id="movie_list_relDate_${n}"></div>
 									<div id="movie_list_runtime_${n}"></div>
