@@ -63,15 +63,25 @@
 		    	//배우 출력하기 위한 코드
 		    	var actor = "배우 : ";
 		    	var maxNumActor = json[0].Data[0].Result[0].actors.actor.length;
+		    	var etc = 0;
+		    	//배우가 많으면 5명만 출력
+		    	if( maxNumActor >= 6 ){
+		    		maxNumActor = 6;
+		    		etc = 1;
+		    	}
 		    	
 		    	for(var i=0 ; i<maxNumActor; i++){
 			    	if( i === maxNumActor-1 ){
 			    		actor += json[0].Data[0].Result[0].actors.actor[i].actorNm;
+			    		if( etc === 1 ) {
+			    			actor += " 등..";
+			    		}
 			    	} else {
 				    	actor += json[0].Data[0].Result[0].actors.actor[i].actorNm + " ,  ";//배우 한명 한명			    		
 			    	}
 		    	}
 			    document.getElementById("movie_detail_actors").innerHTML=actor;//배우들
+		    	etc = 0;
 			    
 			    document.getElementById("movie_detail_genre").innerHTML=json[0].Data[0].Result[0].genre;//장르
 			    document.getElementById("movie_detail_rating").innerHTML=json[0].Data[0].Result[0].rating;//관람등급
@@ -81,7 +91,7 @@
 		    	document.getElementById("movie_detail_relDate").innerHTML=json[0].Data[0].Result[0].repRlsDate+" 개봉";//개봉일
 		    	document.getElementById("movie_detail_runtime").innerHTML=json[0].Data[0].Result[0].runtime+"분";//상영시간
 			    	
-		    	document.getElementById("movie_detail_plots").innerHTML=json[0].Data[0].Result[0].plots.plot[0].plotText;//줄거리
+		    	document.getElementById("movie_detail_plot").innerHTML=json[0].Data[0].Result[0].plots.plot[0].plotText;//줄거리
 				
 		    	//여러개의 스틸이미지를 출력하기 위함
 		    	var stills = json[0].Data[0].Result[0].stlls;
@@ -146,7 +156,11 @@
 						</div>
 					</div>
 					
-					<div id="movie_detail_plots"></div>
+					<div id="movie_detail_plots">
+						<h5>줄거리</h5>
+						<div id="movie_detail_plot"></div>					
+					</div>
+					
 					
 					<div id="movie_detail_still"></div>
 

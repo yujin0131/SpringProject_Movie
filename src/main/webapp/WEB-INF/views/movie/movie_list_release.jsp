@@ -30,9 +30,9 @@
 		}
 		
 		//이미지 클릭시 상세보기 "reply_form.do?idx=${vo.idx}&page=${param.page}";
-		function imgclick(){
+		/* function imgclick(){
 			location.href = "movieInfoDetail.do";
-		}
+		} */
 		
 		//목록을 가져오는 함수
 		function load_list(){
