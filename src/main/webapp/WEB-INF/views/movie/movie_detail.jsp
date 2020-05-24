@@ -58,10 +58,10 @@
 		    	
 		    	document.getElementById("movie_detail_title").innerHTML=json[0].Data[0].Result[0].title;//영화 제목
 		    	document.getElementById("movie_detail_titleEng").innerHTML=json[0].Data[0].Result[0].titleEng;//영화 영문 제목
-		    	document.getElementById("movie_detail_directors").innerHTML="감독 : " +json[0].Data[0].Result[0].directors.director[0].directorNm;//감독
+		    	document.getElementById("movie_detail_directors").innerHTML="<b>감독  </b>" +json[0].Data[0].Result[0].directors.director[0].directorNm;//감독
 		    	
 		    	//배우 출력하기 위한 코드
-		    	var actor = "배우 : ";
+		    	var actor = "<b>배우  </b>";
 		    	var maxNumActor = json[0].Data[0].Result[0].actors.actor.length;
 		    	var etc = 0;
 		    	//배우가 많으면 5명만 출력
@@ -83,10 +83,10 @@
 			    document.getElementById("movie_detail_actors").innerHTML=actor;//배우들
 		    	etc = 0;
 			    
-			    document.getElementById("movie_detail_genre").innerHTML=json[0].Data[0].Result[0].genre;//장르
+			    document.getElementById("movie_detail_genre").innerHTML="<b>장르  </b>"+json[0].Data[0].Result[0].genre;//장르
 			    document.getElementById("movie_detail_rating").innerHTML=json[0].Data[0].Result[0].rating;//관람등급
-			    document.getElementById("movie_detail_nation").innerHTML=json[0].Data[0].Result[0].nation;//국가
-			    document.getElementById("movie_detail_company").innerHTML=json[0].Data[0].Result[0].company;//회사
+			    document.getElementById("movie_detail_nation").innerHTML="<b>국가  </b>"+json[0].Data[0].Result[0].nation;//국가
+			    document.getElementById("movie_detail_company").innerHTML="<b>제작  </b>"+json[0].Data[0].Result[0].company;//회사
 		    	
 		    	document.getElementById("movie_detail_relDate").innerHTML=json[0].Data[0].Result[0].repRlsDate+" 개봉";//개봉일
 		    	document.getElementById("movie_detail_runtime").innerHTML=json[0].Data[0].Result[0].runtime+"분";//상영시간
@@ -137,27 +137,25 @@
 							<div id="movie_detail_titleEng"></div>					
 						</div>
 							
-						<div id="movie_participant">
-							<div id="movie_detail_directors"></div>
-							<div id="movie_detail_actors"></div>					
-						</div>
-							
 						<div id="movie_baseInfo">
 							<div id="movie_detail_genre"></div>
-							<div id="movie_detail_rating"></div>
-							<div id="movie_detail_nation"></div>					
-						</div>
-							
-						<div id="movie_detail_company"></div>
-						
-						<div id="movie_dateInfo">
 							<div id="movie_detail_relDate"></div>
-							<div id="movie_detail_runtime"></div>						
+							<div id="movie_detail_runtime"></div>
+	
+							<div id="movie_detail_directors"></div>
+							<div id="movie_detail_actors"></div>					
+						</div>	
+						
+						<div id="movie_baseInfo_2">
+							<div id="movie_detail_nation"></div>					
+							<div id="movie_detail_rating"></div>
+							<div id="movie_detail_company"></div>
 						</div>
+						
 					</div>
 					
 					<div id="movie_detail_plots">
-						<h5>줄거리</h5>
+						<div id="movie_detail_plot_title">Plot</div>
 						<div id="movie_detail_plot"></div>					
 					</div>
 					
