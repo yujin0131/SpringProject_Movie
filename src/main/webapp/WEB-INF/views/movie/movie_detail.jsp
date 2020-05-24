@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>영화 그 이상의 감동. CGW</title>
 
-	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/movie_list.css">
+	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/movie_detail.css">
 	
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
 	<script type="text/javascript">
@@ -19,18 +19,24 @@
 		//여러개 포스터 잘라쓰기
 		function spPoster(inPosters) {
 			
-			var posters = inPosters;
-	    	outposters = posters.split('|');
+	    	outposters = inPosters.split('|');
 			
 			if (inPosters === "") {
 				outposters[0] = "${ pageContext.request.contextPath }/resources/img/nullImg.png";
 			}
 			
-			for(var i = 0 ; i<outposters.length; i++){
-		    	var onePoster = document.createElement("img");
+			//한개 포스터 출력
+			var onePoster = document.createElement("img");
+		    onePoster.src = outposters[0];
+		    document.getElementById("movie_detail_poster_contain").appendChild(onePoster);
+			
+		    //여러개의 포스터 출력(임시 : 포스터 더보기 누르면 뜨게)
+			/* for(var i = 0 ; i<outposters.length; i++){
+			    var onePoster = document.createElement("img");
 		    	onePoster.src = outposters[i];
-		    	document.getElementById("movie_detail_poster_contain").appendChild(onePoster);
-	    	}
+		    	document.getElementById("movie_detail_poster_contain").appendChild(onePoster); 
+	    	} */
+
 		}
 		
 		//필요한 OPEN API 불러오기(Ajax)
@@ -48,18 +54,22 @@
 				var data = xhr.responseText;
 				var json = eval("["+data+"]");		
 
-		    	spPoster(json[0].Data[0].Result[0].posters);
+		    	spPoster(json[0].Data[0].Result[0].posters);//포스터
 		    	
 		    	document.getElementById("movie_detail_title").innerHTML=json[0].Data[0].Result[0].title;//영화 제목
-		    	document.getElementById("movie_detail_titleEng").innerHTML=json[0].Data[0].Result[0].titleEng;//영화 영문 제목titleEng
-		    	document.getElementById("movie_detail_directors").innerHTML=json[0].Data[0].Result[0].directors.director[0].directorNm;//감독
+		    	document.getElementById("movie_detail_titleEng").innerHTML=json[0].Data[0].Result[0].titleEng;//영화 영문 제목
+		    	document.getElementById("movie_detail_directors").innerHTML="감독 : " +json[0].Data[0].Result[0].directors.director[0].directorNm;//감독
 		    	
 		    	//배우 출력하기 위한 코드
-		    	var actor = "";
+		    	var actor = "배우 : ";
 		    	var maxNumActor = json[0].Data[0].Result[0].actors.actor.length;
 		    	
 		    	for(var i=0 ; i<maxNumActor; i++){
-			    	actor += json[0].Data[0].Result[0].actors.actor[i].actorNm + " ";//배우 한명한명
+			    	if( i === maxNumActor-1 ){
+			    		actor += json[0].Data[0].Result[0].actors.actor[i].actorNm;
+			    	} else {
+				    	actor += json[0].Data[0].Result[0].actors.actor[i].actorNm + " ,  ";//배우 한명 한명			    		
+			    	}
 		    	}
 			    document.getElementById("movie_detail_actors").innerHTML=actor;//배우들
 			    
@@ -106,32 +116,34 @@
 				
 				<div id="show_movie_details_con">
 				
-					<div id="movie_titles">
-						<div id="movie_detail_title"></div>
-						<div id="movie_detail_titleEng"></div>					
-					</div>
-					
 					<div id="movie_detail_poster">
 						<div id="movie_detail_poster_contain"></div>
-						<input type="button" value="포스터 더 보기" onclick="moreView();">
+						<!-- <input type="button" value="포스터 더 보기" onclick="moreView();"> -->
 					</div>
-						
-					<div id="movie_participant">
-						<div id="movie_detail_directors"></div>
-						<div id="movie_detail_actors"></div>					
-					</div>
-						
-					<div id="movie_baseInfo">
-						<div id="movie_detail_genre"></div>
-						<div id="movie_detail_rating"></div>
-						<div id="movie_detail_nation"></div>					
-					</div>
-						
-					<div id="movie_detail_company"></div>
 					
-					<div id="movie_dateInfo">
-						<div id="movie_detail_relDate"></div>
-						<div id="movie_detail_runtime"></div>						
+					<div id="movie_detail_infomation">
+						<div id="movie_titles">
+							<div id="movie_detail_title"></div>
+							<div id="movie_detail_titleEng"></div>					
+						</div>
+							
+						<div id="movie_participant">
+							<div id="movie_detail_directors"></div>
+							<div id="movie_detail_actors"></div>					
+						</div>
+							
+						<div id="movie_baseInfo">
+							<div id="movie_detail_genre"></div>
+							<div id="movie_detail_rating"></div>
+							<div id="movie_detail_nation"></div>					
+						</div>
+							
+						<div id="movie_detail_company"></div>
+						
+						<div id="movie_dateInfo">
+							<div id="movie_detail_relDate"></div>
+							<div id="movie_detail_runtime"></div>						
+						</div>
 					</div>
 					
 					<div id="movie_detail_plots"></div>

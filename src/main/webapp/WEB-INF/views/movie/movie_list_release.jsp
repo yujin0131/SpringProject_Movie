@@ -89,14 +89,17 @@
 					<ul id="movie_lists">
 						<c:forEach var="n" begin="0" end="9" step="1">
 							<li id="movie_list_${n}" style="margin:10px">
-									<input type="hidden" id="movie_movieId_${n}">
-									<input type="hidden" id="movie_movieSeq_${n}">
-									<div id="movie_list_title_${n}"></div>
-									<div id="movie_list_poster_${n}">
-										<img id="movie_list_poster_${n}_img" onclick="detail(movie_movieId_${n}.value, movie_movieSeq_${n}.value);">
-									</div>
-									<div id="movie_list_relDate_${n}"></div>
-									<div id="movie_list_runtime_${n}"></div>
+								<input type="hidden" id="movie_movieId_${n}">
+								<input type="hidden" id="movie_movieSeq_${n}">
+								
+								<div id="movie_list_title_${n}"></div>
+								
+								<div id="movie_list_poster_${n}">
+									<img id="movie_list_poster_${n}_img" onclick="detail(movie_movieId_${n}.value, movie_movieSeq_${n}.value);">
+								</div>
+								
+								<div id="movie_list_relDate_${n}"></div>
+								<div id="movie_list_runtime_${n}"></div>
 							</li>
 						</c:forEach>
 					</ul>
