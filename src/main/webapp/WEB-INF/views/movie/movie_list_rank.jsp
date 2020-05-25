@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>영화 그 이상의 감동. CGW</title>
 
-	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/movie_rank.css">
+	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/movie_rank.css"> 
 	
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
 	<script type="text/javascript">
@@ -69,16 +69,18 @@
 			    	document.getElementById("movie_rank_openDt_"+i).innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].openDt+"개봉";//개봉일
 			    	
 				}
+
 				
 				var movieCd = document.getElementById("movie_movieCd_"+0).value;
 				var movieNm = document.getElementById("movie_movieNm_"+0).value;
 				load_poster0(movieCd, movieNm);
 				
-				var movieCd = document.getElementById("movie_movieCd_"+1).value;
-				var movieNm = document.getElementById("movie_movieNm_"+1).value;
-				load_poster1(movieCd, movieNm);
-
 				loading_del();
+				
+				var movieCd2 = document.getElementById("movie_movieCd_"+1).value;
+				var movieNm2 = document.getElementById("movie_movieNm_"+1).value;
+				load_poster1(movieCd2, movieNm2);
+
 				
 			}
 			
@@ -99,30 +101,28 @@
 				var data = xhr.responseText;
 				var json = eval("["+data+"]");
 				
-				var movie_container = "movie_list_"+0;//영화 정보 담는 컨테이너
+				/* var movie_container = "movie_list_"+0;//영화 정보 담는 컨테이너 */
 
 		    	var moviePoster = cutPoster(json[0].Data[0].Result[0].posters);//json형식으로 넘어온 값이 여러개의 포스터일 경우 하나의 포스터를 가져옴
 		    	document.getElementById("movie_rank_poster_"+0+"_img").src=moviePoster;//포스터
 		    	wholeCount++;
 			}
 		}
-		/* function load_poster1(movieCd, movieNm){
+		/* function load_poster1(movieCd2, movieNm2){
 			
-			var createDts = movieCd.substring(0, 4);
-			var url2 ='http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
-			var param2 = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&createDts='+createDts+'&title='+movieNm;
-			sendRequest( url2, param2, resultFn1, "GET" );
+			var createDts2 = movieCd.substring(0, 4);
+			var url3 ='http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
+			var param3 = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&createDts='+createDts2+'&title='+movieNm2;
+			sendRequest( url3, param3, resultFn1, "GET" );
 			
 		}
 		function resultFn1(){				
 			if( xhr.readyState == 4 && xhr.status == 200 ){
-				var data = xhr.responseText;
-				var json = eval("["+data+"]");
-				
-				var movie_container = "movie_list_"+1;//영화 정보 담는 컨테이너
+				var data2 = xhr.responseText;
+				var json2 = eval("["+data2+"]");
 
-		    	var moviePoster = cutPoster(json[0].Data[0].Result[0].posters);//json형식으로 넘어온 값이 여러개의 포스터일 경우 하나의 포스터를 가져옴
-		    	document.getElementById("movie_rank_poster_"+1+"_img").src=moviePoster;//포스터
+		    	var moviePoster2 = cutPoster(json[0].Data[0].Result[0].posters);//json형식으로 넘어온 값이 여러개의 포스터일 경우 하나의 포스터를 가져옴
+		    	document.getElementById("movie_rank_poster_"+1+"_img").src=moviePoster2;//포스터
 		    	wholeCount++;
 			}
 		} */
@@ -138,7 +138,7 @@
 		<a href="/movie/movieQuery.do">영화 검색</a>
 	</div>
 	
-	<div id="container">
+	<div id="container_rank">
 		<div id="contents">
 			<div id="movie_chart">
 				<div id="chart_title">무비 차트(일간)(주간)</div>

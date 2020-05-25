@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <title>영화 그 이상의 감동. CGW</title>
 
-	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/movie_list.css">
+	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/movie_query.css">
 	
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
 	<script type="text/javascript">

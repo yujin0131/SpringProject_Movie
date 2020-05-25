@@ -1,15 +1,14 @@
 @charset "UTF-8";
-
+*{margin:0; padding:0;}
 li{ list-style:none; }
 a{ text-decoration:none; }
 
 #container{
 	border:1px solid black;
-	width:2000px;
-	height:auto;
+	width:1000px;
+	height:1100px;
 	margin: 100px auto;
-}
-
-#show_movie_details_con{
+	padding-bottom:100px;
+	position : relative;
 	
 }

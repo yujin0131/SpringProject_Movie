@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>영화 그 이상의 감동. CGW</title>
 
-	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/movie_list.css">
+	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/movie_release.css">
 	
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
 	<script type="text/javascript">
@@ -76,11 +76,11 @@
 </head>
 <body>
 	<div>
-		<a href="/movie/movieReleaseList.do">상영 예정작</a>
+		<a href="/movie/movieReleaseList.do">상영 예정작</a> 
 		<a href="/movie/movieRankList.do">무비 차트(일간)(주간)</a>
 		<a href="/movie/movieQuery.do">영화 검색</a>
 	</div> 
-	<div id="container">
+	<div id="container_release">
 		<div id="contents">
 			<div id="movie_chart">
 				<div id="chart_title"><h4>상영 예정작</h4></div>
