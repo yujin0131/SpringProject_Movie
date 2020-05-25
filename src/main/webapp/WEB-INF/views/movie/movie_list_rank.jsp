@@ -11,10 +11,7 @@
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/movie_rank.css"> 
 	
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
-	<script type="text/javascript">
-		var wholeCount = 0;
-		var okSignal = 0;
-		
+	<script type="text/javascript">	
 		window.onload=function(){
 			load_list();
 		};
@@ -58,7 +55,7 @@
 				for(var i=0 ; i<json[0].boxOfficeResult.dailyBoxOfficeList.length ; i++){
 					
 					var movie_container = "movie_list_"+i;//영화 정보 담는 컨테이너
-					document.getElementById("movie_movieCd_"+i).value=json[0].boxOfficeResult.dailyBoxOfficeList[i].movieCd;//영화 코드(영진위)
+					document.getElementById("movie_openDt_"+i).value=json[0].boxOfficeResult.dailyBoxOfficeList[i].openDt;//영화 코드(영진위)
 					document.getElementById("movie_movieNm_"+i).value=json[0].boxOfficeResult.dailyBoxOfficeList[i].movieNm;//영화 제목에서 자르기(영진위)
 					
 			    	document.getElementById("movie_rank_movieNm_"+i).innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].movieNm;;//영화 제목
@@ -70,16 +67,27 @@
 			    	
 				}
 
-				
-				var movieCd = document.getElementById("movie_movieCd_"+0).value;
+				var openDt = document.getElementById("movie_openDt_"+0).value;
 				var movieNm = document.getElementById("movie_movieNm_"+0).value;
-				load_poster0(movieCd, movieNm);
+				//load_poster0(openDt, movieNm);
 				
 				loading_del();
+				/*여기는 멀티스레드를 이용해 출력해보려는 노력코드
+				var worker = new Worker("${ pageContext.request.contextPath }/resources/js/loadJson.js");
 				
-				var movieCd2 = document.getElementById("movie_movieCd_"+1).value;
+
+				var infoArr = [openDt, movieNm]
+				worker.postMessage(infoArr);
+				worker.onmessage=function(event){
+					var moviePosterName = event.data;
+					console.log(moviePosterName);
+					document.getElementById("movie_rank_poster_"+0+"_img").src=moviePosterName;//포스터
+				}
+				*/
+				
+				var openDt2 = document.getElementById("movie_openDt_"+1).value;
 				var movieNm2 = document.getElementById("movie_movieNm_"+1).value;
-				load_poster1(movieCd2, movieNm2);
+				//load_poster1(openDt2, movieNm2);
 
 				
 			}
@@ -87,45 +95,46 @@
 		}
 		
 		//-------------------------------------------------------------------
-				
-		function load_poster0(movieCd, movieNm){
-			
-			var createDts = movieCd.substring(0, 4);
+		
+		
+		/* 여기는 하나씩 해보려했으나 포스터 한개만 출력되는 코드..
+			function load_poster0(openDt, movieNm){
+			var releaseDts = openDt.substring(0, 4)+openDt.substring(5, 7)+openDt.substring(8, 10);
 			var url2 ='http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
-			var param2 = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&createDts='+createDts+'&title='+movieNm;
+			var param2 = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&releaseDts='+releaseDts+'&title='+movieNm;
 			sendRequest( url2, param2, resultFn0, "GET" );
 			
 		}
 		function resultFn0(){				
 			if( xhr.readyState == 4 && xhr.status == 200 ){
+		    	console.log("here");
 				var data = xhr.responseText;
 				var json = eval("["+data+"]");
-				
-				/* var movie_container = "movie_list_"+0;//영화 정보 담는 컨테이너 */
 
 		    	var moviePoster = cutPoster(json[0].Data[0].Result[0].posters);//json형식으로 넘어온 값이 여러개의 포스터일 경우 하나의 포스터를 가져옴
 		    	document.getElementById("movie_rank_poster_"+0+"_img").src=moviePoster;//포스터
-		    	wholeCount++;
 			}
-		}
-		/* function load_poster1(movieCd2, movieNm2){
+		} */
+		
+		/*function load_poster1(openDt2, movieNm2){
 			
-			var createDts2 = movieCd.substring(0, 4);
+			var releaseDts2 = openDt2.substring(0, 4)+openDt2.substring(5, 7)+openDt2.substring(8, 10);
 			var url3 ='http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
-			var param3 = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&createDts='+createDts2+'&title='+movieNm2;
+			var param3 = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&releaseDts='+releaseDts2+'&title='+movieNm2;
+			console.log(param3);
 			sendRequest( url3, param3, resultFn1, "GET" );
 			
 		}
 		function resultFn1(){				
 			if( xhr.readyState == 4 && xhr.status == 200 ){
-				var data2 = xhr.responseText;
-				var json2 = eval("["+data2+"]");
-
+				var data = xhr.responseText;
+				var json = eval("["+data+"]");
+				console.log(json[0].Data[0].Result[0].posters);
 		    	var moviePoster2 = cutPoster(json[0].Data[0].Result[0].posters);//json형식으로 넘어온 값이 여러개의 포스터일 경우 하나의 포스터를 가져옴
 		    	document.getElementById("movie_rank_poster_"+1+"_img").src=moviePoster2;//포스터
-		    	wholeCount++;
 			}
-		} */
+		} 
+		*/
 		//--------------------------------------------------------------------
 		
 		
@@ -149,7 +158,7 @@
 					
 						<c:forEach var="n" begin="0" end="9" step="1">
 							<li id="movie_list_${n}" style="margin:10px">
-									<input type="hidden" id="movie_movieCd_${n}">
+									<input type="hidden" id="movie_openDt_${n}">
 									<input type="hidden" id="movie_movieNm_${n}">
 									<div id="movie_rank_movieNm_${n}"></div>
 									<div id="movie_rank_postor_${n}">
