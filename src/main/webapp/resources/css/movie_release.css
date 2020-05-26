@@ -11,6 +11,14 @@ a{ text-decoration:none; }
 	position : relative;
 }
 
+#contents_rank{
+	display: none;
+}
+
+#contents_query{
+	display: none;
+}
+
 #page_title{
 	border:1px solid black;
 	font-size: 25px;

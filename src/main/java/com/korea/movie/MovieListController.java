@@ -18,17 +18,7 @@ public class MovieListController {
 	
 	@RequestMapping( value= {"/", "/movieReleaseList.do"} )
 	public String movieReleaseList() {
-		return Common.Movie.VIEW_PATH + "movie_list_release.jsp"; 
-	}
-	
-	@RequestMapping("/movieRankList.do")
-	public String movieRankList() {
-		return Common.Movie.VIEW_PATH + "movie_list_rank.jsp"; 
-	}
-	
-	@RequestMapping("/movieQuery.do")
-	public String movieQuery() {
-		return Common.Movie.VIEW_PATH + "movie_query.jsp"; 
+		return Common.Movie.VIEW_PATH + "movie_list.jsp"; 
 	}
 	
 	@RequestMapping("/movieInfoDetail.do")
