@@ -12,6 +12,26 @@
 	
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
 	<script type="text/javascript">	
+	
+		var date = new Date();
+		var today = addButton()-1;
+		
+		console.log(today);
+		
+		function addButton(){
+			var year=date.getFullYear();
+			var month=date.getMonth()+1;
+			var day=date.getDate();
+			if((month+"").length < 2){
+				month = "0" + month;
+			}
+			if((day+"").length < 2){
+				day = "0" + day;
+			}
+			var getDate = year + month + day;
+			return eval(getDate);
+		}
+	
 		window.onload=function(){
 			load_list();
 		};
@@ -39,7 +59,7 @@
 		function load_list(){
 			//192.168.1.101:9090/vs/list.do
 			var url ='http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json';
-			var param = 'key=a7c6bfb2e16d4d1ae14730f90bc6726a&targetDt=20200521';
+			var param = 'key=a7c6bfb2e16d4d1ae14730f90bc6726a&targetDt='+today;
 			sendRequest( url, param, resultFn, "GET" );
 			
 		}
