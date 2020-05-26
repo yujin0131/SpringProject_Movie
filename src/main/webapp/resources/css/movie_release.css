@@ -3,7 +3,7 @@
 li{ list-style:none; }
 a{ text-decoration:none; }
 
-#container_release{
+#container{
 	border:1px solid black;
 	width:1100px;
 	margin: 100px auto; 
@@ -11,7 +11,7 @@ a{ text-decoration:none; }
 	position : relative;
 }
 
-#chart_title_1{
+#page_title{
 	border:1px solid black;
 	font-size: 25px;
 	margin-bottom:20px;
@@ -21,8 +21,8 @@ a{ text-decoration:none; }
 	text-align:center;
 	border:1px solid black;
 	height:40px;
-}
-
+} 
+ 
 #movie_list_nav .movie_list_nav1{
 
 	width:260px;
@@ -31,7 +31,6 @@ a{ text-decoration:none; }
 	border:1px solid black;
 }
 #movie_list_nav .movie_list_nav2{
-
 	width:260px;
 	height:38px;
 	float:left;
@@ -49,7 +48,6 @@ a{ text-decoration:none; }
 #select_movie_lists_release{
 	overflow: hidden;
 }
-
 #select_movie_lists_release>div{
 	width:230px;
 	height:450px;
@@ -57,12 +55,10 @@ a{ text-decoration:none; }
 	float:left;
 	margin:20px;
 }
-
 #select_movie_lists_release_2{
 	display:none;
 	overflow: hidden;
 }
-
 #select_movie_lists_release_2>div{
 	width:230px;
 	height:450px;
@@ -70,12 +66,10 @@ a{ text-decoration:none; }
 	float:left;
 	margin:20px;
 }
-
 #select_movie_lists_release_3{
 	display:none;
 	overflow: hidden;
 }
-
 #select_movie_lists_release_3>div{
 	width:230px;
 	height:450px;
@@ -83,12 +77,10 @@ a{ text-decoration:none; }
 	float:left;
 	margin:20px;
 }
-
 #select_movie_lists_release_4{
 	display:none;
 	overflow: hidden;
 }
-
 #select_movie_lists_release_4>div{
 	width:230px;
 	height:450px;
@@ -97,6 +89,6 @@ a{ text-decoration:none; }
 	margin:20px;
 }
 
-#movie_list_moreSee{
+#movie_release_list_moreSee{
 	margin: 0px auto;
 }

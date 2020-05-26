@@ -88,11 +88,15 @@
 	
 		function more_list(){
 			moreCount++;
-			var show = document.getElementById("select_movie_lists_release_"+moreCount).style.display="block";
+			document.getElementById("select_movie_lists_release_"+moreCount).style.display="block";
 			if(moreCount == 4){
-				var moreButton = document.getElementById("movie_list_moreSee");
+				var moreButton = document.getElementById("movie_release_list_moreSee");
 				moreButton.removeChild( moreButton.children[0] );
 			}
+		}
+		
+		function boxOfficeView(){
+			document.getElementById("contents_release").style.display="none";
 		}
 		
 		//여러개 포스터 잘라쓰기
@@ -125,13 +129,12 @@
 				
 				for(var i=0 ; i<json[0].Data[0].Result.length ; i++){
 					
-					var movie_container = "movie_list_"+i;//영화 정보 담는 컨테이너
 			    	var moviePoster = cutPoster(json[0].Data[0].Result[i].posters);//json형식으로 넘어온 값이 여러개의 포스터일 경우 하나의 포스터를 가져옴
 			    	//20202020
-			    	document.getElementById("movie_movieId_"+i).value=json[0].Data[0].Result[i].movieId;//영화 코드1
-			    	document.getElementById("movie_movieSeq_"+i).value=json[0].Data[0].Result[i].movieSeq;//영화 코드2
-			    	document.getElementById("movie_list_title_"+i).innerHTML=json[0].Data[0].Result[i].title;//영화 제목
-			    	document.getElementById("movie_list_poster_"+i+"_img").src=moviePoster;//포스터
+			    	document.getElementById("movie_release_movieId_"+i).value=json[0].Data[0].Result[i].movieId;//영화 코드1
+			    	document.getElementById("movie_release_movieSeq_"+i).value=json[0].Data[0].Result[i].movieSeq;//영화 코드2
+			    	document.getElementById("movie_release_title_"+i).innerHTML=json[0].Data[0].Result[i].title;//영화 제목
+			    	document.getElementById("movie_release_poster_"+i+"_img").src=moviePoster;//포스터
 			    	
 			    	//개봉날짜 체크
 			    	var releaseY = json[0].Data[0].Result[i].repRlsDate.substring(0,4);
@@ -142,8 +145,8 @@
 			    		releaseDate =  releaseY+"."+releaseM+". 개봉";
 			    	}
 			    	
-			    	document.getElementById("movie_list_relDate_"+i).innerHTML=releaseDate;//개봉일
-			    	document.getElementById("movie_list_runtime_"+i).innerHTML=json[0].Data[0].Result[i].runtime+"분";//상영시간
+			    	document.getElementById("movie_release_relDate_"+i).innerHTML=releaseDate;//개봉일
+			    	document.getElementById("movie_release_runtime_"+i).innerHTML=json[0].Data[0].Result[i].runtime+"분";//상영시간
 			    	if(today >= json[0].Data[0].Result[i].repRlsDate){
 			    		document.getElementById("movie_action_button_text_"+i).innerHTML="예매";
 			    	} else{
@@ -162,32 +165,35 @@
 	</script> 
 </head>
 <body>
-	<div id="container_release">
-		<div id="contents_release"> 
+	<div id="container">
+	
+		<div id="page_title">전체 영화</div>
+		
+		<div id="movie_list_nav">
+			<div class="movie_list_nav1"><input type="button" value="박스오피스" onclick="boxOfficeView();"></div><!-- /movie/movieRankList.do -->
+			<div class="movie_list_nav2"><input type="button" value="상영 예정작" onclick=""></div><!-- /movie/movieReleaseList.do -->
+			<div class="movie_list_nav3"><input type="button" value="영화 검색" onclick=""></div><!-- /movie/movieQuery.do -->
+		</div>
+		
+		<div id="contents_release">
 			<div id="movie_chart_release">
-				<div id="chart_title_1">전체 영화</div>
 				
-				<div id="movie_list_nav">
-					<div class="movie_list_nav1"><a href="/movie/movieRankList.do">무비 차트(일간)(주간)</a></div>
-					<div class="movie_list_nav2"><a href="/movie/movieReleaseList.do">상영 예정작</a></div>
-					<div class="movie_list_nav3"><a href="/movie/movieQuery.do">영화 검색</a></div>
-				</div>
 				
 				
 				<div id="select_movie_lists_release">
 					<c:forEach var="n" begin="0" end="7" step="1">
-						<div id="movie_list_${n}">
-							<input type="hidden" id="movie_movieId_${n}">
-							<input type="hidden" id="movie_movieSeq_${n}">
+						<div id="movie_release_list_${n}">
+							<input type="hidden" id="movie_release_movieId_${n}">
+							<input type="hidden" id="movie_release_movieSeq_${n}">
 							
-							<div id="movie_list_title_${n}"></div>
+							<div id="movie_release_title_${n}"></div>
 							
-							<div id="movie_list_poster_${n}">
-								<img id="movie_list_poster_${n}_img" onclick="detail(movie_movieId_${n}.value, movie_movieSeq_${n}.value);">
+							<div id="movie_release_poster_${n}">
+								<img id="movie_release_poster_${n}_img" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">
 							</div>
 							
-							<div id="movie_list_relDate_${n}"></div>
-							<div id="movie_list_runtime_${n}"></div>
+							<div id="movie_release_relDate_${n}"></div>
+							<div id="movie_release_runtime_${n}"></div>
 							
 							<div id="movie_action_button_text_${n}"></div>
 						</div>
@@ -196,18 +202,18 @@
 				
 				<div id="select_movie_lists_release_2">
 					<c:forEach var="n" begin="8" end="15" step="1">
-						<div id="movie_list_${n}">
-							<input type="hidden" id="movie_movieId_${n}">
-							<input type="hidden" id="movie_movieSeq_${n}">
+						<div id="movie_release_list_${n}">
+							<input type="hidden" id="movie_release_movieId_${n}">
+							<input type="hidden" id="movie_release_movieSeq_${n}">
 							
-							<div id="movie_list_title_${n}"></div> 
+							<div id="movie_release_title_${n}"></div> 
 							
-							<div id="movie_list_poster_${n}">
-								<img id="movie_list_poster_${n}_img" onclick="detail(movie_movieId_${n}.value, movie_movieSeq_${n}.value);">
+							<div id="movie_release_poster_${n}">
+								<img id="movie_release_poster_${n}_img" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">
 							</div>
 							
-							<div id="movie_list_relDate_${n}"></div>
-							<div id="movie_list_runtime_${n}"></div>
+							<div id="movie_release_relDate_${n}"></div>
+							<div id="movie_release_runtime_${n}"></div>
 							
 							<div id="movie_action_button_text_${n}"></div>
 						</div>
@@ -216,18 +222,18 @@
 				
 				<div id="select_movie_lists_release_3">
 					<c:forEach var="n" begin="16" end="23" step="1">
-						<div id="movie_list_${n}">
-							<input type="hidden" id="movie_movieId_${n}">
-							<input type="hidden" id="movie_movieSeq_${n}">
+						<div id="movie_release_list_${n}">
+							<input type="hidden" id="movie_release_movieId_${n}">
+							<input type="hidden" id="movie_release_movieSeq_${n}">
 							
-							<div id="movie_list_title_${n}"></div>
+							<div id="movie_release_title_${n}"></div>
 							
-							<div id="movie_list_poster_${n}">
-								<img id="movie_list_poster_${n}_img" onclick="detail(movie_movieId_${n}.value, movie_movieSeq_${n}.value);">
+							<div id="movie_release_poster_${n}">
+								<img id="movie_release_poster_${n}_img" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">
 							</div>
 							
-							<div id="movie_list_relDate_${n}"></div>
-							<div id="movie_list_runtime_${n}"></div>
+							<div id="movie_release_relDate_${n}"></div>
+							<div id="movie_release_runtime_${n}"></div>
 							
 							<div id="movie_action_button_text_${n}"></div>
 						</div>
@@ -236,27 +242,31 @@
 				
 				<div id="select_movie_lists_release_4">
 					<c:forEach var="n" begin="24" end="31" step="1">
-						<div id="movie_list_${n}">
-							<input type="hidden" id="movie_movieId_${n}">
-							<input type="hidden" id="movie_movieSeq_${n}">
+						<div id="movie_release_list_${n}">
+							<input type="hidden" id="movie_release_movieId_${n}">
+							<input type="hidden" id="movie_release_movieSeq_${n}">
 							
-							<div id="movie_list_title_${n}"></div>
+							<div id="movie_release_title_${n}"></div>
 							
-							<div id="movie_list_poster_${n}">
-								<img id="movie_list_poster_${n}_img" onclick="detail(movie_movieId_${n}.value, movie_movieSeq_${n}.value);">
+							<div id="movie_release_poster_${n}">
+								<img id="movie_release_poster_${n}_img" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">
 							</div>
 							
-							<div id="movie_list_relDate_${n}"></div>
-							<div id="movie_list_runtime_${n}"></div>
+							<div id="movie_release_relDate_${n}"></div>
+							<div id="movie_release_runtime_${n}"></div>
 							
 							<div id="movie_action_button_text_${n}"></div>
 						</div>
 					</c:forEach>
 				</div>
 				
-				<div id="movie_list_moreSee"><input type="button" value="더보기" onclick="more_list();"></div>
+				<div id="movie_release_list_moreSee"><input type="button" value="더보기" onclick="more_list();"></div>
 			</div>
 		</div>
+		
+		<div id="contents_rank"></div>
+		
+		<div id="contents_query"></div>
 	</div>
 	
 </body>
