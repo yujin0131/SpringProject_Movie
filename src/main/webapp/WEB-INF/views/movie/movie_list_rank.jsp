@@ -69,11 +69,11 @@
 
 				var openDt = document.getElementById("movie_openDt_"+0).value;
 				var movieNm = document.getElementById("movie_movieNm_"+0).value;
-				//load_poster0(openDt, movieNm);
+				load_poster0(openDt, movieNm);
 				
 				loading_del();
-				/*여기는 멀티스레드를 이용해 출력해보려는 노력코드
-				var worker = new Worker("${ pageContext.request.contextPath }/resources/js/loadJson.js");
+				//여기는 멀티스레드를 이용해 출력해보려는 노력코드
+				/* var worker = new Worker("${ pageContext.request.contextPath }/resources/js/loadJson.js");
 				
 
 				var infoArr = [openDt, movieNm]
@@ -82,11 +82,11 @@
 					var moviePosterName = event.data;
 					console.log(moviePosterName);
 					document.getElementById("movie_rank_poster_"+0+"_img").src=moviePosterName;//포스터
-				}
-				*/
+				} */
 				
-				var openDt2 = document.getElementById("movie_openDt_"+1).value;
-				var movieNm2 = document.getElementById("movie_movieNm_"+1).value;
+				
+				//var openDt2 = document.getElementById("movie_openDt_"+1).value;
+				//var movieNm2 = document.getElementById("movie_movieNm_"+1).value;
 				//load_poster1(openDt2, movieNm2);
 
 				
@@ -97,13 +97,13 @@
 		//-------------------------------------------------------------------
 		
 		
-		/* 여기는 하나씩 해보려했으나 포스터 한개만 출력되는 코드..
-			function load_poster0(openDt, movieNm){
+		//여기는 하나씩 해보려했으나 포스터 한개만 출력되는 코드..
+		function load_poster0(openDt, movieNm){
 			var releaseDts = openDt.substring(0, 4)+openDt.substring(5, 7)+openDt.substring(8, 10);
 			var url2 ='http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
 			var param2 = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&releaseDts='+releaseDts+'&title='+movieNm;
 			sendRequest( url2, param2, resultFn0, "GET" );
-			
+		
 		}
 		function resultFn0(){				
 			if( xhr.readyState == 4 && xhr.status == 200 ){
@@ -114,7 +114,7 @@
 		    	var moviePoster = cutPoster(json[0].Data[0].Result[0].posters);//json형식으로 넘어온 값이 여러개의 포스터일 경우 하나의 포스터를 가져옴
 		    	document.getElementById("movie_rank_poster_"+0+"_img").src=moviePoster;//포스터
 			}
-		} */
+		}
 		
 		/*function load_poster1(openDt2, movieNm2){
 			
