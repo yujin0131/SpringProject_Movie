@@ -24,14 +24,14 @@ a{ text-decoration:none; }
 }
 
 #movie_list_nav .movie_list_nav1{
-	display: inline;
+
 	width:260px;
 	height:38px;
 	float:left;
 	border:1px solid black;
 }
 #movie_list_nav .movie_list_nav2{
-	display: inline;
+
 	width:260px;
 	height:38px;
 	float:left;
@@ -39,7 +39,7 @@ a{ text-decoration:none; }
 }
 
 #movie_list_nav .movie_list_nav3{
-	display: inline;
+
 	float:right;
 	width:200px;
 	height:38px;
