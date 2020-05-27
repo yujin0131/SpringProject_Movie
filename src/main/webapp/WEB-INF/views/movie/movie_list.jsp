@@ -42,7 +42,8 @@
 			}
 		}
 		//박스오피스 버튼
-		function boxOfficeView(){contents_query
+		function boxOfficeView(){
+			
 			load_boxOff_list();
 			document.getElementById("contents_release").style.display="none";
 			document.getElementById("contents_query").style.display="none";
@@ -104,19 +105,20 @@
 			    	
 			    	document.getElementById("movie_release_relDate_"+i).innerHTML=releaseDate;//개봉일
 			    	document.getElementById("movie_release_runtime_"+i).innerHTML=json[0].Data[0].Result[i].runtime+"분";//상영시간
-			    	if(today >= json[0].Data[0].Result[i].repRlsDate-2){
-			    		var movie_add_button=document.getElementById("movie_action_button_text_"+i); 
-		    	    	var aTag=document.createElement("a");
-		    	    	aTag.href="#";
-		    	    	aTag.innerHTML="예매";
-		    	    	movie_add_button.appendChild(aTag);
-			    		/* document.getElementById("movie_action_button_text_"+i).innerHTML="예매"; */
-			    	} else{
-			    		var movie_add_button=document.getElementById("movie_action_button_text_"+i);
-		    	    	var pTag=document.createElement("p");
-		    	    	pTag.innerHTML="개봉 예정";
-		    	    	movie_add_button.appendChild(pTag);
-			    		/* document.getElementById("movie_action_button_text_"+i).innerHTML="개봉 예정"; */
+		    		var movie_add_button=document.getElementById("movie_action_button_text_"+i); 
+			    	if(movie_add_button.children[0] == undefined ){
+				    	if(today >= json[0].Data[0].Result[i].repRlsDate-2){
+			    	    	var aTag=document.createElement("a");
+			    	    	aTag.href="#";
+			    	    	aTag.innerHTML="예매";
+			    	    	movie_add_button.appendChild(aTag);
+				    		/* document.getElementById("movie_action_button_text_"+i).innerHTML="예매"; */
+				    	} else{
+			    	    	var pTag=document.createElement("p");
+			    	    	pTag.innerHTML="개봉 예정";
+			    	    	movie_add_button.appendChild(pTag);
+				    		/* document.getElementById("movie_action_button_text_"+i).innerHTML="개봉 예정"; */
+				    	}
 			    	}
 				}		
 			}
@@ -130,7 +132,9 @@
 		//------------------rank----------------------------------------------------------
 		function loading_del(){
 		    var loadingText = document.getElementById("loadingText");
-		    loadingText.removeChild( loadingText.children[0] );
+			if( loadingText.children[0] != undefined ){
+				loadingText.removeChild( loadingText.children[0] );		    					
+			}
 		}
 		//박스오피스를 가져오는 함수
 		function load_boxOff_list(){
@@ -156,25 +160,30 @@
 				}
 				var openDt = document.getElementById("movie_openDt_"+0).value;
 				var movieNm = document.getElementById("movie_movieNm_"+0).value;
-				load_poster(openDt, movieNm);
+				load_poster();
 				loading_del();		
 			}		
 		}
 		//박스오피스의 포스터 가져오기 (삭제하고 DB에서 포스터 가져올 예정)
-		function load_poster(openDt, movieNm){
+		/* function load_poster(openDt, movieNm){
 			var releaseDts = openDt.substring(0, 4)+openDt.substring(5, 7)+openDt.substring(8, 10);
 			var url2 ='http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
 			var param2 = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&releaseDts='+releaseDts+'&title='+movieNm;
 			sendRequest( url2, param2, resultFnPos, "GET" );
+		} */
+		function load_poster(){
+			var url2 ="/moviePosterLoad.do";
+			var param2 = "";
+			console.log("here");
+			sendRequest( url2, param2 , resultFnPos, "GET");
 		}
+		
 		function resultFnPos(){				
 			if( xhr.readyState == 4 && xhr.status == 200 ){
-		    	console.log("here");
 				var data = xhr.responseText;
-				var json = eval("["+data+"]");
-
-		    	var moviePoster = cutPoster(json[0].Data[0].Result[0].posters);//json형식으로 넘어온 값이 여러개의 포스터일 경우 하나의 포스터를 가져옴
-		    	document.getElementById("movie_rank_poster_"+0+"_img").src=moviePoster;//포스터
+				var json = eval(data);
+				console.log(data);
+		    	
 			}
 		}
 		//---------------------query-----------------------
@@ -187,7 +196,7 @@
 			console.log("here");
 			var query = f.query.value.trim();
 			var url ='http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
-			var param = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&sort=prodYear,1&listCount=4&query='+query;
+			var param = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&sort=prodYear,1&listCount=6&query='+query;
 			sendRequest( url, param, resultFnQu, "GET" );
 		}
 		
@@ -211,14 +220,11 @@
 			}
 			
 		}
-		
-		
+
 		function load_Query2(f){
-			
-			alert(f.query.value);
-			load_Query( f );
-			console.log("here2");
-			
+			if(event.keyCode == 13){
+				load_Query( f );
+			}
 		}
 
 
@@ -228,13 +234,13 @@
 	<div id="container">
 	
 		<div id="page_title">전체 영화</div>
+		<input type="button" value="여기 눌러" onclick="load_poster();">
 		
 		<div id="movie_list_nav">
 			<div class="movie_list_nav1"><input type="button" value="박스오피스" onclick="boxOfficeView();"></div><!-- /movie/movieRankList.do -->
 			<div class="movie_list_nav2"><input type="button" value="상영 예정작" onclick="scheduledScreenView();"></div><!-- /movie/movieReleaseList.do -->
 			<div class="movie_list_nav3"><input type="button" value="영화 검색" onclick="queryMovie();"></div><!-- /movie/movieQuery.do -->
 		</div>
-		
 		<div id="contents_release">
 			<div id="movie_chart_release">
 				<div id="select_movie_lists_release">

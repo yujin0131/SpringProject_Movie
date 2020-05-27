@@ -26,7 +26,7 @@
 	<!-- 컨트롤러 수동 생성시 autowired사용 가능하게 하는 속성 -->
 	<context:annotation-config/>
 	
-	<!-- BoardController 수동생성 -->
+	<!-- 수동생성 -->
 	<beans:bean class="com.korea.movie.MovieListController"> 
 		<beans:property name="movieListDAO" ref="movie_daoBean"/>   
 	</beans:bean>
