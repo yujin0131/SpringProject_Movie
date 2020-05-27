@@ -115,9 +115,7 @@
 	${movieSeq}
 	${movieId}
 	<div>
-		<a href="/movie/movieReleaseList.do">상영 예정작</a>
-		<a href="/movie/movieRankList.do">무비 차트(일간)(주간)</a>
-		<a href="/movie/movieQuery.do">영화 검색</a>
+
 	</div> 
 	<div id="container">
 		<div id="contents">

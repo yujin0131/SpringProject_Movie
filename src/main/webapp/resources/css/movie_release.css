@@ -51,7 +51,10 @@ a{ text-decoration:none; }
 	width:200px;
 	height:38px;
 }
-
+.postor_hover img:hover{
+	
+	background-color: rgba(113, 113, 113, 0.3);
+}
 
 #select_movie_lists_release{
 	overflow: hidden;

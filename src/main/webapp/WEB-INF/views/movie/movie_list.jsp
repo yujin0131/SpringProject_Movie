@@ -104,10 +104,19 @@
 			    	
 			    	document.getElementById("movie_release_relDate_"+i).innerHTML=releaseDate;//개봉일
 			    	document.getElementById("movie_release_runtime_"+i).innerHTML=json[0].Data[0].Result[i].runtime+"분";//상영시간
-			    	if(today >= json[0].Data[0].Result[i].repRlsDate){
-			    		document.getElementById("movie_action_button_text_"+i).innerHTML="예매";
+			    	if(today >= json[0].Data[0].Result[i].repRlsDate-2){
+			    		var movie_add_button=document.getElementById("movie_action_button_text_"+i); 
+		    	    	var aTag=document.createElement("a");
+		    	    	aTag.href="#";
+		    	    	aTag.innerHTML="예매";
+		    	    	movie_add_button.appendChild(aTag);
+			    		/* document.getElementById("movie_action_button_text_"+i).innerHTML="예매"; */
 			    	} else{
-			    		document.getElementById("movie_action_button_text_"+i).innerHTML="개봉 예정";
+			    		var movie_add_button=document.getElementById("movie_action_button_text_"+i);
+		    	    	var pTag=document.createElement("p");
+		    	    	pTag.innerHTML="개봉 예정";
+		    	    	movie_add_button.appendChild(pTag);
+			    		/* document.getElementById("movie_action_button_text_"+i).innerHTML="개봉 예정"; */
 			    	}
 				}		
 			}
@@ -175,11 +184,13 @@
 		}
 		//검색 결과를 가지고 오는 Ajax매서드
 		function load_Query( f ){
+			console.log("here");
 			var query = f.query.value.trim();
 			var url ='http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
 			var param = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&sort=prodYear,1&listCount=4&query='+query;
 			sendRequest( url, param, resultFnQu, "GET" );
 		}
+		
 		function resultFnQu(){
 			if( xhr.readyState == 4 && xhr.status == 200 ){
 				var data = xhr.responseText;
@@ -200,6 +211,17 @@
 			}
 			
 		}
+		
+		
+		function load_Query2(f){
+			
+			alert(f.query.value);
+			load_Query( f );
+			console.log("here2");
+			
+		}
+
+
 	</script> 
 </head>
 <body>
@@ -223,8 +245,10 @@
 							
 							<div id="movie_release_title_${n}"></div>
 							
-							<div id="movie_release_poster_${n}">
-								<img id="movie_release_poster_${n}_img" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">
+							<div class="postor_hover">
+								<div id="movie_release_poster_${n}">
+									<img id="movie_release_poster_${n}_img" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">
+								</div>
 							</div>
 							
 							<div id="movie_release_relDate_${n}"></div>
@@ -323,9 +347,13 @@
 		
 		<div id="contents_query">
 			
-			<form>
-				검색해주세요 : <input id="query">
-				<input type="button" value="검색" onclick="load_Query(this.form);">
+			<form name="searchForm" onsubmit="return false;" method="post">
+				<div >
+				
+					<input name="query" id="query" onkeypress="load_Query2(this.form);">
+					
+					<input type="button" value="검색" onclick="load_Query(this.form);">
+				</div>
 			</form>
 			
 			<div id="select_movie_list">
