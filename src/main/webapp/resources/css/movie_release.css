@@ -1,7 +1,15 @@
 @charset "UTF-8";
-
+*{
+	margin:0;
+	padding:0;
+}
 li{ list-style:none; }
 a{ text-decoration:none; }
+
+body{
+	background: #FDFCF0;
+}
+
 
 /* 공툥요소 */
 .poster_hover_text_2{

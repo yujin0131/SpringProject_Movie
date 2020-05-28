@@ -366,7 +366,7 @@
 		</div>
 		
 		<div id="contents_rank">
-			<div id="contents_rank_title">현재 상영작 <span>TOP5</span></div>
+			<div id="contents_rank_title">현재 상영작 <span>TOP 10</span></div>
 			<div id="loadingText"><h3>Loading...</h3></div>
 			<div id="select_movie_list">
 				<ul id="movie_list">
@@ -406,12 +406,18 @@
 		<div id="contents_query">
 			
 			<div id="question_box">
-				<form name="searchForm" onsubmit="return false;" method="post">
-					<input name="query" id="query" onkeypress="load_Query2(this.form);">
-					<input type="button" value="검색" onclick="load_Query(this.form);">
-					
-					<div id="searchText"><h3>어떤 영화가 궁금한가요? </h3></div>
-				</form>
+				<div id="query_input_box">
+					<form id="search_form" name="searchForm" onsubmit="return false;" method="post">
+						
+						<%-- <img id="MagnifyingGlas" src="${ pageContext.request.contextPath }/resources/img/MagnifyingGlass.jpg"> --%>
+						<div id="query_widnow">
+							<input name="query" id="query" autocomplete="off" onkeypress="load_Query2(this.form);" style="border:none">
+							<input id="btn" type="button" value="검색" onclick="load_Query(this.form);">
+						</div>
+						
+						<div id="searchText"><h3>어떤 영화가 궁금한가요? </h3></div>
+					</form>
+				</div>
 			</div>
 			
 			<div id="select_movie_list">
@@ -421,7 +427,7 @@
 							<input type="hidden" id="movie_movieId_${n}">
 							<input type="hidden" id="movie_movieSeq_${n}">
 							<div id="movie_list_title_${n}"></div>
-							<div id="movie_list_poster_${n}">
+							<div id="movie_list_poster_${n}"> 
 								<img id="movie_list_poster_${n}_img" onclick="detail(movie_movieId_${n}.value, movie_movieSeq_${n}.value);">
 							</div>
 							<div id="movie_list_relDate_${n}"></div>
