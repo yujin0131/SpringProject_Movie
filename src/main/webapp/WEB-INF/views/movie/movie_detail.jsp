@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +14,11 @@
 	
 		window.onload=function(){
 			var outposters;
-			load_list();
+			if( "${type}" == "2" ){
+				load_list2();
+			} else {
+				load_list();			
+			}
 		};
 	
 		//여러개 포스터 잘라쓰기
@@ -41,12 +46,17 @@
 		
 		//필요한 OPEN API 불러오기(Ajax)
 		function load_list(){
-
 			var url ='http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
 			var param = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&movieId=${movieId}&movieSeq=${movieSeq}';
 			sendRequest( url, param, resultFn, "GET" );
-			
 		}
+		
+		function load_list2(){
+			var url ='http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
+			var param = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&title=${title}&releaseDts=${releaseDts}';
+			sendRequest( url, param, resultFn, "GET" );		
+		}
+		
 		function resultFn(){
 			
 			if( xhr.readyState == 4 && xhr.status == 200 ){
@@ -157,7 +167,13 @@
 						<div id="movie_detail_plot"></div>					
 					</div>
 					
-					
+					<c:if test="${type eq '2'}">
+						<div id="movie_trailer">
+							<iframe width="560" height="315" src="https://www.youtube.com/embed/iAKApms7jJk" 
+									frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+									allowfullscreen></iframe>
+						</div>
+					</c:if>
 					<div id="movie_detail_still"></div>
 
 				</div>

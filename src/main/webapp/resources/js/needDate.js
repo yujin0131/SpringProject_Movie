@@ -57,3 +57,12 @@ function releaseDtEnd(){
 	var getDate = year + month + day;
 	return eval(getDate);
 }
+
+function noFormDates( date ){
+	var noFormY = date.substring(0,4);
+	var noFormM = date.substring(5,7);
+	var noFormD = date.substring(8,10);
+	var noFormDate = noFormY+noFormM+noFormD;
+
+	return eval(noFormDate);
+}

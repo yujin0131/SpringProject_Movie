@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="m">
 	
 	<select id="movie_poster_list" resultType="moviePoster">
-		select * from moviePoster order by idx
+		select * from moviePoster
 	</select>
 	
 </mapper>

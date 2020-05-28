@@ -26,10 +26,9 @@
 		var today = loadDate()-1;//1일에 문제될수있음
 		var releaseStart = releaseDtStart();
 		var releaseEnd = releaseDtEnd();
-	
-		console.log(today);
+		/* console.log(today);
 		console.log(releaseStart);
-		console.log(releaseEnd);
+		console.log(releaseEnd); */
 	
 		var moreCount = 1;//더보기 카운트
 	
@@ -80,6 +79,7 @@
 			var param = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&releaseDts='+releaseStart+'&releaseDte='+releaseEnd+'&listCount=32';
 			sendRequest( url, param, resultFnRel, "GET" );
 		}
+		
 		function resultFnRel(){	
 			if( xhr.readyState == 4 && xhr.status == 200 ){		
 				var data = xhr.responseText;
@@ -117,7 +117,6 @@
 			    	    	var pTag=document.createElement("p");
 			    	    	pTag.innerHTML="개봉 예정";
 			    	    	movie_add_button.appendChild(pTag);
-				    		/* document.getElementById("movie_action_button_text_"+i).innerHTML="개봉 예정"; */
 				    	}
 			    	}
 				}		
@@ -136,6 +135,7 @@
 				loadingText.removeChild( loadingText.children[0] );		    					
 			}
 		}
+		
 		//박스오피스를 가져오는 함수
 		function load_boxOff_list(){
 			//192.168.1.101:9090/vs/list.do
@@ -143,6 +143,8 @@
 			var param = 'key=a7c6bfb2e16d4d1ae14730f90bc6726a&targetDt='+today;
 			sendRequest( url, param, resultFnRank, "GET" );	
 		}
+		
+		
 		function resultFnRank(){
 			if( xhr.readyState == 4 && xhr.status == 200 ){
 				var data = xhr.responseText;
@@ -150,31 +152,29 @@
 				var movie_list =document.getElementById("movie_list");
 				for(var i=0 ; i<json[0].boxOfficeResult.dailyBoxOfficeList.length ; i++){
 					var movie_container = "movie_list_"+i;//영화 정보 담는 컨테이너
-					document.getElementById("movie_openDt_"+i).value=json[0].boxOfficeResult.dailyBoxOfficeList[i].openDt;//영화 코드(영진위)
+					var openDts = noFormDates(json[0].boxOfficeResult.dailyBoxOfficeList[i].openDt);
+					document.getElementById("movie_openDt_"+i).value=openDts;//영화 코드(영진위)
 					document.getElementById("movie_movieNm_"+i).value=json[0].boxOfficeResult.dailyBoxOfficeList[i].movieNm;//영화 제목에서 자르기(영진위)
 			    	document.getElementById("movie_rank_movieNm_"+i).innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].movieNm;;//영화 제목
 			    	document.getElementById("movie_rank_rank_"+i).innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].rank+" 위";//순위
-			    	document.getElementById("movie_rank_salesShare_"+i).innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].salesShare+" %";//예매율
+			    	document.getElementById("movie_rank_salesShare_"+i).innerHTML="예매율 : "+json[0].boxOfficeResult.dailyBoxOfficeList[i].salesShare+" %";//예매율
 			    	document.getElementById("movie_rank_audiAcc_"+i).innerHTML="누적관객수 : "+json[0].boxOfficeResult.dailyBoxOfficeList[i].audiAcc+"명";//누적관객수
 			    	document.getElementById("movie_rank_openDt_"+i).innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].openDt+"개봉";//개봉일
 				}
-				var openDt = document.getElementById("movie_openDt_"+0).value;
-				var movieNm = document.getElementById("movie_movieNm_"+0).value;
 				load_poster();
 				loading_del();		
 			}		
 		}
-		//박스오피스의 포스터 가져오기 (삭제하고 DB에서 포스터 가져올 예정)
-		/* function load_poster(openDt, movieNm){
-			var releaseDts = openDt.substring(0, 4)+openDt.substring(5, 7)+openDt.substring(8, 10);
-			var url2 ='http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
-			var param2 = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&releaseDts='+releaseDts+'&title='+movieNm;
-			sendRequest( url2, param2, resultFnPos, "GET" );
-		} */
+		
+		function detailRank( releaseDts, title ){
+			
+			return location.href="movieInfoDetailRank.do?releaseDts="+releaseDts+"&title="+encodeURIComponent(title);
+		}
+		
+		//박스오피스의  DB에서 포스터 가져오기
 		function load_poster(){
-			var url2 ="/moviePosterLoad.do";
+			var url2 ="moviePosterLoad.do";
 			var param2 = "";
-			console.log("here");
 			sendRequest( url2, param2 , resultFnPos, "GET");
 		}
 		
@@ -182,8 +182,17 @@
 			if( xhr.readyState == 4 && xhr.status == 200 ){
 				var data = xhr.responseText;
 				var json = eval(data);
-				console.log(data);
-		    	
+				
+				outer : for( var i = 0; i < json.length ; i++){
+					var jsonLoadMovieNm = json[i].movieNm.trim();
+					var jsonLoadPoster =json[i].posterNm;
+					for(var j = 0; j < 10 ; j++){
+				    	if( jsonLoadMovieNm == document.getElementById("movie_movieNm_"+j).value.trim() ){
+				    		document.getElementById("movie_rank_poster_"+j+"_img").src=jsonLoadPoster;
+				    		continue outer;
+				    	}					
+					}
+				}
 			}
 		}
 		//---------------------query-----------------------
@@ -193,7 +202,6 @@
 		}
 		//검색 결과를 가지고 오는 Ajax매서드
 		function load_Query( f ){
-			console.log("here");
 			var query = f.query.value.trim();
 			var url ='http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
 			var param = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&sort=prodYear,1&listCount=6&query='+query;
@@ -227,14 +235,22 @@
 			}
 		}
 
-
 	</script> 
 </head>
 <body>
+	<!-- <div id="nav">
+         <ul>
+            <li><a href="home.do">Home</a></li>
+            <li><a href="#">영화</a></li>
+            <li><a href="#">예매</a></li>
+            <li><a href="#">영화관</a></li>
+            <li><a href="#">커뮤니티</a></li>
+         </ul>
+     </div> -->
+      
 	<div id="container">
-	
+		
 		<div id="page_title">전체 영화</div>
-		<input type="button" value="여기 눌러" onclick="load_poster();">
 		
 		<div id="movie_list_nav">
 			<div class="movie_list_nav1"><input type="button" value="박스오피스" onclick="boxOfficeView();"></div><!-- /movie/movieRankList.do -->
@@ -248,19 +264,22 @@
 						<div id="movie_release_list_${n}">
 							<input type="hidden" id="movie_release_movieId_${n}">
 							<input type="hidden" id="movie_release_movieSeq_${n}">
-							
+							 
 							<div id="movie_release_title_${n}"></div>
 							
-							<div class="postor_hover">
-								<div id="movie_release_poster_${n}">
-									<img id="movie_release_poster_${n}_img" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">
+							<div id="movie_release_poster_${n}">
+								<div class="postor_box">
+									<img id="movie_release_poster_${n}_img">
+									<div class="postor_hover">
+										<a href="javascript:void(0);" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">상세 보기</a>
+										<div id="movie_action_button_text_${n}"></div>		
+									</div>
 								</div>
 							</div>
 							
 							<div id="movie_release_relDate_${n}"></div>
 							<div id="movie_release_runtime_${n}"></div>
 							
-							<div id="movie_action_button_text_${n}"></div>
 						</div>
 					</c:forEach>
 				</div>
@@ -274,13 +293,18 @@
 							<div id="movie_release_title_${n}"></div> 
 							
 							<div id="movie_release_poster_${n}">
-								<img id="movie_release_poster_${n}_img" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">
+								<div class="postor_box">
+									<img id="movie_release_poster_${n}_img">
+									<div class="postor_hover">
+										<a href="javascript:void(0);" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">상세 보기</a>
+										<div id="movie_action_button_text_${n}"></div>		
+									</div>
+								</div>
 							</div>
 							
 							<div id="movie_release_relDate_${n}"></div>
 							<div id="movie_release_runtime_${n}"></div>
-							
-							<div id="movie_action_button_text_${n}"></div>
+
 						</div>
 					</c:forEach>
 				</div>
@@ -294,13 +318,18 @@
 							<div id="movie_release_title_${n}"></div>
 							
 							<div id="movie_release_poster_${n}">
-								<img id="movie_release_poster_${n}_img" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">
+								<div class="postor_box">
+									<img id="movie_release_poster_${n}_img">
+									<div class="postor_hover">
+										<a href="javascript:void(0);" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">상세 보기</a>
+										<div id="movie_action_button_text_${n}"></div>		
+									</div>
+								</div>
 							</div>
 							
 							<div id="movie_release_relDate_${n}"></div>
 							<div id="movie_release_runtime_${n}"></div>
-							
-							<div id="movie_action_button_text_${n}"></div>
+
 						</div>
 					</c:forEach>
 				</div>
@@ -314,13 +343,18 @@
 							<div id="movie_release_title_${n}"></div>
 							
 							<div id="movie_release_poster_${n}">
-								<img id="movie_release_poster_${n}_img" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">
+								<div class="postor_box">
+									<img id="movie_release_poster_${n}_img">
+									<div class="postor_hover">
+										<a href="javascript:void(0);" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">상세 보기</a>
+										<div id="movie_action_button_text_${n}"></div>		
+									</div>
+								</div>
 							</div>
 							
 							<div id="movie_release_relDate_${n}"></div>
 							<div id="movie_release_runtime_${n}"></div>
-							
-							<div id="movie_action_button_text_${n}"></div>
+
 						</div>
 					</c:forEach>
 				</div>
@@ -332,19 +366,32 @@
 		<div id="contents_rank">
 			<div id="select_movie_list">
 				<ul id="movie_list">
+				
 					<li id="loadingText"><h3>Loading...</h3></li>
+					
 					<c:forEach var="n" begin="0" end="9" step="1">
-						<li id="movie_list_${n}" style="margin:10px">
-							<input type="hidden" id="movie_openDt_${n}">
-							<input type="hidden" id="movie_movieNm_${n}">
-							<div id="movie_rank_movieNm_${n}"></div>
-							<div id="movie_rank_postor_${n}">
-								<img id="movie_rank_poster_${n}_img">
+						<li id="movie_list_${n}">
+							<div id="movie_rank_box_one">
+								<input type="hidden" id="movie_openDt_${n}">
+								<input type="hidden" id="movie_movieNm_${n}">
+								
+								<div id="movie_rank_rank_${n}"></div>
+								<div id="movie_rank_movieNm_${n}"></div>
+								
+								<div id="movie_rank_poster_${n}">
+									<div class="postor_box">
+										<img id="movie_rank_poster_${n}_img">
+										<div class="postor_hover">
+											<a href="javascript:void(0);" onclick="detailRank(movie_openDt_${n}.value, movie_movieNm_${n}.value);">상세 보기</a>
+											<a href="#">예몌</a>		
+										</div>
+									</div>
+								</div>
+								
+								<div id="movie_rank_salesShare_${n}"></div>
+								<div id="movie_rank_audiAcc_${n}"></div>
+								<input type="hidden" id="movie_rank_openDt_${n}">
 							</div>
-							<div id="movie_rank_rank_${n}"></div>
-							<div id="movie_rank_salesShare_${n}"></div>
-							<div id="movie_rank_audiAcc_${n}"></div>
-							<div id="movie_rank_openDt_${n}"></div>
 						</li>
 					</c:forEach>
 				</ul>
@@ -353,18 +400,17 @@
 		
 		<div id="contents_query">
 			
-			<form name="searchForm" onsubmit="return false;" method="post">
-				<div >
-				
+			<div id="question_box">
+				<form name="searchForm" onsubmit="return false;" method="post">
 					<input name="query" id="query" onkeypress="load_Query2(this.form);">
-					
 					<input type="button" value="검색" onclick="load_Query(this.form);">
-				</div>
-			</form>
+					
+					<div id="searchText"><h3>어떤 영화가 궁금한가요? </h3></div>
+				</form>
+			</div>
 			
 			<div id="select_movie_list">
 				<ul id="movie_list">
-					<li id="searchText"><h3>어떤 영화가 궁금한가요? </h3></li>		
 					<c:forEach var="n" begin="0" end="9" step="1">
 						<li id="movie_list_${n}">
 							<input type="hidden" id="movie_movieId_${n}">

@@ -27,22 +27,28 @@ public class MovieListController {
 	
 	@RequestMapping("/movieInfoDetail.do")
 	public String goMovieInfoDetail( Model model, String movieId, String movieSeq ) {
-		
+		int type = 1;
+		model.addAttribute("type", type);
 		model.addAttribute("movieId", movieId);
 		model.addAttribute("movieSeq", movieSeq);
+		return Common.Movie.VIEW_PATH + "movie_detail.jsp";
+	}
+	
+	@RequestMapping("/movieInfoDetailRank.do")
+	public String goMovieInfoDetail2( Model model, String releaseDts, String title ) {
+		int type = 2;
+		model.addAttribute("type", type);
+		model.addAttribute("releaseDts", releaseDts);
+		model.addAttribute("title", title);
 		return Common.Movie.VIEW_PATH + "movie_detail.jsp";
 	}
 	
 	@RequestMapping("/moviePosterLoad.do")
 	@ResponseBody
 	public List<MovieRankPosterVO> loadRankPoster() {
-		System.out.println("여기");
-
 		List<MovieRankPosterVO> list = null;
 		list = movieListDAO.selectList();
-		/* String result = String.format("[{'list':%s}]",list); */
 		return list;
-		
 	}
 	
 }

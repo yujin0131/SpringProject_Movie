@@ -3,3 +3,6 @@
 li{ list-style:none; }
 a{ text-decoration:none; }
 
+#question_box{
+	text-align: center;
+}

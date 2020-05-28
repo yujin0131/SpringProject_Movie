@@ -32,7 +32,6 @@ a{ text-decoration:none; }
 } 
  
 #movie_list_nav .movie_list_nav1{
-
 	width:260px;
 	height:38px;
 	float:left;
@@ -46,60 +45,88 @@ a{ text-decoration:none; }
 }
 
 #movie_list_nav .movie_list_nav3{
-
 	float:right;
 	width:200px;
 	height:38px;
 }
-.postor_hover img:hover{
-	
-	background-color: rgba(113, 113, 113, 0.3);
+
+
+
+ .postor_box{
+ 	position: relative;
+ }
+ .postor_box .postor_hover{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	display:none;
+	color:#fff;
 }
+.postor_box:hover .postor_hover{
+	display:block;
+	background: rgba(0, 0, 0, 0.6);
+}
+
+
+
 
 #select_movie_lists_release{
 	overflow: hidden;
 }
 #select_movie_lists_release>div{
+	border:1px solid red;
 	width:230px;
 	height:450px;
-	border:1px solid red;
 	float:left;
 	margin:20px;
+	text-align: center;
 }
 #select_movie_lists_release_2{
 	display:none;
 	overflow: hidden;
 }
 #select_movie_lists_release_2>div{
+	border:1px solid red;
 	width:230px;
 	height:450px;
-	border:1px solid red;
 	float:left;
 	margin:20px;
+	text-align: center;
 }
 #select_movie_lists_release_3{
 	display:none;
 	overflow: hidden;
 }
 #select_movie_lists_release_3>div{
+	border:1px solid red;
 	width:230px;
 	height:450px;
-	border:1px solid red;
 	float:left;
 	margin:20px;
+	text-align: center;
 }
+
 #select_movie_lists_release_4{
 	display:none;
 	overflow: hidden;
 }
 #select_movie_lists_release_4>div{
+	border:1px solid red;
 	width:230px;
 	height:450px;
-	border:1px solid red;
 	float:left;
 	margin:20px;
+	text-align: center;
 }
 
 #movie_release_list_moreSee{
 	margin: 0px auto;
 }
+
+#nav{ width:100%; height:200px; position:fixed; z-index:5; }/*  */
+#nav > ul{ width:60%; height:50px; position:relative; margin:120px auto; list-style:none; background:rgb(119, 119, 119, 0.4); border-radius:20px; }
+#nav > ul > li{ width:20%; height:50px; text-align:center; float:left; line-height:50px; }
+#nav > ul > li > a{ text-decoration:none; font-size:18px; font-weight:400px; letter-spacing:2px; color:white; text-shadow:5px 5px 5px gray, 0 0 120px white, 0 0 5px gray; }
+#nav > ul > li > a:visited{ text-decoration:none; }
