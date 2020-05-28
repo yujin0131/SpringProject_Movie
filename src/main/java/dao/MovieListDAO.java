@@ -24,5 +24,13 @@ public class MovieListDAO {
 		
 	}
 	
+public MovieRankPosterVO selectOne(String movieNm){ 
+		
+		MovieRankPosterVO vo = null;
+		vo = sqlSession.selectOne("m.movie_trailer", movieNm);
+		return vo;
+		
+	}
+	
 	
 }

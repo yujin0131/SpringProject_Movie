@@ -51,4 +51,13 @@ public class MovieListController {
 		return list;
 	}
 	
+	@RequestMapping("/movieTrailerLoad.do")
+	@ResponseBody
+	public MovieRankPosterVO loadTrailer(String movieNm) {
+		System.out.println(movieNm);
+		MovieRankPosterVO vo = null;
+		vo = movieListDAO.selectOne(movieNm);
+		return vo;
+	}
+	
 }

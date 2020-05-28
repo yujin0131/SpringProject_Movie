@@ -110,12 +110,12 @@
 				    	if(today >= json[0].Data[0].Result[i].repRlsDate-2){
 			    	    	var aTag=document.createElement("a");
 			    	    	aTag.href="#";
-			    	    	aTag.innerHTML="예매";
+			    	    	aTag.innerHTML="예매하기";
 			    	    	movie_add_button.appendChild(aTag);
 				    		/* document.getElementById("movie_action_button_text_"+i).innerHTML="예매"; */
 				    	} else{
 			    	    	var pTag=document.createElement("p");
-			    	    	pTag.innerHTML="개봉 예정";
+			    	    	pTag.innerHTML="개봉예정";
 			    	    	movie_add_button.appendChild(pTag);
 				    	}
 			    	}
@@ -253,9 +253,9 @@
 		<div id="page_title">전체 영화</div>
 		
 		<div id="movie_list_nav">
-			<div class="movie_list_nav1"><input type="button" value="박스오피스" onclick="boxOfficeView();"></div><!-- /movie/movieRankList.do -->
-			<div class="movie_list_nav2"><input type="button" value="상영 예정작" onclick="scheduledScreenView();"></div><!-- /movie/movieReleaseList.do -->
-			<div class="movie_list_nav3"><input type="button" value="영화 검색" onclick="queryMovie();"></div><!-- /movie/movieQuery.do -->
+			<div class="movie_list_nav1"><a href="javascript:void(0);" onclick="boxOfficeView();">박스오피스</a></div><!-- /movie/movieRankList.do -->
+			<div class="movie_list_nav2"><a href="javascript:void(0);" onclick="scheduledScreenView();">상영 예정작</a></div><!-- /movie/movieReleaseList.do -->
+			<div class="movie_list_nav3"><a href="javascript:void(0);" onclick="queryMovie();">영화 검색</a></div><!-- /movie/movieQuery.do -->
 		</div>
 		<div id="contents_release">
 			<div id="movie_chart_release">
@@ -268,11 +268,13 @@
 							<div id="movie_release_title_${n}"></div>
 							
 							<div id="movie_release_poster_${n}">
-								<div class="postor_box">
+								<div class="poster_box">
 									<img id="movie_release_poster_${n}_img">
-									<div class="postor_hover">
-										<a href="javascript:void(0);" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">상세 보기</a>
-										<div id="movie_action_button_text_${n}"></div>		
+									<div class="poster_hover">
+										<div class="poster_hover_text">
+											<div class="poster_hover_text_2"><div id="movie_action_button_text_${n}"></div></div>		
+											<div class="poster_hover_text_1"><a href="javascript:void(0);" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">상세보기</a></div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -364,10 +366,11 @@
 		</div>
 		
 		<div id="contents_rank">
+			<div id="contents_rank_title">현재 상영작 <span>TOP5</span></div>
+			<div id="loadingText"><h3>Loading...</h3></div>
 			<div id="select_movie_list">
 				<ul id="movie_list">
 				
-					<li id="loadingText"><h3>Loading...</h3></li>
 					
 					<c:forEach var="n" begin="0" end="9" step="1">
 						<li id="movie_list_${n}">
@@ -379,11 +382,13 @@
 								<div id="movie_rank_movieNm_${n}"></div>
 								
 								<div id="movie_rank_poster_${n}">
-									<div class="postor_box">
+									<div class="poster_box">
 										<img id="movie_rank_poster_${n}_img">
-										<div class="postor_hover">
-											<a href="javascript:void(0);" onclick="detailRank(movie_openDt_${n}.value, movie_movieNm_${n}.value);">상세 보기</a>
-											<a href="#">예몌</a>		
+										<div class="poster_hover">
+											<div class="poster_hover_text">
+												<div class="poster_hover_text_2"><a href="#">예매하기</a></div>		
+												<div class="poster_hover_text_1"><a href="javascript:void(0);" onclick="detailRank(movie_openDt_${n}.value, movie_movieNm_${n}.value);">상세보기</a></div>
+											</div>	
 										</div>
 									</div>
 								</div>

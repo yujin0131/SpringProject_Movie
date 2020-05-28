@@ -3,8 +3,26 @@
 li{ list-style:none; }
 a{ text-decoration:none; }
 
+#contents_rank_title{
+	position:absolute;
+	top:5px;
+	left:20px;
+	font-size: 15px;
+	font-weight: bold;
+}
+#contents_rank_title span{
+	color:red;
+}
+
 #loadingText{
+	position:absolute;
+	top:400px;
+	left:500px;
 	text-align: center;
+}
+
+#contents_rank{
+	position: relative;
 }
 
 #select_movie_list{
@@ -18,5 +36,4 @@ a{ text-decoration:none; }
 	float:left;
 	margin:20px;
 	text-align: center;
-	
 }

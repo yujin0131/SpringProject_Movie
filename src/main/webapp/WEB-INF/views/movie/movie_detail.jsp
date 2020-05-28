@@ -45,12 +45,14 @@
 		}
 		
 		//필요한 OPEN API 불러오기(Ajax)
+		//상영예정작 -> 상세정보
 		function load_list(){
 			var url ='http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
 			var param = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&movieId=${movieId}&movieSeq=${movieSeq}';
 			sendRequest( url, param, resultFn, "GET" );
 		}
 		
+		//박스오피스 -> 상세정보
 		function load_list2(){
 			var url ='http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
 			var param = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&title=${title}&releaseDts=${releaseDts}';
@@ -65,8 +67,8 @@
 				var json = eval("["+data+"]");		
 
 		    	spPoster(json[0].Data[0].Result[0].posters);//포스터
-		    	
-		    	document.getElementById("movie_detail_title").innerHTML=json[0].Data[0].Result[0].title;//영화 제목
+		    	var movieNm = json[0].Data[0].Result[0].title;
+		    	document.getElementById("movie_detail_title").innerHTML=movieNm;//영화 제목
 		    	document.getElementById("movie_detail_titleEng").innerHTML=json[0].Data[0].Result[0].titleEng;//영화 영문 제목
 		    	document.getElementById("movie_detail_directors").innerHTML="<b>감독  </b>" +json[0].Data[0].Result[0].directors.director[0].directorNm;//감독
 		    	
@@ -112,9 +114,28 @@
 			    	oneStill.src = splitStills[i];
 			    	document.getElementById("movie_detail_still").appendChild(oneStill);
 		    	}
+		    	alert(encodeURIComponent(movieNm));
+		    	load_trailer(movieNm);
 		    	
 			}
 			
+		}
+		
+		function load_trailer(movieNm){
+			var url2 ="movieTrailerLoad.do";
+			var param2 = "movieNm="+encodeURIComponent(movieNm);
+			sendRequest( url2, param2 , resultFnTr, "GET");
+		}
+		
+		function resultFnTr(){				
+			if( xhr.readyState == 4 && xhr.status == 200 ){
+				var data = xhr.responseText;
+				var json = eval(data);
+				alert(json);
+				/* var jsonLoadTrailer = json[i].trailerSrc;
+
+				document.getElementById("movie_trailer_frame").src=jsonLoadTrailer; */
+			}
 		}
 		
 	</script>
@@ -122,8 +143,6 @@
 
 </head>
 <body>
-	${movieSeq}
-	${movieId}
 	<div>
 
 	</div> 
@@ -168,8 +187,8 @@
 					</div>
 					
 					<c:if test="${type eq '2'}">
-						<div id="movie_trailer">
-							<iframe width="560" height="315" src="https://www.youtube.com/embed/iAKApms7jJk" 
+						<div id="movie_trailer_box">
+							<iframe id="movie_trailer_frame" width="950" height="534"
 									frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
 									allowfullscreen></iframe>
 						</div>
