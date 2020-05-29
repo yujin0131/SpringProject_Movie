@@ -196,7 +196,28 @@
 		function detailRank( releaseDts, title, trailer ){
 			return location.href="movieInfoDetailRank.do?releaseDts="+releaseDts+"&title="+encodeURIComponent(title)+"&trailer="+trailer;
 		}
-		//---------------------query-----------------------
+		//---------------------query---------------------------------------------------
+		function setCookie(cookie_name, value, days) {
+			var exdate = new Date();
+			exdate.setDate(exdate.getDate() + days);
+			
+			var cookie_value = escape(value) + ((days == null) ? '' : '; expires=' + exdate.toUTCString());
+			document.cookie = cookie_name + '=' + cookie_value;
+		}
+		function getCookie(cookie_name) {
+			var x, y;
+			var val = document.cookie.split(';');
+
+			for (var i = 0; i < val.length; i++) {
+				x = val[i].substr(0, val[i].indexOf('='));
+				y = val[i].substr(val[i].indexOf('=') + 1);
+				x = x.replace(/^\s+|\s+$/g, ''); // 앞과 뒤의 공백 제거하기
+				if (x == cookie_name) {
+					return unescape(y); // unescape로 디코딩 후 값 리턴
+				}
+			}
+		}
+		
 		function text_del(){
 		    var delText = document.getElementById("searchText");
 		    delText.removeChild( delText.children[0] );
@@ -208,11 +229,19 @@
 			var param = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&sort=prodYear,1&listCount=6&query='+query;
 			sendRequest( url, param, resultFnQu, "GET" );
 		}
-		
+		var cookieNum = 0;
 		function resultFnQu(){
 			if( xhr.readyState == 4 && xhr.status == 200 ){
 				var data = xhr.responseText;
 				var json = eval("["+data+"]");		
+				
+				setCookie("wooseong"+cookieNum, json[0].Query, '1');
+				document.cookie;
+				for(var i = 0; i <=cookieNum; i++){
+					var st = getCookie("wooseong"+i);
+					document.getElementById("recent_query_"+i).innerHTML = st;
+				}
+				cookieNum++;
 				
 				for(var i=0 ; i<json[0].Data[0].Result.length ; i++){
 					var movie_container = "movie_list_"+i;//영화 정보 담는 컨테이너
@@ -230,7 +259,7 @@
 			
 		}
 
-		function load_Query2(f){
+		function inputEnter(f){
 			if(event.keyCode == 13){
 				load_Query( f );
 			}
@@ -409,12 +438,17 @@
 			
 			<div id="question_box">
 				<div id="query_input_box">
+					<div id="recent_query_box">
+						<div id="recent_query_title">최근 검색어</div>
+						<c:forEach var="i" begin="0" end="4" step="1">
+							<div id="recent_query_${i}"></div>
+						</c:forEach>
+					</div>
+				
 					<form id="search_form" name="searchForm" onsubmit="return false;" method="post">
-						
-						<%-- <img id="MagnifyingGlas" src="${ pageContext.request.contextPath }/resources/img/MagnifyingGlass.jpg"> --%>
 						<div id="query_widnow">
 							<img id="query_icon" src="${ pageContext.request.contextPath }/resources/img/queryicon.png">
-							<input name="query" id="query" autocomplete="off" onkeypress="load_Query2(this.form);" style="border:none">
+							<input name="query" id="query" autocomplete="off" onkeypress="inputEnter(this.form);" style="border:none">
 							<input id="btn" type="button" value="검색" onclick="load_Query(this.form);">
 						</div>
 						
