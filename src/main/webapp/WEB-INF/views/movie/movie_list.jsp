@@ -166,11 +166,6 @@
 			}		
 		}
 		
-		function detailRank( releaseDts, title ){
-			
-			return location.href="movieInfoDetailRank.do?releaseDts="+releaseDts+"&title="+encodeURIComponent(title);
-		}
-		
 		//박스오피스의  DB에서 포스터 가져오기
 		function load_poster(){
 			var url2 ="moviePosterLoad.do";
@@ -185,15 +180,21 @@
 				
 				outer : for( var i = 0; i < json.length ; i++){
 					var jsonLoadMovieNm = json[i].movieNm.trim();
-					var jsonLoadPoster =json[i].posterNm;
+					var jsonLoadPoster=json[i].posterNm;
+					var jsonLoadTrailer=json[i].trailerSrc;
 					for(var j = 0; j < 10 ; j++){
 				    	if( jsonLoadMovieNm == document.getElementById("movie_movieNm_"+j).value.trim() ){
 				    		document.getElementById("movie_rank_poster_"+j+"_img").src=jsonLoadPoster;
+				    		document.getElementById("movie_trailer_src_"+j).value=jsonLoadTrailer;
 				    		continue outer;
 				    	}					
 					}
 				}
 			}
+		}
+		
+		function detailRank( releaseDts, title, trailer ){
+			return location.href="movieInfoDetailRank.do?releaseDts="+releaseDts+"&title="+encodeURIComponent(title)+"&trailer="+trailer;
 		}
 		//---------------------query-----------------------
 		function text_del(){
@@ -387,7 +388,7 @@
 										<div class="poster_hover">
 											<div class="poster_hover_text">
 												<div class="poster_hover_text_2"><a href="#">예매하기</a></div>		
-												<div class="poster_hover_text_1"><a href="javascript:void(0);" onclick="detailRank(movie_openDt_${n}.value, movie_movieNm_${n}.value);">상세보기</a></div>
+												<div class="poster_hover_text_1"><a href="javascript:void(0);" onclick="detailRank(movie_openDt_${n}.value, movie_movieNm_${n}.value, movie_trailer_src_${n}.value);">상세보기</a></div>
 											</div>	
 										</div>
 									</div>
@@ -396,6 +397,7 @@
 								<div id="movie_rank_salesShare_${n}"></div>
 								<div id="movie_rank_audiAcc_${n}"></div>
 								<input type="hidden" id="movie_rank_openDt_${n}">
+								<input type="hidden" id="movie_trailer_src_${n}">
 							</div>
 						</li>
 					</c:forEach>
@@ -411,6 +413,7 @@
 						
 						<%-- <img id="MagnifyingGlas" src="${ pageContext.request.contextPath }/resources/img/MagnifyingGlass.jpg"> --%>
 						<div id="query_widnow">
+							<img id="query_icon" src="${ pageContext.request.contextPath }/resources/img/queryicon.png">
 							<input name="query" id="query" autocomplete="off" onkeypress="load_Query2(this.form);" style="border:none">
 							<input id="btn" type="button" value="검색" onclick="load_Query(this.form);">
 						</div>

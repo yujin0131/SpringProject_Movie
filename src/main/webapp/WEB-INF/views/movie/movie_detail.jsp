@@ -14,13 +14,15 @@
 	
 		window.onload=function(){
 			var outposters;
+			var splitStills;
 			if( "${type}" == "2" ){
 				load_list2();
 			} else {
 				load_list();			
 			}
 		};
-	
+		
+		
 		//여러개 포스터 잘라쓰기
 		function spPoster(inPosters) {
 			
@@ -68,7 +70,14 @@
 
 		    	spPoster(json[0].Data[0].Result[0].posters);//포스터
 		    	var movieNm = json[0].Data[0].Result[0].title;
-		    	document.getElementById("movie_detail_title").innerHTML=movieNm;//영화 제목
+		    	
+		    	//영화 제목	
+		    	if( "${type}" == "2" ){
+		    		document.getElementById("movie_detail_title").innerHTML="${title}";
+		    	} else {
+			    	document.getElementById("movie_detail_title").innerHTML=movieNm;
+		    	}
+		    	
 		    	document.getElementById("movie_detail_titleEng").innerHTML=json[0].Data[0].Result[0].titleEng;//영화 영문 제목
 		    	document.getElementById("movie_detail_directors").innerHTML="<b>감독  </b>" +json[0].Data[0].Result[0].directors.director[0].directorNm;//감독
 		    	
@@ -105,39 +114,59 @@
 			    	
 		    	document.getElementById("movie_detail_plot").innerHTML=json[0].Data[0].Result[0].plots.plot[0].plotText;//줄거리
 				
+		    	//트레일러 주소 불러오기
+		    	if( "${type}" == "2" ){
+		    		document.getElementById("movie_trailer_frame").src="${trailer}";
+		    	}
+		    	
 		    	//여러개의 스틸이미지를 출력하기 위함
 		    	var stills = json[0].Data[0].Result[0].stlls;
-		    	var splitStills = stills.split('|');
+		    	splitStills = stills.split('|');
 				
-		    	for(var i = 0 ; i<splitStills.length; i++){
+		    	document.getElementById("movie_still_img_0").src = splitStills[0];
+		    	document.getElementById("movie_still_img_1").src = splitStills[1];
+		    	document.getElementById("movie_still_img_2").src = splitStills[2];
+		    	document.getElementById("movie_still_img_3").src = splitStills[3];
+		    	document.getElementById("movie_still_img_4").src = splitStills[4];
+		    	
+		    	/* for(var i = 0 ; i<splitStills.length; i++){
 			    	var oneStill = document.createElement("img");
 			    	oneStill.src = splitStills[i];
 			    	document.getElementById("movie_detail_still").appendChild(oneStill);
-		    	}
-		    	alert(encodeURIComponent(movieNm));
-		    	load_trailer(movieNm);
-		    	
-			}
-			
-		}
-		
-		function load_trailer(movieNm){
-			var url2 ="movieTrailerLoad.do";
-			var param2 = "movieNm="+encodeURIComponent(movieNm);
-			sendRequest( url2, param2 , resultFnTr, "GET");
-		}
-		
-		function resultFnTr(){				
-			if( xhr.readyState == 4 && xhr.status == 200 ){
-				var data = xhr.responseText;
-				var json = eval(data);
-				alert(json);
-				/* var jsonLoadTrailer = json[i].trailerSrc;
+		    	} */
 
-				document.getElementById("movie_trailer_frame").src=jsonLoadTrailer; */
 			}
 		}
 		
+		var num = 0;
+		var maxNum = num+5;
+		document.getElementById("prevBtn").style.display="none";
+    	function nextStill() {
+			num++;
+			maxNum = num+5;
+			document.getElementById("prevBtn").style.display="block";   
+			if( maxNum >= splitStills.length ) {
+				document.getElementById("nextBtn").style.display="none";   					
+			}
+			document.getElementById("movie_still_img_0").src = splitStills[num];
+			document.getElementById("movie_still_img_1").src = splitStills[num+1];
+			document.getElementById("movie_still_img_2").src = splitStills[num+2];
+			document.getElementById("movie_still_img_3").src = splitStills[num+3];
+			document.getElementById("movie_still_img_4").src = splitStills[num+4];
+		}
+		
+		function prevStill() {
+			num--;
+			document.getElementById("nextBtn").style.display="block";
+			if( num <= 0) {
+				document.getElementById("prevBtn").style.display="none";   
+			}
+			document.getElementById("movie_still_img_0").src = splitStills[num];
+			document.getElementById("movie_still_img_1").src = splitStills[num+1];
+			document.getElementById("movie_still_img_2").src = splitStills[num+2];
+			document.getElementById("movie_still_img_3").src = splitStills[num+3];
+			document.getElementById("movie_still_img_4").src = splitStills[num+4];
+		}
 	</script>
 		
 
@@ -186,14 +215,25 @@
 						<div id="movie_detail_plot"></div>					
 					</div>
 					
+					<div id="movie_detail_still_box">
+						<div id="movie_detail_still">
+							<a href="javascript:void(0);" id="prevBtn" onclick="prevStill();">이전</a>
+							<img id="movie_still_img_0">
+							<img id="movie_still_img_1">
+							<img id="movie_still_img_2">
+							<img id="movie_still_img_3">
+							<img id="movie_still_img_4">
+							<a href="javascript:void(0);" id="nextBtn" onclick="nextStill();">다음</a>
+						</div>
+					</div>
+					
 					<c:if test="${type eq '2'}">
 						<div id="movie_trailer_box">
 							<iframe id="movie_trailer_frame" width="950" height="534"
 									frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-									allowfullscreen></iframe>
+							allowfullscreen></iframe>
 						</div>
 					</c:if>
-					<div id="movie_detail_still"></div>
 
 				</div>
 			

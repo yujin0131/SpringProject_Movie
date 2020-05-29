@@ -35,11 +35,12 @@ public class MovieListController {
 	}
 	
 	@RequestMapping("/movieInfoDetailRank.do")
-	public String goMovieInfoDetail2( Model model, String releaseDts, String title ) {
+	public String goMovieInfoDetail2( Model model, String releaseDts, String title, String trailer ) {
 		int type = 2;
 		model.addAttribute("type", type);
 		model.addAttribute("releaseDts", releaseDts);
 		model.addAttribute("title", title);
+		model.addAttribute("trailer", trailer);
 		return Common.Movie.VIEW_PATH + "movie_detail.jsp";
 	}
 	
@@ -49,15 +50,6 @@ public class MovieListController {
 		List<MovieRankPosterVO> list = null;
 		list = movieListDAO.selectList();
 		return list;
-	}
-	
-	@RequestMapping("/movieTrailerLoad.do")
-	@ResponseBody
-	public MovieRankPosterVO loadTrailer(String movieNm) {
-		System.out.println(movieNm);
-		MovieRankPosterVO vo = null;
-		vo = movieListDAO.selectOne(movieNm);
-		return vo;
 	}
 	
 }
