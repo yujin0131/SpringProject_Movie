@@ -18,6 +18,14 @@
 		
 		window.onload=function(){
 			load_release_list();
+			
+			//저장되있는 쿠키 출력
+			for(var i = 0; i < 3 ; i++){
+				var st = getCookie("id"+i);
+				if( st != undefined ){
+					document.getElementById("recent_query_"+i).innerHTML = st;					
+				}
+			}
 		};
 		
 		//날짜 비교 
@@ -229,19 +237,35 @@
 			var param = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&sort=prodYear,1&listCount=6&query='+query;
 			sendRequest( url, param, resultFnQu, "GET" );
 		}
-		var cookieNum = 0;
 		function resultFnQu(){
+			
 			if( xhr.readyState == 4 && xhr.status == 200 ){
 				var data = xhr.responseText;
 				var json = eval("["+data+"]");		
 				
-				setCookie("wooseong"+cookieNum, json[0].Query, '1');
-				document.cookie;
-				for(var i = 0; i <=cookieNum; i++){
-					var st = getCookie("wooseong"+i);
-					document.getElementById("recent_query_"+i).innerHTML = st;
+				//쿠키 값 확인
+				var gc0 = getCookie("id"+0);
+				var gc1 = getCookie("id"+1);
+				var gc2 = getCookie("id"+2);
+				
+				//쿠키 저장 및 정렬
+				if( gc0 != undefined ){
+					if(gc1 != undefined ){
+						setCookie("id"+2, gc1, '1');						
+					}
+					setCookie("id"+1, gc0, '1');
 				}
-				cookieNum++;
+				setCookie("id"+0, json[0].Query, '1');
+				document.cookie;
+				
+				//쿠키 출력
+				for(var i = 0; i < 3 ; i++){
+					var st = getCookie("id"+i);
+					if( st != undefined ){
+						document.getElementById("recent_query_"+i).innerHTML = st;					
+					}
+				}
+
 				
 				for(var i=0 ; i<json[0].Data[0].Result.length ; i++){
 					var movie_container = "movie_list_"+i;//영화 정보 담는 컨테이너
@@ -440,7 +464,7 @@
 				<div id="query_input_box">
 					<div id="recent_query_box">
 						<div id="recent_query_title">최근 검색어</div>
-						<c:forEach var="i" begin="0" end="4" step="1">
+						<c:forEach var="i" begin="0" end="2" step="1">
 							<div id="recent_query_${i}"></div>
 						</c:forEach>
 					</div>
