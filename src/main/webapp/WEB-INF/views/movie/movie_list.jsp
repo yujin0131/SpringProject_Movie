@@ -205,6 +205,7 @@
 			return location.href="movieInfoDetailRank.do?releaseDts="+releaseDts+"&title="+encodeURIComponent(title)+"&trailer="+trailer;
 		}
 		//---------------------query---------------------------------------------------
+		//쿠키 매서드
 		function setCookie(cookie_name, value, days) {
 			var exdate = new Date();
 			exdate.setDate(exdate.getDate() + days);
@@ -226,10 +227,12 @@
 			}
 		}
 		
+		//어떤 영화가 궁금한가요? 텍스트 지움 매서드
 		function text_del(){
 		    var delText = document.getElementById("searchText");
 		    delText.removeChild( delText.children[0] );
 		}
+		
 		//검색 결과를 가지고 오는 Ajax매서드
 		function load_Query( f ){
 			var query = f.query.value.trim();
@@ -257,6 +260,7 @@
 				}
 				setCookie("id"+0, json[0].Query, '1');
 				document.cookie;
+				record_query("id"+0, json[0].Query);
 				
 				//쿠키 출력
 				for(var i = 0; i < 3 ; i++){
@@ -282,7 +286,21 @@
 			}
 			
 		}
-
+		
+		//DB에 검색기록 저장
+		function record_query( userId, queryContent ){
+			var url3 ="movieQueryRecord.do";
+			var param3 = "userId="+userId+"&queryContent="+queryContent;/* userId을 SessionId로 받아오기*/
+			sendRequest( url3, param3 , resultFnRec, "GET");
+		}
+		function resultFnRec(){
+			if( xhr.readyState == 4 && xhr.status == 200 ){
+				alert("저장 완료");
+			}	
+		}
+		
+		
+		//검색창 엔터 버튼
 		function inputEnter(f){
 			if(event.keyCode == 13){
 				load_Query( f );
@@ -311,6 +329,7 @@
 			<div class="movie_list_nav2"><a href="javascript:void(0);" onclick="scheduledScreenView();">상영 예정작</a></div><!-- /movie/movieReleaseList.do -->
 			<div class="movie_list_nav3"><a href="javascript:void(0);" onclick="queryMovie();">영화 검색</a></div><!-- /movie/movieQuery.do -->
 		</div>
+		
 		<div id="contents_release">
 			<div id="movie_chart_release">
 				<div id="select_movie_lists_release">

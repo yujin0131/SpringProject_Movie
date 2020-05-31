@@ -12,6 +12,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from moviePoster where movieNm = #{movieNm}
 	</select>
 	
+	<insert id="movie_query_record" parameterType="vo.MovieRecordVO">
+		insert into queryRecord values(
+			seq_queryRecord_idx.nextVal,
+			#{userId},
+			#{queryContent},
+			sysdate,
+			#{ip}
+		)
+	</insert>
+	
 </mapper>
 
 
