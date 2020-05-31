@@ -23,6 +23,7 @@
 			for(var i = 0; i < 3 ; i++){
 				var st = getCookie("id"+i);
 				if( st != undefined ){
+					document.getElementById("recent_query_data_"+i).value = st;
 					document.getElementById("recent_query_"+i).innerHTML = st;					
 				}
 			}
@@ -240,6 +241,14 @@
 			var param = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&sort=prodYear,1&listCount=6&query='+query;
 			sendRequest( url, param, resultFnQu, "GET" );
 		}
+		
+		function load_Query2( query ){
+			var url ='http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
+			var param = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&sort=prodYear,1&listCount=6&query='+query;
+			sendRequest( url, param, resultFnQu, "GET" );
+		}
+		
+		
 		function resultFnQu(){
 			
 			if( xhr.readyState == 4 && xhr.status == 200 ){
@@ -266,7 +275,8 @@
 				for(var i = 0; i < 3 ; i++){
 					var st = getCookie("id"+i);
 					if( st != undefined ){
-						document.getElementById("recent_query_"+i).innerHTML = st;					
+						document.getElementById("recent_query_data_"+i).value = st;
+						document.getElementById("recent_query_"+i).innerHTML = st;
 					}
 				}
 
@@ -337,8 +347,6 @@
 						<div id="movie_release_list_${n}">
 							<input type="hidden" id="movie_release_movieId_${n}">
 							<input type="hidden" id="movie_release_movieSeq_${n}">
-							 
-							<div id="movie_release_title_${n}"></div>
 							
 							<div id="movie_release_poster_${n}">
 								<div class="poster_box">
@@ -352,8 +360,14 @@
 								</div>
 							</div>
 							
-							<div id="movie_release_relDate_${n}"></div>
-							<div id="movie_release_runtime_${n}"></div>
+							<div class="movie_title_box">
+								<div id="movie_release_title_${n}"></div>
+							</div>
+							
+							<div class="movie_infos">
+								<div id="movie_release_relDate_${n}"></div>
+								<div id="movie_release_runtime_${n}"></div>
+							</div>
 							
 						</div>
 					</c:forEach>
@@ -365,8 +379,6 @@
 							<input type="hidden" id="movie_release_movieId_${n}">
 							<input type="hidden" id="movie_release_movieSeq_${n}">
 							
-							<div id="movie_release_title_${n}"></div> 
-							
 							<div id="movie_release_poster_${n}">
 								<div class="postor_box">
 									<img id="movie_release_poster_${n}_img">
@@ -377,8 +389,14 @@
 								</div>
 							</div>
 							
-							<div id="movie_release_relDate_${n}"></div>
-							<div id="movie_release_runtime_${n}"></div>
+							<div class="movie_title_box">
+								<div id="movie_release_title_${n}"></div> 
+							</div>
+							
+							<div class="movie_infos">
+								<div id="movie_release_relDate_${n}"></div>
+								<div id="movie_release_runtime_${n}"></div>
+							</div>
 
 						</div>
 					</c:forEach>
@@ -390,8 +408,6 @@
 							<input type="hidden" id="movie_release_movieId_${n}">
 							<input type="hidden" id="movie_release_movieSeq_${n}">
 							
-							<div id="movie_release_title_${n}"></div>
-							
 							<div id="movie_release_poster_${n}">
 								<div class="postor_box">
 									<img id="movie_release_poster_${n}_img">
@@ -402,8 +418,14 @@
 								</div>
 							</div>
 							
-							<div id="movie_release_relDate_${n}"></div>
-							<div id="movie_release_runtime_${n}"></div>
+							<div class="movie_title_box">
+								<div id="movie_release_title_${n}"></div>
+							</div>
+							
+							<div class="movie_infos">
+								<div id="movie_release_relDate_${n}"></div>
+								<div id="movie_release_runtime_${n}"></div>
+							</div>
 
 						</div>
 					</c:forEach>
@@ -415,8 +437,6 @@
 							<input type="hidden" id="movie_release_movieId_${n}">
 							<input type="hidden" id="movie_release_movieSeq_${n}">
 							
-							<div id="movie_release_title_${n}"></div>
-							
 							<div id="movie_release_poster_${n}">
 								<div class="postor_box">
 									<img id="movie_release_poster_${n}_img">
@@ -427,8 +447,14 @@
 								</div>
 							</div>
 							
-							<div id="movie_release_relDate_${n}"></div>
-							<div id="movie_release_runtime_${n}"></div>
+							<div class="movie_title_box">
+								<div id="movie_release_title_${n}"></div>
+							</div>
+							
+							<div class="movie_infos">
+								<div id="movie_release_relDate_${n}"></div>
+								<div id="movie_release_runtime_${n}"></div>
+							</div>
 
 						</div>
 					</c:forEach>
@@ -451,8 +477,6 @@
 								<input type="hidden" id="movie_openDt_${n}">
 								<input type="hidden" id="movie_movieNm_${n}">
 								
-								<div id="movie_rank_rank_${n}"></div>
-								<div id="movie_rank_movieNm_${n}"></div>
 								
 								<div id="movie_rank_poster_${n}">
 									<div class="poster_box">
@@ -466,8 +490,15 @@
 									</div>
 								</div>
 								
-								<div id="movie_rank_salesShare_${n}"></div>
-								<div id="movie_rank_audiAcc_${n}"></div>
+								<div class="movie_title_box">
+									<div id="movie_rank_rank_${n}"></div>
+									<div id="movie_rank_movieNm_${n}"></div>
+								</div>
+								
+								<div class="movie_infos">
+									<div id="movie_rank_salesShare_${n}"></div>
+									<div id="movie_rank_audiAcc_${n}"></div>
+								</div>
 								<input type="hidden" id="movie_rank_openDt_${n}">
 								<input type="hidden" id="movie_trailer_src_${n}">
 							</div>
@@ -480,14 +511,20 @@
 		<div id="contents_query">
 			
 			<div id="question_box">
-				<div id="query_input_box">
 					<div id="recent_query_box">
-						<div id="recent_query_title">최근 검색어</div>
+						<div id="recent_query_title">최근 검색어 : </div>
 						<c:forEach var="i" begin="0" end="2" step="1">
-							<div id="recent_query_${i}"></div>
+							<div id="recent_querys">
+								<form>
+									<input id="recent_query_data_${i}" ><!-- type="hidden" -->
+									<a id="recent_query_${i}" href="javascript:void(0);" onclick="load_Query2(recent_query_data_${i}.value);"></a>
+								</form>
+								
+							</div>
 						</c:forEach>
 					</div>
 				
+				<div id="query_input_box">
 					<form id="search_form" name="searchForm" onsubmit="return false;" method="post">
 						<div id="query_widnow">
 							<img id="query_icon" src="${ pageContext.request.contextPath }/resources/img/queryicon.png">

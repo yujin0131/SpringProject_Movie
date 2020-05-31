@@ -36,6 +36,7 @@
 			var onePoster = document.createElement("img");
 		    onePoster.src = outposters[0];
 		    document.getElementById("movie_detail_poster_contain").appendChild(onePoster);
+		    document.getElementById("movie_first_box").style.backgroundImage="url("+outposters[0]+")";
 			
 		    //여러개의 포스터 출력(임시 : 포스터 더보기 누르면 뜨게)
 			/* for(var i = 0 ; i<outposters.length; i++){
@@ -74,8 +75,10 @@
 		    	//영화 제목	
 		    	if( "${type}" == "2" ){
 		    		document.getElementById("movie_detail_title").innerHTML="${title}";
+		    		
 		    	} else {
 			    	document.getElementById("movie_detail_title").innerHTML=movieNm;
+			    	
 		    	}
 		    	
 		    	document.getElementById("movie_detail_titleEng").innerHTML=json[0].Data[0].Result[0].titleEng;//영화 영문 제목
@@ -126,24 +129,15 @@
 		    	document.getElementById("movie_still_img_0").src = splitStills[0];
 		    	document.getElementById("movie_still_img_1").src = splitStills[1];
 		    	document.getElementById("movie_still_img_2").src = splitStills[2];
-		    	document.getElementById("movie_still_img_3").src = splitStills[3];
-		    	document.getElementById("movie_still_img_4").src = splitStills[4];
-		    	
-		    	/* for(var i = 0 ; i<splitStills.length; i++){
-			    	var oneStill = document.createElement("img");
-			    	oneStill.src = splitStills[i];
-			    	document.getElementById("movie_detail_still").appendChild(oneStill);
-		    	} */
 
 			}
 		}
 		
 		var num = 0;
-		var maxNum = num+5;
-		document.getElementById("prevBtn").style.display="none";
+		var maxNum = num+3;
     	function nextStill() {
 			num++;
-			maxNum = num+5;
+			maxNum = num+3;
 			document.getElementById("prevBtn").style.display="block";   
 			if( maxNum >= splitStills.length ) {
 				document.getElementById("nextBtn").style.display="none";   					
@@ -151,8 +145,6 @@
 			document.getElementById("movie_still_img_0").src = splitStills[num];
 			document.getElementById("movie_still_img_1").src = splitStills[num+1];
 			document.getElementById("movie_still_img_2").src = splitStills[num+2];
-			document.getElementById("movie_still_img_3").src = splitStills[num+3];
-			document.getElementById("movie_still_img_4").src = splitStills[num+4];
 		}
 		
 		function prevStill() {
@@ -164,8 +156,6 @@
 			document.getElementById("movie_still_img_0").src = splitStills[num];
 			document.getElementById("movie_still_img_1").src = splitStills[num+1];
 			document.getElementById("movie_still_img_2").src = splitStills[num+2];
-			document.getElementById("movie_still_img_3").src = splitStills[num+3];
-			document.getElementById("movie_still_img_4").src = splitStills[num+4];
 		}
 	</script>
 		
@@ -178,62 +168,72 @@
 	<div id="container">
 		<div id="contents">
 			<div id="movie_chart">
-				<div id="chart_title"><h4>영화 상세 정보</h4></div>
+				<!-- <div id="chart_title"><h4>영화 상세 정보</h4></div> -->
 				
 				<div id="show_movie_details_con">
-				
-					<div id="movie_detail_poster">
-						<div id="movie_detail_poster_contain"></div>
-						<!-- <input type="button" value="포스터 더 보기" onclick="moreView();"> -->
-					</div>
 					
-					<div id="movie_detail_infomation">
-						<div id="movie_titles">
-							<div id="movie_detail_title"></div>
-							<div id="movie_detail_titleEng"></div>					
+					<div id="movie_first_box">
+					<div id="movie_first_box_cover">
+						<div id="movie_detail_poster">
+							<div id="movie_detail_poster_contain"></div>
+							<!-- <input type="button" value="포스터 더 보기" onclick="moreView();"> -->
 						</div>
+						
+						<div id="movie_detail_infomation">
 							
-						<div id="movie_baseInfo">
-							<div id="movie_detail_genre"></div>
-							<div id="movie_detail_relDate"></div>
-							<div id="movie_detail_runtime"></div>
-	
-							<div id="movie_detail_directors"></div>
-							<div id="movie_detail_actors"></div>					
-						</div>	
-						
-						<div id="movie_baseInfo_2">
-							<div id="movie_detail_nation"></div>					
-							<div id="movie_detail_rating"></div>
-							<div id="movie_detail_company"></div>
+							<div id="movie_titles">
+								<div id="movie_detail_title"></div>
+								<div id="movie_detail_titleEng"></div>					
+							</div>
+								
+							<div id="movie_baseInfo">
+								<div id="movie_detail_genre"></div>
+								<div id="movie_detail_relDate"></div>
+								<div id="movie_detail_runtime"></div>
+		
+								<div id="movie_detail_directors"></div>
+								<div id="movie_detail_actors"></div>					
+							</div>	
+							
+							<div id="movie_baseInfo_2">
+								<div id="movie_detail_nation"></div>					
+								<div id="movie_detail_rating"></div>
+								<div id="movie_detail_company"></div>
+							</div>
+							
 						</div>
-						
 					</div>
+					</div>
+	
 					
 					<div id="movie_detail_plots">
-						<div id="movie_detail_plot_title">Plot</div>
+						<div id="movie_detail_plot_title">줄거리</div>
 						<div id="movie_detail_plot"></div>					
 					</div>
 					
 					<div id="movie_detail_still_box">
-						<div id="movie_detail_still">
-							<a href="javascript:void(0);" id="prevBtn" onclick="prevStill();">이전</a>
-							<img id="movie_still_img_0">
-							<img id="movie_still_img_1">
-							<img id="movie_still_img_2">
-							<img id="movie_still_img_3">
-							<img id="movie_still_img_4">
-							<a href="javascript:void(0);" id="nextBtn" onclick="nextStill();">다음</a>
+						<div id="movie_detail_still_box_position">
+							<div id="movie_detail_still_title">스틸컷 / 예고편</div>
+							<div id="movie_detail_still">
+								<a href="javascript:void(0);" id="prevBtn" onclick="prevStill();"><img width="16px" src="${ pageContext.request.contextPath }/resources/img/leftArrow.png" ></a>
+								<a href="javascript:void(0);" id="nextBtn" onclick="nextStill();"><img width="16px" src="${ pageContext.request.contextPath }/resources/img/rightArrow.png"></a>
+								<div id="still_imgs">
+									<img id="movie_still_img_0">
+									<img id="movie_still_img_1">
+									<img id="movie_still_img_2">
+								</div>
+							</div>
 						</div>
+						
 					</div>
 					
-					<c:if test="${type eq '2'}">
-						<div id="movie_trailer_box">
-							<iframe id="movie_trailer_frame" width="950" height="534"
-									frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-							allowfullscreen></iframe>
-						</div>
-					</c:if>
+						<c:if test="${type eq '2'}">
+							<div id="movie_trailer_box">
+								<iframe id="movie_trailer_frame" width="950" height="534"
+										frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+								allowfullscreen></iframe>
+							</div>
+						</c:if>
 
 				</div>
 			
