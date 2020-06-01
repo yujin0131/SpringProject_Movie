@@ -10,7 +10,6 @@ body{
 	background: #FDFCF0;
 }
 
-
 /* 공툥요소 */
 .poster_hover_text_2{
 	position: absolute;
@@ -89,9 +88,10 @@ body{
 }
 
 #page_title{
-	border:1px solid black;
+	padding: 20px;
 	font-size: 25px;
 	margin-bottom:20px;
+	color:white;
 }
 
 .movie_title_box > div{
@@ -104,7 +104,7 @@ body{
 
 #movie_list_nav{
 	text-align:center;
-	border:1px solid black;
+	border:1px solid white;
 	height:40px;
 } 
  

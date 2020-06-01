@@ -28,9 +28,13 @@
 	display: inline;
 }
 
+#contents_query{
+	height:400px;
+}
+
 #question_box{
 	position:absolute;
-	top:15%;
+	top:130px;
 	left:25%;
 }
 #query_input_box{
@@ -102,4 +106,32 @@
 	height: 15px;
 }
 
+#movie_query_result_box_one{
+	border:1px solid white;
+	color:white;
+}
+
+#recent_querys img{
+	position:absolute;
+	left:0px;
+	top:0px;
+	display:none;
+}
+
+#del_img_box{
+	position:relative;
+	display:inline;
+}
+
+#movie_list_container{
+	border:1px solid white;
+	width:1080px;
+}
+
+#movie_query_list > li > div{
+	border:1px solid white;
+	width:220px;
+	color:white;
+	display:none;
+}
    

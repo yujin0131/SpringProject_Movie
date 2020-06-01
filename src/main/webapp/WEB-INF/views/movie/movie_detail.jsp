@@ -162,10 +162,8 @@
 
 </head>
 <body>
-	<div>
-
-	</div> 
 	<div id="container">
+	
 		<div id="contents">
 			<div id="movie_chart">
 				<!-- <div id="chart_title"><h4>영화 상세 정보</h4></div> -->

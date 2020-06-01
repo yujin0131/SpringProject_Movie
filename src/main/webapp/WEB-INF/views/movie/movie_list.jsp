@@ -15,17 +15,24 @@
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/needDate.js"></script>
 	<script type="text/javascript">
-		
+	
 		window.onload=function(){
 			load_release_list();
-			
+
 			//저장되있는 쿠키 출력
 			for(var i = 0; i < 3 ; i++){
 				var st = getCookie("id"+i);
 				if( st != undefined ){
 					document.getElementById("recent_query_data_"+i).value = st;
-					document.getElementById("recent_query_"+i).innerHTML = st;					
+					document.getElementById("recent_query_"+i).innerHTML = st;
+					document.getElementById("del_icon_"+i).style.display = "block";
 				}
+			}
+			
+			if( getCookie("check") == 'yes' ){
+				queryMovie();
+				deleteCookie("check");
+				
 			}
 		};
 		
@@ -206,7 +213,7 @@
 			return location.href="movieInfoDetailRank.do?releaseDts="+releaseDts+"&title="+encodeURIComponent(title)+"&trailer="+trailer;
 		}
 		//---------------------query---------------------------------------------------
-		//쿠키 매서드
+		//쿠키 생성
 		function setCookie(cookie_name, value, days) {
 			var exdate = new Date();
 			exdate.setDate(exdate.getDate() + days);
@@ -214,6 +221,7 @@
 			var cookie_value = escape(value) + ((days == null) ? '' : '; expires=' + exdate.toUTCString());
 			document.cookie = cookie_name + '=' + cookie_value;
 		}
+		//쿠키 가져오기
 		function getCookie(cookie_name) {
 			var x, y;
 			var val = document.cookie.split(';');
@@ -226,6 +234,10 @@
 					return unescape(y); // unescape로 디코딩 후 값 리턴
 				}
 			}
+		}
+		//쿠키제거
+		var deleteCookie = function(name) {
+			document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
 		}
 		
 		//어떤 영화가 궁금한가요? 텍스트 지움 매서드
@@ -247,7 +259,6 @@
 			var param = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&sort=prodYear,1&listCount=6&query='+query;
 			sendRequest( url, param, resultFnQu, "GET" );
 		}
-		
 		
 		function resultFnQu(){
 			
@@ -277,10 +288,10 @@
 					if( st != undefined ){
 						document.getElementById("recent_query_data_"+i).value = st;
 						document.getElementById("recent_query_"+i).innerHTML = st;
+						document.getElementById("del_icon_"+i).style.display = "block";
 					}
 				}
 
-				
 				for(var i=0 ; i<json[0].Data[0].Result.length ; i++){
 					var movie_container = "movie_list_"+i;//영화 정보 담는 컨테이너
 			    	var moviePoster = cutPoster(json[0].Data[0].Result[i].posters);//json형식으로 넘어온 값이 여러개의 포스터일 경우 하나의 포스터를 가져옴
@@ -292,8 +303,25 @@
 			    	document.getElementById("movie_list_relDate_"+i).innerHTML=json[0].Data[0].Result[i].repRlsDate+" 개봉";//개봉일
 			    	document.getElementById("movie_list_runtime_"+i).innerHTML=json[0].Data[0].Result[i].runtime+"분";//상영시간
 				}
-				text_del();
+				
+				document.getElementById("question_box").style.top="20px";
+				
+				for(var i = 0 ; i <json[0].Data[0].Result.length; i++ ){
+					document.getElementById("result_inv_movie_"+i).style.display="block";
+				}
+
+				text_del();//텍스트 지우기
 			}
+		}
+		
+		//최근 기록 제거
+		function recent_del( i ){
+			deleteCookie("id"+i);
+			setCookie("check", "yes", '1');
+			//새로고침
+			location.reload(true);
+			location.href = location.href;
+			history.go(0);
 			
 		}
 		
@@ -308,7 +336,6 @@
 				alert("저장 완료");
 			}	
 		}
-		
 		
 		//검색창 엔터 버튼
 		function inputEnter(f){
@@ -516,8 +543,11 @@
 						<c:forEach var="i" begin="0" end="2" step="1">
 							<div id="recent_querys">
 								<form>
-									<input id="recent_query_data_${i}" ><!-- type="hidden" -->
+									<input id="recent_query_data_${i}" value="" type="hidden">
 									<a id="recent_query_${i}" href="javascript:void(0);" onclick="load_Query2(recent_query_data_${i}.value);"></a>
+									<div id="del_img_box">
+										<img id="del_icon_${i}" onclick="recent_del(${i});" style="width:20px" src="${ pageContext.request.contextPath }/resources/img/iconDel.png">
+									</div>
 								</form>
 								
 							</div>
@@ -537,18 +567,25 @@
 				</div>
 			</div>
 			
-			<div id="select_movie_list">
-				<ul id="movie_list">
+			<div id="movie_list_container">
+				<ul id="movie_query_list">
 					<c:forEach var="n" begin="0" end="9" step="1">
 						<li id="movie_list_${n}">
-							<input type="hidden" id="movie_movieId_${n}">
-							<input type="hidden" id="movie_movieSeq_${n}">
-							<div id="movie_list_title_${n}"></div>
-							<div id="movie_list_poster_${n}"> 
-								<img id="movie_list_poster_${n}_img" onclick="detail(movie_movieId_${n}.value, movie_movieSeq_${n}.value);">
+						
+							<div id="result_inv_movie_${n}">
+								<div class="movie_query_result_box_${n}">
+									<input type="hidden" id="movie_movieId_${n}">
+									<input type="hidden" id="movie_movieSeq_${n}">
+									
+									<div id="movie_list_title_${n}"></div>
+									<div id="movie_list_poster_${n}"> 
+										<img id="movie_list_poster_${n}_img" onclick="detail(movie_movieId_${n}.value, movie_movieSeq_${n}.value);">
+									</div>
+									
+									<div id="movie_list_relDate_${n}"></div>
+									<div id="movie_list_runtime_${n}"></div>
+								</div>
 							</div>
-							<div id="movie_list_relDate_${n}"></div>
-							<div id="movie_list_runtime_${n}"></div>
 						</li>
 					</c:forEach>
 				</ul>
