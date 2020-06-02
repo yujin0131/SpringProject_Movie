@@ -17,40 +17,42 @@ import vo.MovieRecordVO;
 
 @Controller
 public class MovieListController {
-	
+
 	MovieListDAO movieListDAO;
-	
+
 	public void setMovieListDAO(MovieListDAO movieListDAO) {
 		this.movieListDAO = movieListDAO;
-	} 
-	
+	}
+
 	@Autowired
 	HttpServletRequest request;
-	
-	@RequestMapping( value= {"/", "/movieReleaseList.do"} )
+
+	@RequestMapping(value = { "/", "/movieReleaseList.do" })
 	public String movieReleaseList() {
-		return Common.Movie.VIEW_PATH + "movie_list.jsp"; 
+		return Common.Movie.VIEW_PATH + "movie_list.jsp";
 	}
-	
-	@RequestMapping("/movieInfoDetail.do")
-	public String goMovieInfoDetail( Model model, String movieId, String movieSeq ) {
-		int type = 1;
-		model.addAttribute("type", type);
-		model.addAttribute("movieId", movieId);
-		model.addAttribute("movieSeq", movieSeq);
-		return Common.Movie.VIEW_PATH + "movie_detail.jsp";
-	}
-	
-	@RequestMapping("/movieInfoDetailRank.do")
-	public String goMovieInfoDetail2( Model model, String releaseDts, String title, String trailer ) {
-		int type = 2;
-		model.addAttribute("type", type);
-		model.addAttribute("releaseDts", releaseDts);
-		model.addAttribute("title", title);
-		model.addAttribute("trailer", trailer);
-		return Common.Movie.VIEW_PATH + "movie_detail.jsp";
-	}
-	
+
+	/*
+	 * @RequestMapping("/movieInfoDetail.do") public String goMovieInfoDetail( Model
+	 * model, String movieId, String movieSeq ) { int type = 1;
+	 * 
+	 * model.addAttribute("type", type); model.addAttribute("movieId", movieId);
+	 * model.addAttribute("movieSeq", movieSeq);
+	 * 
+	 * return "redirect:review.do"; }
+	 */
+
+	/*
+	 * @RequestMapping("/movieInfoDetailRank.do") public String
+	 * goMovieInfoDetail2(Model model, String releaseDts, String
+	 * title, String trailer) { int type = 2;
+	 * 
+	 * model.addAttribute("type", type); model.addAttribute("releaseDts",
+	 * releaseDts); model.addAttribute("title", title);
+	 * model.addAttribute("trailer", trailer); return Common.Movie.VIEW_PATH +
+	 * "movie_detail.jsp"; }
+	 */
+
 	@RequestMapping("/moviePosterLoad.do")
 	@ResponseBody
 	public List<MovieRankPosterVO> loadRankPoster() {
@@ -58,16 +60,16 @@ public class MovieListController {
 		list = movieListDAO.selectList();
 		return list;
 	}
-	
+
 	@RequestMapping("/movieQueryRecord.do")
 	@ResponseBody
-	public int insert( MovieRecordVO vo ) {
+	public int insert(MovieRecordVO vo) {
 		int res = 0;
-		
+
 		String ip = request.getRemoteAddr();
 		vo.setIp(ip);
 		res = movieListDAO.insert(vo);
 		return res;
 	}
-	
+
 }

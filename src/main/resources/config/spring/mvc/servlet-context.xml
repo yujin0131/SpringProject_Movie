@@ -31,4 +31,13 @@
 		<beans:property name="movieListDAO" ref="movie_daoBean"/>   
 	</beans:bean>
 	
+	<!-- BoardController 수동생성 -->
+ 	<beans:bean class="com.korea.movie.BoardController">
+		<beans:property name="board_dao" ref="board_daoBean"/>
+	</beans:bean>
+	
+	<!-- UserController 수동생성 -->  
+	<beans:bean class="com.korea.movie.UserController">
+		<beans:property name="user_dao" ref="user_daoBean"/>
+	</beans:bean> 
 </beans:beans>

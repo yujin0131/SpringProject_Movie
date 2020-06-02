@@ -242,3 +242,8 @@ a{ text-decoration:none; }
 	width:950px;
 }
 
+#review_box{
+	position: absolute;
+	top:1200px;
+	left:100px;
+}

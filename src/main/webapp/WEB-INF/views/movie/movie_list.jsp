@@ -104,10 +104,11 @@
 				for(var i=0 ; i<json[0].Data[0].Result.length ; i++){
 					
 			    	var moviePoster = cutPoster(json[0].Data[0].Result[i].posters);//json형식으로 넘어온 값이 여러개의 포스터일 경우 하나의 포스터를 가져옴
-
+					var releaseTitle = json[0].Data[0].Result[i].title;
 			    	document.getElementById("movie_release_movieId_"+i).value=json[0].Data[0].Result[i].movieId;//영화 코드1
 			    	document.getElementById("movie_release_movieSeq_"+i).value=json[0].Data[0].Result[i].movieSeq;//영화 코드2
-			    	document.getElementById("movie_release_title_"+i).innerHTML=json[0].Data[0].Result[i].title;//영화 제목
+			    	document.getElementById("movie_release_title_data_"+i).value=releaseTitle;//영화 제목
+			    	document.getElementById("movie_release_title_"+i).innerHTML=releaseTitle;//영화 제목
 			    	document.getElementById("movie_release_poster_"+i+"_img").src=moviePoster;//포스터
 			    	
 			    	//개봉날짜 체크
@@ -140,8 +141,8 @@
 		}
 		
 		//영화 코드 컨트롤러로 넘기기(영화 상세보기 위해서)
-		function detail( movieId, movieSeq ){
-			return location.href="movieInfoDetail.do?movieId="+movieId+"&movieSeq="+movieSeq;
+		function detail( movieId, movieSeq, title ){
+			return location.href="movieInfoDetail.do?movieId="+movieId+"&movieSeq="+movieSeq+"&title="+encodeURIComponent(title);
 		}
 		
 		//------------------rank----------------------------------------------------------
@@ -333,7 +334,7 @@
 		}
 		function resultFnRec(){
 			if( xhr.readyState == 4 && xhr.status == 200 ){
-				alert("저장 완료");
+
 			}	
 		}
 		
@@ -374,6 +375,8 @@
 						<div id="movie_release_list_${n}">
 							<input type="hidden" id="movie_release_movieId_${n}">
 							<input type="hidden" id="movie_release_movieSeq_${n}">
+							<input type="hidden" id="movie_release_title_data_${n}">
+							
 							
 							<div id="movie_release_poster_${n}">
 								<div class="poster_box">
@@ -381,7 +384,7 @@
 									<div class="poster_hover">
 										<div class="poster_hover_text">
 											<div class="poster_hover_text_2"><div id="movie_action_button_text_${n}"></div></div>		
-											<div class="poster_hover_text_1"><a href="javascript:void(0);" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">상세보기</a></div>
+											<div class="poster_hover_text_1"><a href="javascript:void(0);" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value, movie_release_title_data_${n}.value.trim());">상세보기</a></div>
 										</div>
 									</div>
 								</div>
@@ -407,11 +410,13 @@
 							<input type="hidden" id="movie_release_movieSeq_${n}">
 							
 							<div id="movie_release_poster_${n}">
-								<div class="postor_box">
+								<div class="poster_box">
 									<img id="movie_release_poster_${n}_img">
-									<div class="postor_hover">
-										<a href="javascript:void(0);" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">상세 보기</a>
-										<div id="movie_action_button_text_${n}"></div>		
+									<div class="poster_hover">
+										<div class="poster_hover_text">
+											<div class="poster_hover_text_2"><div id="movie_action_button_text_${n}"></div></div>		
+											<div class="poster_hover_text_1"><a href="javascript:void(0);" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">상세보기</a></div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -436,11 +441,13 @@
 							<input type="hidden" id="movie_release_movieSeq_${n}">
 							
 							<div id="movie_release_poster_${n}">
-								<div class="postor_box">
+								<div class="poster_box">
 									<img id="movie_release_poster_${n}_img">
-									<div class="postor_hover">
-										<a href="javascript:void(0);" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">상세 보기</a>
-										<div id="movie_action_button_text_${n}"></div>		
+									<div class="poster_hover">
+										<div class="poster_hover_text">
+											<div class="poster_hover_text_2"><div id="movie_action_button_text_${n}"></div></div>		
+											<div class="poster_hover_text_1"><a href="javascript:void(0);" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">상세보기</a></div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -465,11 +472,13 @@
 							<input type="hidden" id="movie_release_movieSeq_${n}">
 							
 							<div id="movie_release_poster_${n}">
-								<div class="postor_box">
+								<div class="poster_box">
 									<img id="movie_release_poster_${n}_img">
-									<div class="postor_hover">
-										<a href="javascript:void(0);" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">상세 보기</a>
-										<div id="movie_action_button_text_${n}"></div>		
+									<div class="poster_hover">
+										<div class="poster_hover_text">
+											<div class="poster_hover_text_2"><div id="movie_action_button_text_${n}"></div></div>		
+											<div class="poster_hover_text_1"><a href="javascript:void(0);" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">상세보기</a></div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -567,23 +576,32 @@
 				</div>
 			</div>
 			
-			<div id="movie_list_container">
+			<div id="movie_query_list_container">
 				<ul id="movie_query_list">
 					<c:forEach var="n" begin="0" end="9" step="1">
 						<li id="movie_list_${n}">
-						
+							
 							<div id="result_inv_movie_${n}">
-								<div class="movie_query_result_box_${n}">
-									<input type="hidden" id="movie_movieId_${n}">
-									<input type="hidden" id="movie_movieSeq_${n}">
-									
-									<div id="movie_list_title_${n}"></div>
-									<div id="movie_list_poster_${n}"> 
-										<img id="movie_list_poster_${n}_img" onclick="detail(movie_movieId_${n}.value, movie_movieSeq_${n}.value);">
+								<div id="movie_query_box_one">
+									<div class="movie_query_result_box_${n}">
+										<input type="hidden" id="movie_movieId_${n}">
+										<input type="hidden" id="movie_movieSeq_${n}">
+										
+										<div id="movie_list_title_${n}"></div>
+										<div id="movie_list_poster_${n}">
+											<div class="poster_box"> 
+												<img id="movie_list_poster_${n}_img">
+												<div class="poster_hover">
+													<div class="poster_hover_text">	
+														<div class="poster_hover_text_3"><a href="javascript:void(0);" onclick="detail(movie_movieId_${n}.value, movie_movieSeq_${n}.value);">상세보기</a></div>
+													</div>
+												</div>
+											</div>
+										</div>
+										
+										<div id="movie_list_relDate_${n}"></div>
+										<div id="movie_list_runtime_${n}"></div>
 									</div>
-									
-									<div id="movie_list_relDate_${n}"></div>
-									<div id="movie_list_runtime_${n}"></div>
 								</div>
 							</div>
 						</li>

@@ -8,6 +8,20 @@
 <title>영화 그 이상의 감동. CGW</title>
 
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/movie_detail.css">
+	<style type="text/css">
+		.back_c {margin:0; line-height:89px; width:100px; height:100px;
+			background: url(${pageContext.request.contextPath}/resources/img/aa.png) no-repeat;
+			background-size: contain;}   /* 뒷배경 사진은 나중에 바꾸기!!!!!!!!!!!! */
+			
+		.write {width:25px; height:25px; line-height:10px;}
+	
+		h3, h5 {display: inline}
+		
+		.p {margin: 0;}
+		
+		.close{width:15px; height:15px;}
+	</style>
+	
 	
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
 	<script type="text/javascript">
@@ -75,6 +89,7 @@
 		    	//영화 제목	
 		    	if( "${type}" == "2" ){
 		    		document.getElementById("movie_detail_title").innerHTML="${title}";
+		    		
 		    		
 		    	} else {
 			    	document.getElementById("movie_detail_title").innerHTML=movieNm;
@@ -157,6 +172,93 @@
 			document.getElementById("movie_still_img_1").src = splitStills[num+1];
 			document.getElementById("movie_still_img_2").src = splitStills[num+2];
 		}
+		
+		
+		//--------------요서부터 review.jsp 합치기 시작--------------------
+		//페이지 한 번만 새로고침 => return history.back(); 일케 돌아오면 새로고침 해줘야 아이디 뜸
+		if (self.name != 'reload') {
+			self.name = 'reload';
+			self.location.reload(true);
+		}
+		else self.name = ''; 
+		
+		//로그인했는지 했으면 리뷰를 작성했는지 안했는지
+		function check( ){
+			var id = document.getElementById("id").value.trim();
+			var url ="checkLogin.do?id="+id;
+			sendRequest(url, null, resultFnReview, "GET");
+		}
+		
+		function resultFnReview(){
+			if(xhr.readyState == 4 && xhr.status == 200){
+				
+				var data = xhr.responseText;
+				
+				if(data == 'no'){
+					alert("로그인 후 이용하세요");	
+					location.href="login_form.do";
+				}if(data == 'already'){
+					alert("이미 리뷰를 작성 하셨습니다.");
+					return;
+				}else{
+					window.open('insert_form.do?id='+data, '', 'width=665px, height=660px, left=370px,top=50px');
+				}		
+			}
+		}
+		
+		//...누르면 확인해서 수정or신고 판단
+		function dotcheck(id){
+			var id_u = document.getElementById("id").value.trim();
+			var user = document.getElementById("user_"+id);
+			var user2 = document.getElementById("user2_"+id);
+			var di = document.getElementById("di_" + id);
+			
+			if(id == id_u){
+				user.style.display = 'block';
+				return;
+			}
+			user2.style.display = 'block';
+		}
+		
+		//수정
+		function modify(){
+			var id = document.getElementById("id").value.trim();
+			window.open('modify_form.do?id=' + id, '', 'width=665px, height=660px, left=370px,top=50px');
+		}	
+		//리뷰 지우고 돌아오기
+		function del(){
+			var id = document.getElementById("id").value.trim();
+			
+			if(!confirm("정말 삭제 하시겠습니까?")){
+				return;
+			}
+			
+			var url = "delete.do";
+			var param = "id=" + id;
+			
+			sendRequest(url, param, resultFnReview2, "POST");	
+		}
+		function resultFnReview2(){
+			if(xhr.readyState == 4 && xhr.status == 200){
+				var data = xhr.responseText;
+				
+				if(data == 'no'){
+					alert("삭제 실패");
+				}
+				alert("삭제성공");
+				location.href="review.do";
+			}
+		}
+		
+		//x누르면 닫게
+		function cancle(id){
+			var user = document.getElementById("user_"+id);
+			var user2 = document.getElementById("user2_"+id);
+			
+			user.style.display="none";
+			user2.style.display="none";
+		}
+		
 	</script>
 		
 
@@ -229,7 +331,7 @@
 							<div id="movie_trailer_box">
 								<iframe id="movie_trailer_frame" width="950" height="534"
 										frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-								allowfullscreen></iframe>
+										allowfullscreen></iframe>
 							</div>
 						</c:if>
 
@@ -237,6 +339,152 @@
 			
 			</div>
 		</div>
+	
+		<div id="review_box">
+			<div id="main" align="center">
+
+				<!-- 이건 영화목록에서 영화 클릭하면 여기로 와지게 하는 코드,,, 나중에 옮겨넣기!!!! -->
+				<a href="review.do"><img src="${pageContext.request.contextPath}/resources/img/idcheck_but.gif"></a><br>
+		
+				<input type="hidden" action="checkLogin.do" method="GET" name="id" id="id" value="${sessionScope.user.id }">
+				<div id="review_title">
+					<hr>
+					실관람 평점<br>
+		
+					<h3>${avg_f2}</h3>
+					<h5>/ 5</h5>
+					
+					<h1 class="back_c">${avg}</h1>
+				</div>
+				<hr>
+	
+				<table width="890px" align="center">
+					<tr>
+						<td width="30"></td>
+						<td width="2" class="td_b"></td>
+						<c:choose>
+							<c:when test="${ empty sessionScope.user }">
+								<td width="80" align="center">night cinema</td>
+								<td width="2" class="td_b">
+									<img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif">
+								</td>
+								<td align="center"><b>${title}</b>영화는 재미있게 보셨나요? 영화의 어떤 점이 좋았는지 이야기해주세요.</td>
+							</c:when>
+							
+							<c:otherwise>						
+								<td width="80" align="center">${sessionScope.user.id }</td>
+								<td width="2" class="td_b">
+									<img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif">
+								</td>
+								<td align="center">
+									<b>${sessionScope.user.id }</b>님, <b>${title}</b>
+									영화는 재미있게 보셨나요? 영화의 어떤 점이 좋았는지 이야기해주세요.
+								</td>
+							</c:otherwise>
+						</c:choose>
+	
+						<!-- <td width="120" onclick="write();"> -->
+						<td width="120" class="new" onclick="check();">
+							<!-- <td width="120" onclick="location.href='insert_form.do'"> -->
+							<img src="${pageContext.request.contextPath}/resources/img/write1.png" class="write"> 관람평쓰기
+						</td>
+					</tr>
+				</table>
+	
+				<hr>
+	
+				<table width="890" align="center">
+				<tr>
+					<td width="30"></td>
+					<td width="2" class="td_b"></td>
+					<td width="80" align="center">아이디</td>
+					<td width="2" class="td_b">
+						<img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif">
+					</td>
+					
+					<td width="120" align="center">영화</td>
+					<td width="2" class="td_b">
+						<img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif">
+					</td>
+	
+					<td width="40" class="td_b" align="center">평점</td>
+	
+					<td width="2" class="td_b">
+						<img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif">
+					</td>
+	
+					<td class="td_b" align="center"><pre>관람평</pre></td>
+					<td width="2" class="td_b"></td>
+					<td width="100" class="td_b" align="center"></td>
+					
+				</tr>
+			
+				<c:forEach var="vo" items="${ list }">	
+					<tr>
+						<td colspan="11" align="right">
+							<div class="user" id="user_${vo.id}" align="right" style="position: absolute; left:980px;  background:url(${pageContext.request.contextPath}/resources/img/text.png); background-size:250px 100px;
+								 background-position:center; background-repeat: no-repeat; display:none;">
+				 			<input width="15" height="15" type="image" name="button" class="close" src="${pageContext.request.contextPath}/resources/img/close.png" onclick="cancle('${vo.id}');"> 
+							&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<br>&nbsp&nbsp&nbsp&nbsp&nbsp
+							<input type="button" value="수정" onclick="modify();">
+							<input type="button" value="삭제" onclick="del();">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<br><br>
+							</div>
+							
+							<div name="no" class="user2" id="user2_${vo.id}" style="background:url(${pageContext.request.contextPath}/resources/img/text.png); background-size:320px 110px;
+								 background-position:center; background-repeat: no-repeat; font-size:12px; position: absolute; left:940px; text-align:center; display:none;"><br>
+							&nbsp&nbsp&nbsp스포일러 및 욕설/비방하는
+							<input width="15" height="15" type="image" name="button" class="close" src="${pageContext.request.contextPath}/resources/img/close.png" onclick="cancle('${vo.id}');">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<br>
+							&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp내용이 있습니까?
+							&nbsp<a href="#">신고</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<br><br>
+							</div>
+						</td>
+					</tr>
+				
+					<tr>
+						<td width="30">${vo.idx }</td>
+						<td width="2" class="td_b">
+							<img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif">
+						</td>
+						<td width="80" align="center">${vo.id }</td>
+						<td width="2" class="td_b">
+							<img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif">
+						</td>
+						<td width="120" align="center">${vo.m_name }</td>
+						<td width="2" class="td_b">
+							<img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif">
+						</td>
+
+						<td width="40" class="td_b" align="center">${vo.scope }</td>
+
+						<td width="2" class="td_b"><img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif"></td>
+
+						<td class="td_b" align="center"><pre>${vo.content }</pre></td>
+						<td width="2" class="td_b"><img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif"></td>
+						
+						<td width="80" class="td_b" align="center">
+							<input width="15" height="15" type="image" name="button" src="${pageContext.request.contextPath}/resources/img/dot.png" onclick="dotcheck('${vo.id}');">     
+							<br>
+						</td>
+					</tr>
+
+					<tr>
+						<td colspan="11" align="right">${vo.regdate}</td>
+					</tr>
+					
+					<tr></tr>
+					<tr></tr>
+
+			</c:forEach>
+			
+			<tr>
+				<td colspan="11" align="center">${ pageMenu }</td>
+			</tr>
+			
+			</table>
+			</div>
+		</div>
+		
 	</div>
+	
 </body>
 </html>

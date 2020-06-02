@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="u">
+	
+	<!-- 회원가입 DB 입력 -->
+	<insert id="register_member" parameterType="user">
+		insert from login ( seq_register_idx.nextVal, #{id}, #{pwd}, #{addr}, #{birthday}, #{tell}, #{email}, sysdate )
+	</insert>
+	
+	<!-- 로그인할 id정보 조회 -->
+	<select id="user_one" parameterType="String" resultType="user">
+		select * from login where id=#{id} 
+	</select>
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

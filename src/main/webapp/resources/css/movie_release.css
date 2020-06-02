@@ -42,6 +42,22 @@ body{
 .poster_hover_text_1 a{
 	color:white;
 }
+
+.poster_hover_text_3{
+	position: absolute;
+	top:140px;
+	left:35px;
+	width:160px;
+	height:24px;
+	border:1px solid white;
+	color:white;
+	font-size: 14px;
+	border-radius: 10px;
+	padding-top:4px;
+}
+.poster_hover_text_3 a{
+	color:white;
+}
 .poster_box{
  	position: relative;
 }

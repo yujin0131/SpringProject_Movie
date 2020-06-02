@@ -1,68 +1,39 @@
 package vo;
 
 public class BoardVO {
-	private int del_info;
-	private int idx;//게시글 번호
-	private int readhit;//조회수
-	private int ref;//참조하는 원글의 idx
-	private int step;//댓글순서
-	private int depth;//댓글 깊이
 	
-	private String name;
-	private String subject;
-	private String content;
-	private String pwd;
+	private int idx;
+	private String m_name;
+	private String id;
 	private String ip;
+	private String content;
+	private int scope;
 	private String regdate;
 	
 	
-	public int getDel_info() {
-		return del_info;
-	}
-	public void setDel_info(int del_info) {
-		this.del_info = del_info;
-	}
 	public int getIdx() {
 		return idx;
 	}
 	public void setIdx(int idx) {
 		this.idx = idx;
 	}
-	public int getReadhit() {
-		return readhit;
+	public String getM_name() {
+		return m_name;
 	}
-	public void setReadhit(int readhit) {
-		this.readhit = readhit;
+	public void setM_name(String m_name) {
+		this.m_name = m_name;
 	}
-	public int getRef() {
-		return ref;
+	public String getId() {
+		return id;
 	}
-	public void setRef(int ref) {
-		this.ref = ref;
+	public void setId(String id) {
+		this.id = id;
 	}
-	public int getStep() {
-		return step;
+	public String getIp() {
+		return ip;
 	}
-	public void setStep(int step) {
-		this.step = step;
-	}
-	public int getDepth() {
-		return depth;
-	}
-	public void setDepth(int depth) {
-		this.depth = depth;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getSubject() {
-		return subject;
-	}
-	public void setSubject(String subject) {
-		this.subject = subject;
+	public void setIp(String ip) {
+		this.ip = ip;
 	}
 	public String getContent() {
 		return content;
@@ -70,17 +41,11 @@ public class BoardVO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getPwd() {
-		return pwd;
+	public int getScope() {
+		return scope;
 	}
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
-	}
-	public String getIp() {
-		return ip;
-	}
-	public void setIp(String ip) {
-		this.ip = ip;
+	public void setScope(int scope) {
+		this.scope = scope;
 	}
 	public String getRegdate() {
 		return regdate;
@@ -90,7 +55,9 @@ public class BoardVO {
 	}
 	
 	
+	
 }
+
 
 
 

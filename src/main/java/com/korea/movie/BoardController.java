@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,154 +18,204 @@ import common.Common;
 import common.Paging;
 import dao.BoardDAO;
 import vo.BoardVO;
+import vo.UserVO;
 
 @Controller
 public class BoardController {
 
+	
+	@Autowired
+	HttpServletRequest request;
+	HttpServletResponse response;
+	
 	BoardDAO board_dao;
+	
 	public void setBoard_dao(BoardDAO board_dao) {
 		this.board_dao = board_dao;
 	}
-
-	@Autowired
-	HttpServletRequest request;
-
-	@RequestMapping( value= {"/", "/list.do"} )
-	public String list(Model model, Integer page) {
-
+	
+	//타입투
+	@RequestMapping("/movieInfoDetailRank.do")
+	public String goMovieInfoDetail2(Model model, Integer page, String releaseDts, String title, String trailer) {
+		System.out.println(title+"왜");
+		int type = 2;
 		int nowPage = 1;
-
 		if(page != null) {
 			nowPage = page;
 		}
 
-		//한 페이지에 표시되는 게시물의 시작과 끝번호를 계산
-		int start = ( nowPage - 1 ) * Common.Board.BLOCKLIST + 1;
+		//한 페이지에 표시되는 게시물의 시작과 끝 번호를 계산
+		int start = (nowPage - 1) * Common.Board.BLOCKLIST + 1;
 		int end = start + Common.Board.BLOCKLIST - 1;
-
-		//start와 end를 맵에 저장
-		Map<String, Integer> map = new HashMap<String, Integer>();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("end", end);
+		map.put("m_name", title);
 
-		//게시글 전체목록 가져오기
-		List<BoardVO> list = null;
+		
+		List<BoardVO>list = null;
 		list = board_dao.selectList(map);
-
+		
+		String content = "";
+	    for(int i = 0; i < list.size(); i++) {
+	    	content = list.get(i).getContent().replaceAll("\n", "<br>");
+	    	list.get(i).setContent(content);
+	    }
+		
 		//전체 게시물 수 구하기
 		int row_total = board_dao.getRowTotal();
 
-		//Paging클래스를 사용하여 페이지 메뉴 생성하기
-		String pageMenu = Paging.getPaging(
-				"list.do", nowPage, row_total, 
-				Common.Board.BLOCKLIST, 
-				Common.Board.BLOCKPAGE );
-
+		//Paging클래스를  사용하여 페이지 메뉴 생성하기
+		String pageMenu = Paging.getPaging("review.do", nowPage, row_total, Common.Board.BLOCKLIST, Common.Board.BLOCKPAGE);
+		
+		float avg_f = (float)board_dao.selectSum(title) / board_dao.selectNum();
+		float avg_f2 = Float.parseFloat(String.format("%.1f", avg_f));
+		int avg = board_dao.selectSum(title) / board_dao.selectNum();
+		
+		String user_m_name = board_dao.selectM(title);
+		
 		model.addAttribute("list", list);
+		model.addAttribute("avg_f2", avg_f2);
+		model.addAttribute("avg", avg);
+		
+		model.addAttribute("user_m_name", user_m_name);
 		model.addAttribute("pageMenu", pageMenu);
-
-		//세션에 기록되어 있던 show정보를 삭제
-		request.getSession().removeAttribute("show");
-
-		return Common.VIEW_PATH + "board_list.jsp";
-
+		model.addAttribute("type", type);
+		model.addAttribute("releaseDts", releaseDts);
+		model.addAttribute("title", title);
+		model.addAttribute("trailer", trailer);
+		return Common.Movie.VIEW_PATH + "movie_detail.jsp";
 	}
-
-	// 게시글 보기
-	@RequestMapping("/view.do")
-	public String view(Model model, int idx, int page) {
-
-		//view.do?idx=25
-		//idx에 해당하는 게시글 한 건 얻어오기
-		BoardVO vo = board_dao.selectOne(idx);
-
-		//조회수 증가
-		HttpSession session = request.getSession();
-		String show = (String)session.getAttribute("show");
-		if( show == null ) {
-			board_dao.update_readhit(idx);
-			session.setAttribute("show", "");
+	
+	//영화별 전체 리뷰보기
+	@RequestMapping("/movieInfoDetail.do")
+	public String list(Model model, Integer page, String movieId, String movieSeq, String title) {
+		System.out.println(title+"왜");
+		int type = 1;
+		int nowPage = 1;
+		if(page != null) {
+			nowPage = page;
 		}
 
-		model.addAttribute("vo", vo); // 바인딩/포워딩
+		//한 페이지에 표시되는 게시물의 시작과 끝 번호를 계산
+		int start = (nowPage - 1) * Common.Board.BLOCKLIST + 1;
+		int end = start + Common.Board.BLOCKLIST - 1;
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("start", start);
+		map.put("end", end);
+		map.put("m_name", title);
 
-		return Common.VIEW_PATH + "board_view.jsp"; // 바인딩/포워딩이 필요할 때는 VIEW_PATH 사용
+		
+		List<BoardVO>list = null;
+		list = board_dao.selectList(map); 
+		
+		//전체 게시물 수 구하기
+		int row_total = board_dao.getRowTotal();
 
+		//Paging클래스를  사용하여 페이지 메뉴 생성하기
+		String pageMenu = Paging.getPaging("review.do", nowPage, row_total, Common.Board.BLOCKLIST, Common.Board.BLOCKPAGE);
+		
+		float avg_f = (float)board_dao.selectSum(title) / board_dao.selectNum();
+		float avg_f2 = Float.parseFloat(String.format("%.1f", avg_f));
+		int avg = board_dao.selectSum(title) / board_dao.selectNum();
+		
+		String user_m_name = board_dao.selectM(title);
+		 
+		
+		model.addAttribute("list", list);
+		model.addAttribute("avg_f2", avg_f2);
+		model.addAttribute("avg", avg);
+		
+		model.addAttribute("user_m_name", user_m_name);
+		model.addAttribute("pageMenu", pageMenu);
+		model.addAttribute("type", type);
+		model.addAttribute("title", title);
+		model.addAttribute("movieId", movieId);
+		model.addAttribute("movieSeq", movieSeq);
+		
+		return Common.Movie.VIEW_PATH + "movie_detail.jsp";
 	}
-
-	// 게시글 작성 화면 이동
+	
+	
+	//리뷰 작성하는 폼으로 이동
 	@RequestMapping("/insert_form.do")
 	public String insert_form() {
-		return Common.VIEW_PATH + "board_write.jsp"; 
+		return Common.Board.VIEW_PATH + "review_insert.jsp";
 	}
-
-	// 게시글 등록
+	
+	//리뷰 등록
 	@RequestMapping("/insert.do")
 	public String insert(BoardVO vo) {
-		//접속자의 ip구하기
-		String ip = request.getRemoteAddr();
-		vo.setIp(ip);
+		
+		String content = vo.getContent().replaceAll("<br>", "\n");
+	    vo.setContent(content);
+	    board_dao.insert(vo);
 
-		//DB에 insert
-		board_dao.insert(vo);
-
-		return "redirect:list.do"; // 바인딩/포워딩 없이 페이지 전환만 할때  
-
+		return "redirect:review.do";
 	}
+	
+	@RequestMapping("/checkLogin.do")
+	@ResponseBody
+	public String checkLogin(String id) {//String id
+	
 
-	// 게시글 삭제
-	@RequestMapping("/del.do")
-	@ResponseBody // Ajax에는 @ResponseBody가 반드시 필요!
-	public String delete(int idx, String pwd) {
+		HttpSession session = request.getSession();
+		UserVO user = (UserVO)session.getAttribute("user");
+		String content = board_dao.selectReview(id);
+		
 
-		BoardVO baseVO = board_dao.selectOne(idx, pwd);
-
-		String result = "no";
-
-		if( baseVO == null ) {
-			return result;
+					
+		String res = "";
+		if(user == null) {
+			res = "no";
+		}else {
+			if(content == null ) {
+				res= user.getId();
+			}else {
+				res = "already";
+			}
 		}
 
-		//찾아온 게시글의 정보를 수정
-		baseVO.setSubject("삭제된 게시글 입니다.");
-		baseVO.setName("known");
+		return res;
+		
+	}
+	
+	//수정하기 위한 폼으로 이동
+	@RequestMapping("/modify_form.do")
+	public String modify_form(Model model, String id) {//나중에 바인딩 할거라 model 필요
+		
+		BoardVO vo = board_dao.selectModify(id);
+		model.addAttribute("vo", vo);
+		
+		return Common.Board.VIEW_PATH + "review_modify_form.jsp"; 	
+	}
 
-		int res = board_dao.del_update(baseVO); 
-		if(res == 1) {
-			result = "yes";
+	//수정 
+	@RequestMapping("/modify.do")
+	public String modify(BoardVO vo) {
+		
+		board_dao.update(vo);
+		
+		return "redirect:review.do";
+	}
+
+	
+	//삭제
+	@RequestMapping("/delete.do")
+	@ResponseBody
+	public String delete(String id) {
+		
+		int result = board_dao.delete(id);
+		String res = "no";
+		if(result != 0) {
+			res = "yes";
 		}
-		return result; // result라는 페이지로 가는게 아니고 문자열로 인식해서 보내줄 때는 @ResponseBody가 필요함! 없을 경우에는 페이지(.jsp)로 인식함.
+		
+		return res;
+		
 	}
-
-	// 댓글 달기 위한 페이지 이동
-	@RequestMapping("/reply_form.do")
-	public String reply_form() {
-		return Common.VIEW_PATH + "board_reply.jsp";
-	}
-
-	// 댓글 등록
-	@RequestMapping("/reply.do")
-	public String reply(BoardVO vo, String page) {
-
-		//idx사용하여 게시물 정보 얻기
-		BoardVO baseVo = board_dao.selectOne(vo.getIdx());
-
-		//기준글의 step보다 큰 값은 모두 step = step+1처리
-		board_dao.update_step(baseVo);
-
-		//달고자 하는 댓글을 vo에 포장
-		String ip = request.getRemoteAddr();
-		vo.setIp(ip);
-
-		vo.setRef(baseVo.getRef());
-		vo.setStep(baseVo.getStep() + 1);
-		vo.setDepth(baseVo.getDepth() + 1);
-
-		//댓글 등록!
-		board_dao.reply(vo);
-
-		return "redirect:list.do?page=" + page;
-	}
-
-
 }
+
+

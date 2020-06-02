@@ -10,9 +10,13 @@
 	
 	<typeAliases>
 		<typeAlias type="vo.MovieRankPosterVO" alias="moviePoster"/>
+		<typeAlias type="vo.BoardVO" alias="board"/>
+		<typeAlias type="vo.UserVO" alias="user"/>
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="config/mybatis/mapper/movie.xml" />
+		<mapper resource="config/mybatis/mapper/board.xml" />
+		<mapper resource="config/mybatis/mapper/user.xml" />
 	</mappers>
 </configuration>
