@@ -37,7 +37,6 @@ public class BoardController {
 	//타입투
 	@RequestMapping("/movieInfoDetailRank.do")
 	public String goMovieInfoDetail2(Model model, Integer page, String releaseDts, String title, String trailer) {
-		System.out.println(title+"왜");
 		int type = 2;
 		int nowPage = 1;
 		if(page != null) {
@@ -68,10 +67,14 @@ public class BoardController {
 
 		//Paging클래스를  사용하여 페이지 메뉴 생성하기
 		String pageMenu = Paging.getPaging("review.do", nowPage, row_total, Common.Board.BLOCKLIST, Common.Board.BLOCKPAGE);
+		int bunmo = board_dao.selectNum(title);
+		if(bunmo == 0) {
+			bunmo = 1;
+		}
 		
-		float avg_f = (float)board_dao.selectSum(title) / board_dao.selectNum();
+		float avg_f = (float)board_dao.selectSum(title) / bunmo;
 		float avg_f2 = Float.parseFloat(String.format("%.1f", avg_f));
-		int avg = board_dao.selectSum(title) / board_dao.selectNum();
+		int avg = board_dao.selectSum(title) / bunmo;
 		
 		String user_m_name = board_dao.selectM(title);
 		
@@ -91,7 +94,6 @@ public class BoardController {
 	//영화별 전체 리뷰보기
 	@RequestMapping("/movieInfoDetail.do")
 	public String list(Model model, Integer page, String movieId, String movieSeq, String title) {
-		System.out.println(title+"왜");
 		int type = 1;
 		int nowPage = 1;
 		if(page != null) {
@@ -112,15 +114,20 @@ public class BoardController {
 		list = board_dao.selectList(map); 
 		
 		//전체 게시물 수 구하기
-		int row_total = board_dao.getRowTotal();
+		int row_total = board_dao.getRowTotal(); 
 
 		//Paging클래스를  사용하여 페이지 메뉴 생성하기
 		String pageMenu = Paging.getPaging("review.do", nowPage, row_total, Common.Board.BLOCKLIST, Common.Board.BLOCKPAGE);
 		
-		float avg_f = (float)board_dao.selectSum(title) / board_dao.selectNum();
-		float avg_f2 = Float.parseFloat(String.format("%.1f", avg_f));
-		int avg = board_dao.selectSum(title) / board_dao.selectNum();
 		
+		int bunmo = board_dao.selectNum(title);
+		if(bunmo == 0) {
+			bunmo = 1;
+		}
+		int avg = board_dao.selectSum(title) / bunmo;
+		
+		float avg_f = (float)board_dao.selectSum(title) / bunmo;
+		float avg_f2 = Float.parseFloat(String.format("%.1f", avg_f));
 		String user_m_name = board_dao.selectM(title);
 		 
 		
@@ -148,7 +155,11 @@ public class BoardController {
 	//리뷰 등록
 	@RequestMapping("/insert.do")
 	public String insert(BoardVO vo) {
-		
+		System.out.println( vo.getM_name());
+		System.out.println("여기?");
+		/*
+		 * String m_name = vo.getM_name().trim(); vo.setM_name(m_name);
+		 */
 		String content = vo.getContent().replaceAll("<br>", "\n");
 	    vo.setContent(content);
 	    board_dao.insert(vo);
@@ -158,14 +169,10 @@ public class BoardController {
 	
 	@RequestMapping("/checkLogin.do")
 	@ResponseBody
-	public String checkLogin(String id) {//String id
-	
-
+	public String checkLogin(String id, String m_name) {//String id
 		HttpSession session = request.getSession();
 		UserVO user = (UserVO)session.getAttribute("user");
-		String content = board_dao.selectReview(id);
-		
-
+		String content = board_dao.selectReview(id, m_name);
 					
 		String res = "";
 		if(user == null) {

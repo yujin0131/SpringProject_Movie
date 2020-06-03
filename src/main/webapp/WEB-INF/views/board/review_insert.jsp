@@ -83,7 +83,7 @@
 			var f = document.f;
 			var content = f.content.value.trim();
 			var star = f.hidden.value;
-			
+			var test = f.m_name.value.trim();
 			if(star == ''){
 				alert("별점을 매겨주세요");
 				return;
@@ -93,8 +93,9 @@
 				alert("관람평을 작성해주세요");
 				return;
 			}
-		
+			
 			f.submit();
+			
 			opener.location.reload(); //원래창 업로드
 			opener.location.reload();
 			opener.location.reload();
@@ -132,9 +133,9 @@
 		<table width=100% align="center">
 			<tr><input type="hidden" id="hidden" name="scope"></tr>
 			<tr><input type="hidden" id="id" value="${param.id}" name="id"></tr>
+			<tr><input type="hidden" id="m_name" value="${param.m_name}" name="m_name"></tr>
 			<tr><td><p></p></td></tr>
 			<tr><td><p></p></td></tr>
-			
 			<tr>
 				<td align="center" class="text">평점을 남겨보세요!  </p></td>
 			</tr>

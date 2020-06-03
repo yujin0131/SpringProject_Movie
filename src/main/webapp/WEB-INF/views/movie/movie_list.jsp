@@ -93,6 +93,7 @@
 			//192.168.1.101:9090/vs/list.do
 			var url ='http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
 			var param = 'collection=kmdb_new2&detail=Y&ServiceKey=U8ECM752YKB763PI62AV&releaseDts='+releaseStart+'&releaseDte='+releaseEnd+'&listCount=32';
+			console.log(releaseStart + "/"+releaseEnd+"/");
 			sendRequest( url, param, resultFnRel, "GET" );
 		}
 		
@@ -105,9 +106,13 @@
 					
 			    	var moviePoster = cutPoster(json[0].Data[0].Result[i].posters);//json형식으로 넘어온 값이 여러개의 포스터일 경우 하나의 포스터를 가져옴
 					var releaseTitle = json[0].Data[0].Result[i].title;
+			    	if( releaseTitle == null ){
+			    		releaseTitle = '불러오지 못함';
+			    	}
 			    	document.getElementById("movie_release_movieId_"+i).value=json[0].Data[0].Result[i].movieId;//영화 코드1
 			    	document.getElementById("movie_release_movieSeq_"+i).value=json[0].Data[0].Result[i].movieSeq;//영화 코드2
-			    	document.getElementById("movie_release_title_data_"+i).value=releaseTitle;//영화 제목
+			    	var td = document.getElementById("movie_release_title_data_"+i);
+			    	td.value=releaseTitle;//영화 제목
 			    	document.getElementById("movie_release_title_"+i).innerHTML=releaseTitle;//영화 제목
 			    	document.getElementById("movie_release_poster_"+i+"_img").src=moviePoster;//포스터
 			    	
@@ -408,6 +413,7 @@
 						<div id="movie_release_list_${n}">
 							<input type="hidden" id="movie_release_movieId_${n}">
 							<input type="hidden" id="movie_release_movieSeq_${n}">
+							<input type="hidden" id="movie_release_title_data_${n}">
 							
 							<div id="movie_release_poster_${n}">
 								<div class="poster_box">
@@ -439,6 +445,7 @@
 						<div id="movie_release_list_${n}">
 							<input type="hidden" id="movie_release_movieId_${n}">
 							<input type="hidden" id="movie_release_movieSeq_${n}">
+							<input type="hidden" id="movie_release_title_data_${n}">
 							
 							<div id="movie_release_poster_${n}">
 								<div class="poster_box">
@@ -470,6 +477,7 @@
 						<div id="movie_release_list_${n}">
 							<input type="hidden" id="movie_release_movieId_${n}">
 							<input type="hidden" id="movie_release_movieSeq_${n}">
+							<input type="hidden" id="movie_release_title_data_${n}">
 							
 							<div id="movie_release_poster_${n}">
 								<div class="poster_box">

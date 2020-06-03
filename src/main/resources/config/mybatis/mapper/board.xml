@@ -4,21 +4,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="b">
 	
-	<!-- 전체 게시글 조회 -->
-	<select id="board_list" resultType="board" parameterType="java.lang.String">
+
+	<!-- <select id="board_list" resultType="board" parameterType="java.lang.String">
 		select idx, m_name, id, ip, content, scope, to_char(regdate, 'yyyy/mm/dd') regdate from review
 		where m_name = #{m_name} order by idx desc
-		<!-- where m_name = #{m_name} -->
-	</select>
+	</select> -->
 	
-	<!-- 평점 평균 조회 -->
+	<!-- 평점 평균 조회 (분자) -->
 	<select id="sum" resultType="int" parameterType="java.lang.String">
-		select sum(scope) from review where m_name = #{m_name}
+		select NVL( sum(scope), 0) from review where m_name = #{m_name}
 	<!-- where m_name = #{m_name} -->
 	</select>
 	
+	<!-- 평균 분모 -->
 	<select id="num" resultType="int" parameterType="java.lang.String">
-		select count(*) from review where m_name = #{m_name}
+		select NVL( count(*), 1) from review where m_name = #{m_name}
 	<!-- where m_name = #{m_name} -->
 	</select>
 	
@@ -28,11 +28,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- where m_name = #{m_name} 클릭한 영화 받아오기-->
 	</select>
 	
-	
+	<!-- 리뷰 작성 -->
 	<insert id="board_insert" parameterType="board">
 		insert into review values(
 			seq_rev_idx.nextVal,
-			'인셉션',
+			#{m_name},
 			#{id},
 			'192.1.8.2',
 			#{content},
@@ -51,8 +51,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<!-- 회원별 리뷰 조회 -->
-	<select id="user_contnet" resultType="java.lang.String">
-		select content from review where id = #{id}
+	<select id="user_content" resultType="java.lang.String" parameterType="java.util.Map">
+		select m_name, id from review  where id=#{id} and m_name like '%'||#{m_name}||'%'
 	</select>
 	
 	<!-- 수정하기위해 내용 얻어오기 -->
@@ -74,7 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="board_list_condition" parameterType="java.util.Map" resultType="board">
 		select * from
 		(select rank() over(order by idx desc) no, r.*
-		from ( select idx, m_name, id, ip, content, scope, to_char(regdate, 'yyyy/mm/dd') regdate from review where m_name = #{m_name}) r)
+		from ( select idx, m_name, id, ip, content, scope, to_char(regdate, 'yyyy/mm/dd') regdate from review where m_name like '%'||#{m_name}||'%') r)
 		where no between #{start} and #{end}
 	</select>
 	

@@ -25,7 +25,9 @@
 	
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
 	<script type="text/javascript">
-	
+		
+		var totalTitle;
+		
 		window.onload=function(){
 			var outposters;
 			var splitStills;
@@ -35,6 +37,7 @@
 				load_list();			
 			}
 		};
+		
 		
 		
 		//여러개 포스터 잘라쓰기
@@ -88,14 +91,11 @@
 		    	
 		    	//영화 제목	
 		    	if( "${type}" == "2" ){
-		    		document.getElementById("movie_detail_title").innerHTML="${title}";
-		    		
-		    		
+		    		totalTitle="${title}";	
 		    	} else {
-			    	document.getElementById("movie_detail_title").innerHTML=movieNm;
-			    	
+		    		totalTitle=movieNm;		    	
 		    	}
-		    	
+		    	document.getElementById("movie_detail_title").innerHTML=totalTitle;
 		    	document.getElementById("movie_detail_titleEng").innerHTML=json[0].Data[0].Result[0].titleEng;//영화 영문 제목
 		    	document.getElementById("movie_detail_directors").innerHTML="<b>감독  </b>" +json[0].Data[0].Result[0].directors.director[0].directorNm;//감독
 		    	
@@ -185,7 +185,9 @@
 		//로그인했는지 했으면 리뷰를 작성했는지 안했는지
 		function check( ){
 			var id = document.getElementById("id").value.trim();
-			var url ="checkLogin.do?id="+id;
+			console.log(totalTitle.trim());
+			/* var totalTitle = document.getElementById("m_name").value.trim(); */
+			var url ="checkLogin.do?id="+id+"&m_name="+totalTitle;
 			sendRequest(url, null, resultFnReview, "GET");
 		}
 		
@@ -197,11 +199,11 @@
 				if(data == 'no'){
 					alert("로그인 후 이용하세요");	
 					location.href="login_form.do";
-				}if(data == 'already'){
+				}else if(data == 'already'){
 					alert("이미 리뷰를 작성 하셨습니다.");
 					return;
 				}else{
-					window.open('insert_form.do?id='+data, '', 'width=665px, height=660px, left=370px,top=50px');
+					window.open('insert_form.do?id='+data+"&m_name="+totalTitle, '', 'width=665px, height=660px, left=370px,top=50px');
 				}		
 			}
 		}
@@ -342,9 +344,6 @@
 	
 		<div id="review_box">
 			<div id="main" align="center">
-
-				<!-- 이건 영화목록에서 영화 클릭하면 여기로 와지게 하는 코드,,, 나중에 옮겨넣기!!!! -->
-				<a href="review.do"><img src="${pageContext.request.contextPath}/resources/img/idcheck_but.gif"></a><br>
 		
 				<input type="hidden" action="checkLogin.do" method="GET" name="id" id="id" value="${sessionScope.user.id }">
 				<div id="review_title">
@@ -358,7 +357,7 @@
 				</div>
 				<hr>
 	
-				<table width="890px" align="center">
+				<table width="950px" align="center">
 					<tr>
 						<td width="30"></td>
 						<td width="2" class="td_b"></td>
@@ -393,7 +392,7 @@
 	
 				<hr>
 	
-				<table width="890" align="center">
+				<table width="950" align="center">
 				<tr>
 					<td width="30"></td>
 					<td width="2" class="td_b"></td>
@@ -441,10 +440,8 @@
 					</tr>
 				
 					<tr>
-						<td width="30">${vo.idx }</td>
-						<td width="2" class="td_b">
-							<img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif">
-						</td>
+					
+					
 						<td width="80" align="center">${vo.id }</td>
 						<td width="2" class="td_b">
 							<img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif">

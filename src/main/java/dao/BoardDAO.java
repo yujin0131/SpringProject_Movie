@@ -31,13 +31,11 @@ public class BoardDAO {
 		return sum;
 	}
 	
-	public int selectNum() {
+	public int selectNum( String m_name ) {
 		
-		int num = sqlSession.selectOne("b.num");
+		int num = sqlSession.selectOne("b.num", m_name);
 		return num;
 	}
-	
-
 	
 	//영화 조회
 	public String selectM( String m_name ) {
@@ -48,19 +46,23 @@ public class BoardDAO {
 	
 	
 	//리뷰썼는지 확인
-	public String selectReview(String id) {//String id
+	public String selectReview(String id, String m_name) {//String id
 		/*
 		 * BoardVO vo = sqlSession.selectOne("b.user_content", id);
 		 * return vo;
 		 */
-		String content = sqlSession.selectOne("b.user_contnet", id);
+		
+		HashMap<Object, Object> map = new HashMap<Object, Object>();
+		map.put("id", id);
+		map.put("m_name", m_name);
+		String content = sqlSession.selectOne("b.user_content", map);
 		return content;
 	}
 	
 	
 	
 	//게시글 추가
-	public int insert( BoardVO vo) {
+	public int insert( BoardVO vo ) {
 		
 	//HashMap<Object, Object> map = new HashMap<Object, Object>();
 	//map.put("vo", vo);
