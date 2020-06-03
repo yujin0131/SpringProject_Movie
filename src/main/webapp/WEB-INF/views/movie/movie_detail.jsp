@@ -32,8 +32,10 @@
 			var outposters;
 			var splitStills;
 			if( "${type}" == "2" ){
+				//현재차트순위
 				load_list2();
 			} else {
+				//상영예정작
 				load_list();			
 			}
 		};
@@ -93,7 +95,7 @@
 		    	if( "${type}" == "2" ){
 		    		totalTitle="${title}";	
 		    	} else {
-		    		totalTitle=movieNm;		    	
+		    		totalTitle="${m_name}";    	
 		    	}
 		    	document.getElementById("movie_detail_title").innerHTML=totalTitle;
 		    	document.getElementById("movie_detail_titleEng").innerHTML=json[0].Data[0].Result[0].titleEng;//영화 영문 제목
@@ -140,11 +142,23 @@
 		    	//여러개의 스틸이미지를 출력하기 위함
 		    	var stills = json[0].Data[0].Result[0].stlls;
 		    	splitStills = stills.split('|');
-				
-		    	document.getElementById("movie_still_img_0").src = splitStills[0];
-		    	document.getElementById("movie_still_img_1").src = splitStills[1];
-		    	document.getElementById("movie_still_img_2").src = splitStills[2];
-
+				if(splitStills.length >= 4){
+				    document.getElementById("movie_still_img_0").src = splitStills[0];
+			    	document.getElementById("movie_still_img_1").src = splitStills[1];
+			    	document.getElementById("movie_still_img_2").src = splitStills[2];
+				} else if(splitStills.length == 3){
+					document.getElementById("movie_still_img_0").src = splitStills[0];
+			    	document.getElementById("movie_still_img_1").src = splitStills[1];
+			    	document.getElementById("movie_still_img_2").src = "${ pageContext.request.contextPath }/resources/img/nullImg.png";
+				} else if(splitStills.length == 2){
+					document.getElementById("movie_still_img_0").src = splitStills[0];
+					document.getElementById("movie_still_img_1").src = "${ pageContext.request.contextPath }/resources/img/nullImg.png";
+					document.getElementById("movie_still_img_2").src = "${ pageContext.request.contextPath }/resources/img/nullImg.png";
+				} else{
+					document.getElementById("movie_still_img_0").src = "${ pageContext.request.contextPath }/resources/img/nullImg.png";
+					document.getElementById("movie_still_img_1").src = "${ pageContext.request.contextPath }/resources/img/nullImg.png";
+					document.getElementById("movie_still_img_2").src = "${ pageContext.request.contextPath }/resources/img/nullImg.png";
+				}
 			}
 		}
 		
@@ -306,7 +320,6 @@
 						</div>
 					</div>
 					</div>
-	
 					
 					<div id="movie_detail_plots">
 						<div id="movie_detail_plot_title">줄거리</div>
@@ -367,7 +380,16 @@
 								<td width="2" class="td_b">
 									<img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif">
 								</td>
-								<td align="center"><b>${title}</b>영화는 재미있게 보셨나요? 영화의 어떤 점이 좋았는지 이야기해주세요.</td>
+								<td align="center">
+								<b>
+									<c:if test="${empty title}">
+											${m_name}
+									</c:if>
+									<c:if test="${empty m_name}">
+											${title}
+									</c:if>
+								</b>
+								영화는 재미있게 보셨나요? 영화의 어떤 점이 좋았는지 이야기해주세요.</td>
 							</c:when>
 							
 							<c:otherwise>						
@@ -376,7 +398,15 @@
 									<img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif">
 								</td>
 								<td align="center">
-									<b>${sessionScope.user.id }</b>님, <b>${title}</b>
+									<b>${sessionScope.user.id }</b>님, 
+									<b>
+										<c:if test="${empty title}">
+											${m_name}
+										</c:if>
+										<c:if test="${empty m_name}">
+											${title}
+										</c:if>
+									</b>
 									영화는 재미있게 보셨나요? 영화의 어떤 점이 좋았는지 이야기해주세요.
 								</td>
 							</c:otherwise>

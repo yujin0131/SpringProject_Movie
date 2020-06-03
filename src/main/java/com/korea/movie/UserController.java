@@ -32,16 +32,14 @@ public class UserController {
 	HttpServletRequest request;
 	HttpServletResponse response;
 
-	public UserController() {
-
-	}
-	
-
-	
+	/*
+	 * public UserController() {
+	 * 
+	 * }
+	 */
 	
 	@RequestMapping("/register.do")
 	public String register_member( Model model, UserVO vo) {
-
 		int res = user_dao.register(vo); 
 		return Common.User.VIEW_PATH + "register_form.jsp";
 	}
@@ -56,7 +54,6 @@ public class UserController {
 	public String login(String id, String pwd) {
 		
 		UserVO user = user_dao.selectOne(id);		
-		
 		String resultStr = "";
 		
 		if(user == null) {
@@ -74,14 +71,10 @@ public class UserController {
 		
 		resultStr = "clear";
 		return resultStr;
-		
 	}
-	
-
 	
 	@RequestMapping("/mypage.do")
 	public String myPage(UserVO vo) {
-		
 		return Common.User.VIEW_PATH + "mypage.jsp";
 	}
 	
@@ -91,10 +84,6 @@ public class UserController {
 		session.removeAttribute("user");
 		
 		return "redirect:login_form.do";
-		
 	}
-
-
-
 
 }

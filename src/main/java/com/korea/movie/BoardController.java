@@ -92,8 +92,9 @@ public class BoardController {
 	}
 	
 	//영화별 전체 리뷰보기
+	//type1 : 상영예정작
 	@RequestMapping("/movieInfoDetail.do")
-	public String list(Model model, Integer page, String movieId, String movieSeq, String title) {
+	public String list(Model model, Integer page, String movieId, String movieSeq, String m_name) {
 		int type = 1;
 		int nowPage = 1;
 		if(page != null) {
@@ -107,8 +108,7 @@ public class BoardController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("start", start);
 		map.put("end", end);
-		map.put("m_name", title);
-
+		map.put("m_name", m_name);
 		
 		List<BoardVO>list = null;
 		list = board_dao.selectList(map); 
@@ -120,15 +120,15 @@ public class BoardController {
 		String pageMenu = Paging.getPaging("review.do", nowPage, row_total, Common.Board.BLOCKLIST, Common.Board.BLOCKPAGE);
 		
 		
-		int bunmo = board_dao.selectNum(title);
+		int bunmo = board_dao.selectNum(m_name);
 		if(bunmo == 0) {
 			bunmo = 1;
 		}
-		int avg = board_dao.selectSum(title) / bunmo;
+		int avg = board_dao.selectSum(m_name) / bunmo;
 		
-		float avg_f = (float)board_dao.selectSum(title) / bunmo;
+		float avg_f = (float)board_dao.selectSum(m_name) / bunmo;
 		float avg_f2 = Float.parseFloat(String.format("%.1f", avg_f));
-		String user_m_name = board_dao.selectM(title);
+		String user_m_name = board_dao.selectM(m_name);
 		 
 		
 		model.addAttribute("list", list);
@@ -138,7 +138,7 @@ public class BoardController {
 		model.addAttribute("user_m_name", user_m_name);
 		model.addAttribute("pageMenu", pageMenu);
 		model.addAttribute("type", type);
-		model.addAttribute("title", title);
+		model.addAttribute("m_name", m_name);
 		model.addAttribute("movieId", movieId);
 		model.addAttribute("movieSeq", movieSeq);
 		

@@ -146,8 +146,8 @@
 		}
 		
 		//영화 코드 컨트롤러로 넘기기(영화 상세보기 위해서)
-		function detail( movieId, movieSeq, title ){
-			return location.href="movieInfoDetail.do?movieId="+movieId+"&movieSeq="+movieSeq+"&title="+encodeURIComponent(title);
+		function detail( movieId, movieSeq, m_name ){
+			return location.href="movieInfoDetail.do?movieId="+movieId+"&movieSeq="+movieSeq+"&m_name="+encodeURIComponent(m_name);
 		}
 		
 		//------------------rank----------------------------------------------------------
@@ -389,7 +389,7 @@
 									<div class="poster_hover">
 										<div class="poster_hover_text">
 											<div class="poster_hover_text_2"><div id="movie_action_button_text_${n}"></div></div>		
-											<div class="poster_hover_text_1"><a href="javascript:void(0);" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value, movie_release_title_data_${n}.value.trim());">상세보기</a></div>
+											<div class="poster_hover_text_1"><a href="javascript:void(0);" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value, movie_release_title_data_${n}.value);">상세보기</a></div>
 										</div>
 									</div>
 								</div>
@@ -421,7 +421,7 @@
 									<div class="poster_hover">
 										<div class="poster_hover_text">
 											<div class="poster_hover_text_2"><div id="movie_action_button_text_${n}"></div></div>		
-											<div class="poster_hover_text_1"><a href="javascript:void(0);" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">상세보기</a></div>
+											<div class="poster_hover_text_1"><a href="javascript:void(0);" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value, movie_release_title_data_${n}.value);">상세보기</a></div>
 										</div>
 									</div>
 								</div>
@@ -453,7 +453,7 @@
 									<div class="poster_hover">
 										<div class="poster_hover_text">
 											<div class="poster_hover_text_2"><div id="movie_action_button_text_${n}"></div></div>		
-											<div class="poster_hover_text_1"><a href="javascript:void(0);" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">상세보기</a></div>
+											<div class="poster_hover_text_1"><a href="javascript:void(0);" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value,  movie_release_title_data_${n}.value);">상세보기</a></div>
 										</div>
 									</div>
 								</div>
@@ -485,7 +485,7 @@
 									<div class="poster_hover">
 										<div class="poster_hover_text">
 											<div class="poster_hover_text_2"><div id="movie_action_button_text_${n}"></div></div>		
-											<div class="poster_hover_text_1"><a href="javascript:void(0);" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value);">상세보기</a></div>
+											<div class="poster_hover_text_1"><a href="javascript:void(0);" onclick="detail(movie_release_movieId_${n}.value, movie_release_movieSeq_${n}.value,  movie_release_title_data_${n}.value);">상세보기</a></div>
 										</div>
 									</div>
 								</div>
