@@ -133,6 +133,7 @@
 			<tr><input type="hidden" id="hidden" name="scope"></tr>
 			<tr><input type="hidden" id="id" value="${param.id}" name="id"></tr>
 			<tr><input type="hidden" id="m_name" value="${param.m_name}" name="m_name"></tr>
+			${param.m_name}
 			<tr><td><p></p></td></tr>
 			<tr><td><p></p></td></tr>
 			<tr>

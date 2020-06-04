@@ -12,13 +12,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 평점 평균 조회 (분자) -->
 	<select id="sum" resultType="int" parameterType="java.lang.String">
-		select NVL( sum(scope), 0) from review where m_name = #{m_name}
+		select NVL( sum(scope), 0) from review where m_name like '%'||#{m_name}||'%'
 	<!-- where m_name = #{m_name} -->
 	</select>
 	
 	<!-- 평균 분모 -->
 	<select id="num" resultType="int" parameterType="java.lang.String">
-		select NVL( count(*), 1) from review where m_name = #{m_name}
+		select NVL( count(*), 1) from review where m_name like '%'||#{m_name}||'%'
 	<!-- where m_name = #{m_name} -->
 	</select>
 	
@@ -56,20 +56,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 수정하기위해 내용 얻어오기 -->
-	<!-- <select id="board_modify" resultType="board" parameterType="String">
-		select * from review where id = #{id}
-	</select> -->
 	<select id="board_modify" resultType="board" parameterType="java.util.Map">
-      select * from review where id = #{id} and m_name like '%'||#{m_name}||'%'
-   </select>
+		select * from review where id = #{id} and m_name like '%'||#{m_name}||'%'
+	</select>
+	
 	<!-- 수정 업데이트 -->
 	<update id="board_update" parameterType="board">
 		update review set content=#{content}, scope=#{scope} where id=#{id} and m_name like '%'||#{m_name}||'%'
 	</update>
 	
 	<!-- 리뷰 삭제 -->
-	<delete id="board_delete" parameterType="String">
-		delete from review where id=#{id}
+	<delete id="board_delete" parameterType="java.util.Map">
+		delete from review where id=#{id} and m_name like '%'||#{m_name}||'%'
 	</delete>
 	
 	<!-- 페이지에 따른 게시물 조회 -->				<!-- 여기선 hashmap인지 map인지 확실히 해줘야 함! -->
@@ -82,7 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 전체 게시물 수 조회 -->
 	<select id="board_count" resultType="int" parameterType="java.lang.String">
-		select count(*) from review where m_name = #{m_name}
+		select count(*) from review where m_name like '%'||#{m_name}||'%'
 	</select>
 </mapper>
 

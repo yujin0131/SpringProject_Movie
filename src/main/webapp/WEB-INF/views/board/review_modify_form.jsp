@@ -68,13 +68,8 @@
 	
 
 		function starCheck( scope ) {
-			
 			var hidden = document.getElementById("hidden");
 			hidden.value = scope;
-			
-			
-			
-			
 		}//starCheck()
 		
 	
@@ -128,11 +123,14 @@
 					onclick="cancle();" align="center"></td>
 			</tr>
 
-					
 		</table>
+		
+		<input type="hidden" id="hidden" name="scope" value="">
+		<input type="hidden" id="id" value="${vo.id}" name="id">
+		<input type="hidden" id="m_name" value="${vo.m_name}" name="m_name">
+		${vo.m_name}
+		
 		<table width=100% align="center">
-			<tr><input type="hidden" id="hidden" name="scope" value=""></tr>
-			<tr><input type="hidden" id="id" value="${param.id}" name="id"></tr>
 			<tr><td><p></p></td></tr>
 			<tr><td><p></p></td></tr>
 			

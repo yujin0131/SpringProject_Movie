@@ -296,7 +296,7 @@
                   document.getElementById("recent_query_"+i).innerHTML = st;
                   document.getElementById("del_icon_"+i).style.display = "block";
                }
-            }
+            } 
 
             for(var i=0 ; i<json[0].Data[0].Result.length ; i++){
                var movie_container = "movie_list_"+i;//영화 정보 담는 컨테이너
@@ -364,7 +364,7 @@
      </div> -->
    <div class="movielist_bg"><img src="${ pageContext.request.contextPath }/resources/img/main_bg.png"></div>
    <div id="container">
-      
+      <div id="container_inner">
       <div id="page_title">전체 영화</div>
       
       <div id="movie_list_nav">
@@ -616,6 +616,7 @@
                </c:forEach>
             </ul>
          </div>
+      	</div>
       </div>
    </div>
    

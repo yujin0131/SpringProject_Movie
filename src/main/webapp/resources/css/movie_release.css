@@ -7,8 +7,12 @@ li{ list-style:none; }
 a{ text-decoration:none; }
 
 body{
-	background: #FDFCF0;
+	/* background: #FDFCF0; */
+	background: linear-gradient(-135deg, gray, #313131) fixed;
+
 }
+.movielist_bg{ width:100%; height:300px; z-index:-5; position:absolute; }
+.movielist_bg > img{ width:100%; height:300px; background-repeat: no-repeat; }
 
 /* 공툥요소 */
 .poster_hover_text_2{
@@ -87,13 +91,19 @@ body{
 /* ----------------------------------- */
 
 #container{
-	border:1px solid black;
 	width:1100px;
-	margin: 100px auto; 
+	margin: 0px auto; 
 	padding-bottom:100px;
 	position : relative;
+}
+#container_inner{
+	position:absolute;
+	left:auto;
+	top:298px;
+	margin-top:0px;
 	background: linear-gradient(to right,#0f0f0f 20%,rgba(15,15,15,0.9) 50%,#0f0f0f 80%);
 }
+
 
 #contents_rank{
 	display: none;
@@ -123,29 +133,32 @@ body{
 	border:1px solid white;
 	height:40px;
 } 
+
+#movie_list_nav a {
+	color:white;
+} 
  
 #movie_list_nav .movie_list_nav1{
+	color:white;
 	width:260px;
 	height:38px;
 	float:left;
-	border:1px solid black;
+	border:1px solid white;
 }
 #movie_list_nav .movie_list_nav2{
+	color:white;
 	width:260px;
 	height:38px;
 	float:left;
-	border:1px solid black;
+	border:1px solid white;
 }
 
 #movie_list_nav .movie_list_nav3{
+	color:white;
 	float:right;
 	width:200px;
 	height:38px;
 }
-
-
-
-
 
 
 #select_movie_lists_release{

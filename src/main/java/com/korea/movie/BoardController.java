@@ -66,7 +66,7 @@ public class BoardController {
       int row_total = board_dao.getRowTotal(title);
 
       //Paging클래스를  사용하여 페이지 메뉴 생성하기
-      String pageMenu = Paging.getPaging("review.do", nowPage, row_total, Common.Board.BLOCKLIST, Common.Board.BLOCKPAGE);
+      String pageMenu = Paging.getPaging("movieInfoDetailRank.do", nowPage, row_total, Common.Board.BLOCKLIST, Common.Board.BLOCKPAGE);
       int bunmo = board_dao.selectNum(title);
       if(bunmo == 0) {
          bunmo = 1;
@@ -117,7 +117,7 @@ public class BoardController {
       int row_total = board_dao.getRowTotal(m_name); 
 
       //Paging클래스를  사용하여 페이지 메뉴 생성하기
-      String pageMenu = Paging.getPaging("review.do", nowPage, row_total, Common.Board.BLOCKLIST, Common.Board.BLOCKPAGE);
+      String pageMenu = Paging.getPaging("movieInfoDetail.do?movieId="+movieId +"&movieSeq="+movieSeq +"&m_name="+m_name, nowPage, row_total, Common.Board.BLOCKLIST, Common.Board.BLOCKPAGE);
       
       
       int bunmo = board_dao.selectNum(m_name);
@@ -155,14 +155,15 @@ public class BoardController {
    //리뷰 등록
    @RequestMapping("/insert.do")
    public String insert(BoardVO vo) {
-      System.out.println( vo.getM_name());
+     System.out.println(vo.getId() + "/" + vo.getM_name());
       System.out.println("여기?");
       /*
        * String m_name = vo.getM_name().trim(); vo.setM_name(m_name);
        */
       String content = vo.getContent().replaceAll("<br>", "\n");
-       vo.setContent(content);
-       board_dao.insert(vo);
+      
+      vo.setContent(content);
+      board_dao.insert(vo);
 
       return "redirect:review.do";
    }
@@ -193,7 +194,7 @@ public class BoardController {
    @RequestMapping("/modify_form.do")
    public String modify_form(Model model, String id, String m_name) {//나중에 바인딩 할거라 model 필요
       
-      BoardVO vo = board_dao.selectModify(id, m_name);
+      BoardVO vo = board_dao.selectModify(id , m_name);
       model.addAttribute("vo", vo);
       
       return Common.Board.VIEW_PATH + "review_modify_form.jsp";    
@@ -202,7 +203,7 @@ public class BoardController {
    //수정 
    @RequestMapping("/modify.do")
    public String modify(BoardVO vo) {
-      System.out.println(vo.getContent() + "/" + vo.getScope() + "/" + vo.getM_name() + "/" + vo.getId());
+      
       board_dao.update(vo);
       
       return "redirect:review.do";
@@ -212,9 +213,9 @@ public class BoardController {
    //삭제
    @RequestMapping("/delete.do")
    @ResponseBody
-   public String delete(String id) {
-      
-      int result = board_dao.delete(id);
+   public String delete(String id, String m_name) {
+      System.out.println(m_name + "/" + id);
+      int result = board_dao.delete(id, m_name);
       String res = "no";
       if(result != 0) {
          res = "yes";

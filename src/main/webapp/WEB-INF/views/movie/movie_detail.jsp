@@ -250,7 +250,7 @@
 			}
 			
 			var url = "delete.do";
-			var param = "id=" + id;
+			var param = "id=" + id + "&m_name=" + totalTitle;
 			
 			sendRequest(url, param, resultFnReview2, "POST");	
 		}
@@ -262,7 +262,7 @@
 					alert("삭제 실패");
 				}
 				alert("삭제성공");
-				location.href="review.do";
+				self.location.reload(true);
 			}
 		}
 		
@@ -454,7 +454,7 @@
 				<c:forEach var="vo" items="${ list }">	
 					<tr>
 						<td colspan="11" align="right">
-							<div class="user" id="user_${vo.id}" align="right" style="position: absolute; left:980px;  background:url(${pageContext.request.contextPath}/resources/img/text.png); background-size:250px 100px;
+							<div class="user" id="user_${vo.id}" align="right" style="position: absolute; left:680px;  background:url(${pageContext.request.contextPath}/resources/img/text.png); background-size:250px 100px;
 								 background-position:center; background-repeat: no-repeat; display:none;">
 				 			<input width="15" height="15" type="image" name="button" class="close" src="${pageContext.request.contextPath}/resources/img/close.png" onclick="cancle('${vo.id}');"> 
 							&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<br>&nbsp&nbsp&nbsp&nbsp&nbsp
@@ -463,7 +463,7 @@
 							</div>
 							
 							<div name="no" class="user2" id="user2_${vo.id}" style="background:url(${pageContext.request.contextPath}/resources/img/text.png); background-size:320px 110px;
-								 background-position:center; background-repeat: no-repeat; font-size:12px; position: absolute; left:940px; text-align:center; display:none;"><br>
+								 background-position:center; background-repeat: no-repeat; font-size:12px; position: absolute; left:640px; text-align:center; display:none;"><br>
 							&nbsp&nbsp&nbsp스포일러 및 욕설/비방하는
 							<input width="15" height="15" type="image" name="button" class="close" src="${pageContext.request.contextPath}/resources/img/close.png" onclick="cancle('${vo.id}');">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<br>
 							&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp내용이 있습니까?
