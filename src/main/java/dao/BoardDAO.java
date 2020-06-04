@@ -38,11 +38,13 @@ public class BoardDAO {
 	}
 	
 	//영화 조회
-	public String selectM( String m_name ) {
-				
-		String user_m_name = sqlSession.selectOne("b.user_m_name", m_name);
-		return user_m_name;
-	}
+	
+	/*
+	 * public String selectM( String m_name ) {
+	 * 
+	 * String user_m_name = sqlSession.selectOne("b.user_m_name", m_name); return
+	 * user_m_name; }
+	 */
 	
 	
 	//리뷰썼는지 확인
@@ -55,7 +57,7 @@ public class BoardDAO {
 		HashMap<Object, Object> map = new HashMap<Object, Object>();
 		map.put("id", id);
 		map.put("m_name", m_name);
-		String content = sqlSession.selectOne("b.user_content", map);
+		String content = sqlSession.selectOne("b.user_contnet", map);
 		return content;
 	}
 	
@@ -75,11 +77,13 @@ public class BoardDAO {
 			
 	}
 	
-	//게시글 수정하기 위해 정보 하나 얻어오기
-	public BoardVO selectModify(String id) {
-		BoardVO res = sqlSession.selectOne("b.board_modify", id);
-		return res;
-	}
+	public BoardVO selectModify(String id, String m_name) {
+	      HashMap<Object, Object> map = new HashMap<Object, Object>();
+	      map.put("id", id);
+	      map.put("m_name", m_name);
+	      BoardVO res = sqlSession.selectOne("b.board_modify", map);
+	      return res;
+	  }
 	
 	public int update(BoardVO vo) {
 		int res = sqlSession.update("b.board_update", vo);
@@ -100,8 +104,8 @@ public class BoardDAO {
 	}
 		
 	//게시판의 전체 게시물 수
-	public int getRowTotal() {
-		int count = sqlSession.selectOne("board_count"); 
+	public int getRowTotal(String m_name) {
+		int count = sqlSession.selectOne("board_count", m_name); 
 		return count;
 	}
 	

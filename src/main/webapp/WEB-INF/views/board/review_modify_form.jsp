@@ -155,6 +155,8 @@
 					<!-- 원래 별 값 가져오기 -->
 					<script>
 					var st = document.getElementById("st").value;
+					var st2 = document.getElementById("st").value;
+					document.getElementById("hidden").value = parseInt(st2);
 					st = parseInt(st) + 1;
 					$("a."+ st).prevAll().addClass("on");
 					</script>

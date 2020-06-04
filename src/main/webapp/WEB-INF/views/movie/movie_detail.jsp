@@ -25,17 +25,21 @@
 	
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
 	<script type="text/javascript">
-		
-		var totalTitle;
-		
+	if (self.name != 'reload') {
+		self.name = 'reload';
+		self.location.reload(true);
+	}
+	else self.name = ''; 
+
+	
+	
 		window.onload=function(){
+			var totalTitle;
 			var outposters;
 			var splitStills;
 			if( "${type}" == "2" ){
-				//현재차트순위
 				load_list2();
 			} else {
-				//상영예정작
 				load_list();			
 			}
 		};
@@ -95,7 +99,7 @@
 		    	if( "${type}" == "2" ){
 		    		totalTitle="${title}";	
 		    	} else {
-		    		totalTitle="${m_name}";    	
+		    		totalTitle=movieNm;		    	
 		    	}
 		    	document.getElementById("movie_detail_title").innerHTML=totalTitle;
 		    	document.getElementById("movie_detail_titleEng").innerHTML=json[0].Data[0].Result[0].titleEng;//영화 영문 제목
@@ -141,24 +145,25 @@
 		    	
 		    	//여러개의 스틸이미지를 출력하기 위함
 		    	var stills = json[0].Data[0].Result[0].stlls;
-		    	splitStills = stills.split('|');
-				if(splitStills.length >= 4){
-				    document.getElementById("movie_still_img_0").src = splitStills[0];
-			    	document.getElementById("movie_still_img_1").src = splitStills[1];
-			    	document.getElementById("movie_still_img_2").src = splitStills[2];
-				} else if(splitStills.length == 3){
-					document.getElementById("movie_still_img_0").src = splitStills[0];
-			    	document.getElementById("movie_still_img_1").src = splitStills[1];
-			    	document.getElementById("movie_still_img_2").src = "${ pageContext.request.contextPath }/resources/img/nullImg.png";
-				} else if(splitStills.length == 2){
-					document.getElementById("movie_still_img_0").src = splitStills[0];
-					document.getElementById("movie_still_img_1").src = "${ pageContext.request.contextPath }/resources/img/nullImg.png";
-					document.getElementById("movie_still_img_2").src = "${ pageContext.request.contextPath }/resources/img/nullImg.png";
-				} else{
-					document.getElementById("movie_still_img_0").src = "${ pageContext.request.contextPath }/resources/img/nullImg.png";
-					document.getElementById("movie_still_img_1").src = "${ pageContext.request.contextPath }/resources/img/nullImg.png";
-					document.getElementById("movie_still_img_2").src = "${ pageContext.request.contextPath }/resources/img/nullImg.png";
-				}
+	             splitStills = stills.split('|');
+	            if(splitStills.length >= 4){
+	                document.getElementById("movie_still_img_0").src = splitStills[0];
+	                document.getElementById("movie_still_img_1").src = splitStills[1];
+	                document.getElementById("movie_still_img_2").src = splitStills[2];
+	            } else if(splitStills.length == 3){
+	               document.getElementById("movie_still_img_0").src = splitStills[0];
+	                document.getElementById("movie_still_img_1").src = splitStills[1];
+	                document.getElementById("movie_still_img_2").src = "${ pageContext.request.contextPath }/resources/img/nullImg.png";
+	            } else if(splitStills.length == 2){
+	               document.getElementById("movie_still_img_0").src = splitStills[0];
+	               document.getElementById("movie_still_img_1").src = "${ pageContext.request.contextPath }/resources/img/nullImg.png";
+	               document.getElementById("movie_still_img_2").src = "${ pageContext.request.contextPath }/resources/img/nullImg.png";
+	            } else{
+	               document.getElementById("movie_still_img_0").src = "${ pageContext.request.contextPath }/resources/img/nullImg.png";
+	               document.getElementById("movie_still_img_1").src = "${ pageContext.request.contextPath }/resources/img/nullImg.png";
+	               document.getElementById("movie_still_img_2").src = "${ pageContext.request.contextPath }/resources/img/nullImg.png";
+	            }
+
 			}
 		}
 		
@@ -190,18 +195,13 @@
 		
 		//--------------요서부터 review.jsp 합치기 시작--------------------
 		//페이지 한 번만 새로고침 => return history.back(); 일케 돌아오면 새로고침 해줘야 아이디 뜸
-		if (self.name != 'reload') {
-			self.name = 'reload';
-			self.location.reload(true);
-		}
-		else self.name = ''; 
+	
 		
 		//로그인했는지 했으면 리뷰를 작성했는지 안했는지
 		function check( ){
 			var id = document.getElementById("id").value.trim();
-			console.log(totalTitle.trim());
 			/* var totalTitle = document.getElementById("m_name").value.trim(); */
-			var url ="checkLogin.do?id="+id+"&m_name="+totalTitle;
+			var url ="checkLogin.do?id="+id+"&m_name="+totalTitle.trim();
 			sendRequest(url, null, resultFnReview, "GET");
 		}
 		
@@ -239,7 +239,7 @@
 		//수정
 		function modify(){
 			var id = document.getElementById("id").value.trim();
-			window.open('modify_form.do?id=' + id, '', 'width=665px, height=660px, left=370px,top=50px');
+			window.open('modify_form.do?id=' + id + "&m_name="+totalTitle, '수정하기', 'width=665px, height=660px, left=370px,top=50px');
 		}	
 		//리뷰 지우고 돌아오기
 		function del(){
@@ -320,6 +320,7 @@
 						</div>
 					</div>
 					</div>
+	
 					
 					<div id="movie_detail_plots">
 						<div id="movie_detail_plot_title">줄거리</div>
@@ -357,6 +358,8 @@
 	
 		<div id="review_box">
 			<div id="main" align="center">
+
+				
 		
 				<input type="hidden" action="checkLogin.do" method="GET" name="id" id="id" value="${sessionScope.user.id }">
 				<div id="review_title">
@@ -381,15 +384,15 @@
 									<img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif">
 								</td>
 								<td align="center">
-								<b>
-									<c:if test="${empty title}">
-											${m_name}
-									</c:if>
-									<c:if test="${empty m_name}">
+									<b>
+			                            <c:if test="${empty title}">
+			                               ${m_name}
+			                            </c:if>
+										<c:if test="${empty m_name}">
 											${title}
-									</c:if>
-								</b>
-								영화는 재미있게 보셨나요? 영화의 어떤 점이 좋았는지 이야기해주세요.</td>
+										</c:if>
+									</b>
+									영화는 재미있게 보셨나요? 영화의 어떤 점이 좋았는지 이야기해주세요.</td>
 							</c:when>
 							
 							<c:otherwise>						
@@ -400,9 +403,9 @@
 								<td align="center">
 									<b>${sessionScope.user.id }</b>님, 
 									<b>
-										<c:if test="${empty title}">
-											${m_name}
-										</c:if>
+			                            <c:if test="${empty title}">
+			                               ${m_name}
+			                            </c:if>
 										<c:if test="${empty m_name}">
 											${title}
 										</c:if>

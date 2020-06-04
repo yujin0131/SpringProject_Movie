@@ -40,4 +40,9 @@
 	<beans:bean class="com.korea.movie.UserController">
 		<beans:property name="user_dao" ref="user_daoBean"/>
 	</beans:bean> 
+	
+	<!-- HomeController 수동생성 -->  
+	<beans:bean class="com.korea.movie.HomeController">
+		
+	</beans:bean> 
 </beans:beans>

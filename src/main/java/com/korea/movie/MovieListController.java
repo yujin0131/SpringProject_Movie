@@ -27,7 +27,7 @@ public class MovieListController {
 	@Autowired
 	HttpServletRequest request;
 
-	@RequestMapping(value = { "/", "/movieReleaseList.do" })
+	@RequestMapping("/movieReleaseList.do")
 	public String movieReleaseList() {
 		return Common.Movie.VIEW_PATH + "movie_list.jsp";
 	}

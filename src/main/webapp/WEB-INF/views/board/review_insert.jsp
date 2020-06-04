@@ -95,7 +95,6 @@
 			}
 			
 			f.submit();
-			
 			opener.location.reload(); //원래창 업로드
 			opener.location.reload();
 			opener.location.reload();
