@@ -94,7 +94,7 @@ public class BoardDAO {
 	
 	//삭제
 	public int delete(String id, String m_name) {
-		 System.out.println("2" + m_name + "/" + id);
+		
 		HashMap<Object, Object> map = new HashMap<Object, Object>();
 		map.put("id", id);
 		map.put("m_name", m_name);

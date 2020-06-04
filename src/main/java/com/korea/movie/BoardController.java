@@ -34,7 +34,7 @@ public class BoardController {
       this.board_dao = board_dao;
    }
    
-   //타입투
+   //type2 : 현재상영작
    @RequestMapping("/movieInfoDetailRank.do")
    public String goMovieInfoDetail2(Model model, Integer page, String releaseDts, String title, String trailer) {
       int type = 2;
@@ -51,7 +51,6 @@ public class BoardController {
       map.put("start", start);
       map.put("end", end);
       map.put("m_name", title);
-
       
       List<BoardVO>list = null;
       list = board_dao.selectList(map);
@@ -65,8 +64,9 @@ public class BoardController {
       //전체 게시물 수 구하기
       int row_total = board_dao.getRowTotal(title);
 
-      //Paging클래스를  사용하여 페이지 메뉴 생성하기
-      String pageMenu = Paging.getPaging("movieInfoDetailRank.do", nowPage, row_total, Common.Board.BLOCKLIST, Common.Board.BLOCKPAGE);
+      //Paging클래스를  사용하여 페이지 메뉴 생성하기                                                                               추가해야하나 "&m_name="+m_name,
+      
+      String pageMenu = Paging.getPaging("movieInfoDetailRank.do?title="+title+"&releaseDts="+releaseDts, nowPage, row_total, Common.Board.BLOCKLIST, Common.Board.BLOCKPAGE);
       int bunmo = board_dao.selectNum(title);
       if(bunmo == 0) {
          bunmo = 1;
@@ -119,7 +119,6 @@ public class BoardController {
       //Paging클래스를  사용하여 페이지 메뉴 생성하기
       String pageMenu = Paging.getPaging("movieInfoDetail.do?movieId="+movieId +"&movieSeq="+movieSeq +"&m_name="+m_name, nowPage, row_total, Common.Board.BLOCKLIST, Common.Board.BLOCKPAGE);
       
-      
       int bunmo = board_dao.selectNum(m_name);
       if(bunmo == 0) {
          bunmo = 1;
@@ -145,6 +144,26 @@ public class BoardController {
       return Common.Movie.VIEW_PATH + "movie_detail.jsp";
    }
    
+   //로그인 되있는지 확인
+   @RequestMapping("/checkLogin.do")
+   @ResponseBody
+   public String checkLogin(String id, String m_name) {//String id
+	   HttpSession session = request.getSession();
+	   UserVO user = (UserVO)session.getAttribute("user");
+	   String content = board_dao.selectReview(id, m_name);
+	   
+	   String res = "";
+	   if(user == null) {
+		   res = "no";
+	   }else {
+		   if(content == null ) {
+			   res= user.getId();
+		   }else {
+			   res = "already";
+		   }
+	   }
+	   return res;
+   }
    
    //리뷰 작성하는 폼으로 이동
    @RequestMapping("/insert_form.do")
@@ -152,75 +171,62 @@ public class BoardController {
       return Common.Board.VIEW_PATH + "review_insert.jsp";
    }
    
-   //리뷰 등록
-   @RequestMapping("/insert.do")
-   public String insert(BoardVO vo) {
-     System.out.println(vo.getId() + "/" + vo.getM_name());
-      System.out.println("여기?");
-      /*
-       * String m_name = vo.getM_name().trim(); vo.setM_name(m_name);
-       */
-      String content = vo.getContent().replaceAll("<br>", "\n");
-      
-      vo.setContent(content);
-      board_dao.insert(vo);
-
-      return "redirect:review.do";
-   }
-   
-   @RequestMapping("/checkLogin.do")
-   @ResponseBody
-   public String checkLogin(String id, String m_name) {//String id
-      HttpSession session = request.getSession();
-      UserVO user = (UserVO)session.getAttribute("user");
-      String content = board_dao.selectReview(id, m_name);
-               
-      String res = "";
-      if(user == null) {
-         res = "no";
-      }else {
-         if(content == null ) {
-            res= user.getId();
-         }else {
-            res = "already";
-         }
-      }
-
-      return res;
-      
-   }
-   
    //수정하기 위한 폼으로 이동
    @RequestMapping("/modify_form.do")
-   public String modify_form(Model model, String id, String m_name) {//나중에 바인딩 할거라 model 필요
-      
-      BoardVO vo = board_dao.selectModify(id , m_name);
-      model.addAttribute("vo", vo);
-      
-      return Common.Board.VIEW_PATH + "review_modify_form.jsp";    
-   }
+   public String modify_form(Model model, String id, String m_name, String type, String totalVar1, String totalVar2) {//나중에 바인딩 할거라 model 필요
 
+	   BoardVO vo = board_dao.selectModify(id , m_name);
+	   model.addAttribute("vo", vo);
+	   model.addAttribute("type", type);
+	   model.addAttribute("totalVar1", totalVar1);
+	   model.addAttribute("totalVar2", totalVar2);
+	   return Common.Board.VIEW_PATH + "review_modify_form.jsp";    
+   }
+   
+   //리뷰 등록
+   @RequestMapping("/insert.do")
+   public String insert(BoardVO vo, String type, String totalVar1, String totalVar2) {
+	   System.out.println("리뷰 등록시 로그인되있는 아이디"+vo.getId() + "/영화이름 :" + vo.getM_name());
+	   System.out.println("타입은 : "+type);
+       /*
+        * String m_name = vo.getM_name().trim(); vo.setM_name(m_name);
+        */
+       String content = vo.getContent().replaceAll("<br>", "\n");
+       vo.setContent(content);
+       board_dao.insert(vo);
+       if( type.equals("1") ) { 
+    	   System.out.println("등록타입1 지나가요");
+    	   return "redirect:movieInfoDetail.do&movieId="+totalVar1+"&movieSeq="+totalVar2+"&m_name="+vo.getM_name();
+       } else {
+    	   System.out.println("등록타입2 지나가요");
+    	   return "redirect:movieInfoDetailRank.do&title="+totalVar1+"&releaseDts="+totalVar2;
+       }
+   }
+   
    //수정 
    @RequestMapping("/modify.do")
-   public String modify(BoardVO vo) {
-      
-      board_dao.update(vo);
-      
-      return "redirect:review.do";
+   public String modify(BoardVO vo, String type, String totalVar1, String totalVar2) {
+	   System.out.println("수정인데 로그인되있는 아이디"+vo.getId() + "/영화이름 :" + vo.getM_name());
+	   System.out.println("타입은 : "+type);
+	   
+	   board_dao.update(vo);
+	   if( type.equals("1") ) {  
+    	   return "redirect:movieInfoDetail.do&movieId="+totalVar1+"&movieSeq="+totalVar2+"&m_name="+vo.getM_name();
+       } else {
+    	   return "redirect:movieInfoDetailRank.do&title="+totalVar1+"&releaseDts="+totalVar2;
+       }
    }
-
    
    //삭제
    @RequestMapping("/delete.do")
    @ResponseBody
    public String delete(String id, String m_name) {
-      System.out.println(m_name + "/" + id);
+      System.out.println("삭제할때 데이터들 제목:"+m_name + "/아이디 : " + id);
       int result = board_dao.delete(id, m_name);
       String res = "no";
       if(result != 0) {
          res = "yes";
       }
-      
       return res;
       
    }

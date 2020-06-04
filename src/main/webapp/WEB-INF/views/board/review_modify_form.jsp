@@ -61,20 +61,13 @@
 	<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 
 	<script type="text/javascript">
-	
-	
-
-	opener.location.reload();
-	
 
 		function starCheck( scope ) {
 			var hidden = document.getElementById("hidden");
 			hidden.value = scope;
 		}//starCheck()
 		
-	
 		function send(){
-			
 			var f = document.f;
 			var content = f.content.value.trim();
 			var star = f.hidden.value;
@@ -92,20 +85,15 @@
 			f.action="modify.do";
 			f.submit();
 			opener.location.reload(); //원래창 업로드
-			opener.location.reload();
-			opener.location.reload();
-			window.close(); //팝업창 닫기
-			
+			window.close(); //팝업창 닫기		
 		}//send()
-        
-		
+
 		
 		function cancle(){
 			opener.location.reload(); //원래창 업로드
-			opener.location.reload();
 			window.close(); //팝업창 닫기
 		}
-		opener.location.reload();
+		
 		
 	</script>
 
@@ -128,7 +116,9 @@
 		<input type="hidden" id="hidden" name="scope" value="">
 		<input type="hidden" id="id" value="${vo.id}" name="id">
 		<input type="hidden" id="m_name" value="${vo.m_name}" name="m_name">
-		${vo.m_name}
+		<input type="hidden" id="type" value="${type}" name="type">
+		<input type="hidden" id="totalVar1" value="${totalVar1}" name="totalVar1">
+		<input type="hidden" id="totalVar2" value="${totalVar2}" name="totalVar2">
 		
 		<table width=100% align="center">
 			<tr><td><p></p></td></tr>

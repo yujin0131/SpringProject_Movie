@@ -25,15 +25,15 @@
 	
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
 	<script type="text/javascript">
-	if (self.name != 'reload') {
-		self.name = 'reload';
-		self.location.reload(true);
-	}
-	else self.name = ''; 
-
 	
+		if (self.name != 'reload') {
+			self.name = 'reload';
+			self.location.reload(true);
+		}
+		else self.name = '';
 	
 		window.onload=function(){
+			
 			var totalTitle;
 			var outposters;
 			var splitStills;
@@ -99,6 +99,7 @@
 		    	if( "${type}" == "2" ){
 		    		totalTitle="${title}";	
 		    	} else {
+		    		//()"${type}" == "1" )
 		    		totalTitle=movieNm;		    	
 		    	}
 		    	document.getElementById("movie_detail_title").innerHTML=totalTitle;
@@ -163,7 +164,7 @@
 	               document.getElementById("movie_still_img_1").src = "${ pageContext.request.contextPath }/resources/img/nullImg.png";
 	               document.getElementById("movie_still_img_2").src = "${ pageContext.request.contextPath }/resources/img/nullImg.png";
 	            }
-
+	        	
 			}
 		}
 		
@@ -216,8 +217,18 @@
 				}else if(data == 'already'){
 					alert("이미 리뷰를 작성 하셨습니다.");
 					return;
+					
+					/* movieId=${movieId}&movieSeq=${movieSeq} */
 				}else{
-					window.open('insert_form.do?id='+data+"&m_name="+totalTitle, '', 'width=665px, height=660px, left=370px,top=50px');
+					if( "${type}" == "1" ){
+						var totalVar1 = "${movieId}";
+						var totalVar2 = "${movieSeq}";
+					} else {
+						//( "${type}" == "2" )
+						var totalVar1 = "${title}";
+						var totalVar2 = "${releaseDts}";
+					}
+					window.open('insert_form.do?id='+data+"&m_name="+totalTitle+"&type=${type}&totalVar1="+totalVar1 +"&totalVar2="+totalVar2, '', 'width=665px, height=660px, left=370px,top=50px');			
 				}		
 			}
 		}
@@ -239,8 +250,17 @@
 		//수정
 		function modify(){
 			var id = document.getElementById("id").value.trim();
-			window.open('modify_form.do?id=' + id + "&m_name="+totalTitle, '수정하기', 'width=665px, height=660px, left=370px,top=50px');
-		}	
+			if( "${type}" == "1" ){
+				var totalVar1 = "${movieId}";
+				var totalVar2 = "${movieSeq}";
+			} else {
+				//( "${type}" == "2" )
+				var totalVar1 = "${title}";
+				var totalVar2 = "${releaseDts}";
+			}
+			window.open("modify_form.do?id="+id+"&m_name="+totalTitle+"&type=${type}&totalVar1="+totalVar1+"&totalVar2="+totalVar2, "수정하기", "width=665px, height=660px, left=370px, top=50px");
+		}
+		
 		//리뷰 지우고 돌아오기
 		function del(){
 			var id = document.getElementById("id").value.trim();
@@ -261,8 +281,8 @@
 				if(data == 'no'){
 					alert("삭제 실패");
 				}
-				alert("삭제성공");
-				self.location.reload(true);
+				alert("삭제 성공");
+				location.href = location.href;
 			}
 		}
 		
