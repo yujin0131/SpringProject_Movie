@@ -68,7 +68,8 @@
 			}
 			
 			f.submit();
-			opener.location.reload(); //원래창 업로드
+			
+			opener.location.reload(true); //<-- 안될시 이거빼면 수동으로 새로고침 해주면 잘됨 !!원래창 업로드
 			window.close(); //팝업창 닫기
 		}//send()
 		

@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>영화 그 이상의 감동. CGW</title>
-
+	
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/movie_detail.css">
 	<style type="text/css">
 		.back_c {margin:0; line-height:89px; width:100px; height:100px;
@@ -25,6 +25,7 @@
 	
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
 	<script type="text/javascript">
+		
 	
 		if (self.name != 'reload') {
 			self.name = 'reload';
@@ -44,6 +45,13 @@
 			}
 		};
 		
+		function saeroi(){
+			if (self.name != 'reload') {
+				self.name = 'reload';
+				self.location.reload(true);
+			}
+			else self.name = '';
+		}
 		
 		
 		//여러개 포스터 잘라쓰기

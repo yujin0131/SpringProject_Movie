@@ -194,7 +194,7 @@ public class BoardController {
        String content = vo.getContent().replaceAll("<br>", "\n");
        vo.setContent(content);
        board_dao.insert(vo);
-       if( type.equals("1") ) { 
+       if( type.equals("1") ) {
     	   System.out.println("등록타입1 지나가요");
     	   return "redirect:movieInfoDetail.do&movieId="+totalVar1+"&movieSeq="+totalVar2+"&m_name="+vo.getM_name();
        } else {

@@ -61,7 +61,15 @@
 	<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 
 	<script type="text/javascript">
-
+		
+		function saeroi(){
+			if (self.name != 'reload') {
+				self.name = 'reload';
+				opener.location.reload(true);
+			}
+			else self.name = '';
+		}
+	
 		function starCheck( scope ) {
 			var hidden = document.getElementById("hidden");
 			hidden.value = scope;
@@ -84,7 +92,8 @@
 		
 			f.action="modify.do";
 			f.submit();
-			opener.location.reload(); //원래창 업로드
+
+			opener.location.reload(true); //<-- 안될시 이거빼면 수동으로 새로고침 해주면 잘됨 !!원래창 업로드
 			window.close(); //팝업창 닫기		
 		}//send()
 

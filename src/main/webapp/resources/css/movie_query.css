@@ -16,6 +16,7 @@
 	display: inline;
 }
 #recent_querys{
+	z-index:3;
 	display: inline;
 }
 #recent_querys > form{
@@ -115,6 +116,10 @@
 	margin:20px;
 	display:none;
 } */
+
+#recent_querys a{
+	color:white;
+}
 
 #recent_querys img{
 	position:absolute;

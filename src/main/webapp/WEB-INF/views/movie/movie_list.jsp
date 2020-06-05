@@ -12,6 +12,14 @@
    <link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/movie_release.css">
    <link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/movie_query.css">
    
+   <style type="text/css">
+       body{
+           background-image: url(${ pageContext.request.contextPath }/resources/img/footer_bg.png);
+           background-repeat: repeat;
+           
+       }
+   </style>
+   
    <script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
    <script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/needDate.js"></script>
    <script type="text/javascript">
@@ -362,10 +370,36 @@
             <li><a href="#">커뮤니티</a></li>
          </ul>
      </div> -->
-   <div class="movielist_bg"><img src="${ pageContext.request.contextPath }/resources/img/main_bg.png"></div>
-   <div id="container">
-      <div id="container_inner">
-      <div id="page_title">전체 영화</div>
+     
+   
+	<%-- <div class="movielist_bg"><img src="${ pageContext.request.contextPath }/resources/img/main_bg.png"></div> --%>
+   
+    <!-- header -->
+	<div id="header" style="z-index:3;">
+			<%-- <div class="main_bg"><img src="${ pageContext.request.contextPath }/resources/img/main_bg.png"></div> --%>
+			<div class="gnb">
+				<ul>
+					<li><a href="#">로그인</a></li>
+					<li><a href="#">회원가입</a></li>
+				</ul>
+			</div>
+			<div class="nav">
+				<h1 id="nav_left"><img src="${ pageContext.request.contextPath }/resources/img/logo_test.png"></h1>
+				<h2><img src="${ pageContext.request.contextPath }/resources/img/nav_logo.png"></h2>
+				<ul>
+					<li><a href="movieReleaseList.do">영화</a></li>
+					<li><a href="#">예매</a></li>
+					<li><a href="#">영화관</a></li>
+					<li><a href="review.do">커뮤니티</a></li>				
+				</ul>
+				<h1 id="nav_right"><img src="${ pageContext.request.contextPath }/resources/img/logo_test2.png"></h1>
+			</div>
+		</div>
+	<!-- header 끝 -->
+
+    <div id="container">
+		<div id="container_inner">
+			<div id="page_title">전체 영화</div>
       
       <div id="movie_list_nav">
          <div class="movie_list_nav1"><a href="javascript:void(0);" onclick="boxOfficeView();">박스오피스</a></div><!-- /movie/movieRankList.do -->
@@ -514,7 +548,7 @@
          <div id="select_movie_list">
             <ul id="movie_list">
             
-               
+              
                <c:forEach var="n" begin="0" end="9" step="1">
                   <li id="movie_list_${n}">
                      <div id="movie_rank_box_one">
@@ -554,7 +588,7 @@
       
       <div id="contents_query">
          
-         <div id="question_box">
+         <div id="question_box" style="z-index:3;">
                <div id="recent_query_box">
                   <div id="recent_query_title">최근 검색어 : </div>
                   <c:forEach var="i" begin="0" end="2" step="1">
@@ -618,7 +652,21 @@
          </div>
       	</div>
       </div>
+
    </div>
    
+    <div id="footer_box">
+			<div id="footer">
+				<%-- <div class="f_bg"><img src="${ pageContext.request.contextPath }/resources/img/footer_bg.png"></div> --%>
+				<div class="f_txt">
+					<p class="f_logo"><img src="${ pageContext.request.contextPath }/resources/img/logo_test.png"></p>
+					<address>서울특별시 마포구 서강로 136 아이비티워 2층,3층</address>
+					<p class="team1">2조 Spring Project Movie</p>
+					<p class="team2">민형, 성수, 우성, 선영, 원경, 유진</p>
+				</div>
+			</div>
+		</div>
+	
+
 </body>
 </html>
