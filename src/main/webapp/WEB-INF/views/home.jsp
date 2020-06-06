@@ -30,7 +30,9 @@
 					<li><a href="review.do">커뮤니티</a></li>				
 				</ul>
 				<h1 id="nav_right"><img src="${ pageContext.request.contextPath }/resources/img/logo_test2.png"></h1>
+				
 			</div>
+			
 		</div>
 		<!-- header 끝 -->
 		
@@ -113,6 +115,7 @@
 						<div class="like"><a href="#">Like</a></div>
 					</li>
 				</ul>			
+						<div class="mouse"><img src="${ pageContext.request.contextPath }/resources/img/mouse_white.png"></div>
 			</div>		
 		</div>
 		

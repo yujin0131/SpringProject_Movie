@@ -30,9 +30,12 @@
 }
 
 #movie_rank_box_one{
-	border:1px solid red;
 	width:230px;
 	height:450px;
 	float:left;
 	margin:20px;
+}
+
+.movie_rank_infos{
+	color:white;
 }

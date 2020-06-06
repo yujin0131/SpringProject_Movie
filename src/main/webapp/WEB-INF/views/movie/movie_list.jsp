@@ -18,6 +18,55 @@
            background-repeat: repeat;
            
        }
+       
+        
+   
+#back-top {
+position: fixed;
+bottom: 30px;
+margin-left: -150px;
+}
+
+#back-top a {
+width: 108px;
+display: block;
+text-align: center;
+font: 11px/100% Arial, Helvetica, sans-serif;
+text-transform: uppercase;
+text-decoration: none;
+color: #bbb;
+
+/* transition */
+-webkit-transition: 1s;
+-moz-transition: 1s;
+transition: 1s;
+}
+#back-top a:hover {
+color: #000;
+}
+
+/* arrow icon (span tag) */
+#back-top span {
+width: 108px;
+height: 108px;
+display: block;
+margin-bottom: 7px;
+background: #ddd url(up-arrow.png) no-repeat center center;
+
+/* rounded corners */
+-webkit-border-radius: 15px;
+-moz-border-radius: 15px;
+border-radius: 15px;
+
+/* transition */
+-webkit-transition: 1s;
+-moz-transition: 1s;
+transition: 1s;
+}
+#back-top a:hover span {
+background-color: #777;
+}
+       
    </style>
    
    <script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
@@ -181,7 +230,7 @@
             var json = eval("["+data+"]");   
             var movie_list =document.getElementById("movie_list");
             for(var i=0 ; i<json[0].boxOfficeResult.dailyBoxOfficeList.length ; i++){
-               var movie_container = "movie_list_"+i;//영화 정보 담는 컨테이너
+
                var openDts = noFormDates(json[0].boxOfficeResult.dailyBoxOfficeList[i].openDt);
                document.getElementById("movie_openDt_"+i).value=openDts;//영화 코드(영진위)
                document.getElementById("movie_movieNm_"+i).value=json[0].boxOfficeResult.dailyBoxOfficeList[i].movieNm;//영화 제목에서 자르기(영진위)
@@ -307,15 +356,25 @@
             } 
 
             for(var i=0 ; i<json[0].Data[0].Result.length ; i++){
-               var movie_container = "movie_list_"+i;//영화 정보 담는 컨테이너
+
                 var moviePoster = cutPoster(json[0].Data[0].Result[i].posters);//json형식으로 넘어온 값이 여러개의 포스터일 경우 하나의 포스터를 가져옴
          
                 document.getElementById("movie_movieId_"+i).value=json[0].Data[0].Result[i].movieId;//영화 코드1
                 document.getElementById("movie_movieSeq_"+i).value=json[0].Data[0].Result[i].movieSeq;//영화 코드2
-                document.getElementById("movie_list_title_"+i).innerHTML=json[0].Data[0].Result[i].title;//영화 제목
-                document.getElementById("movie_list_poster_"+i+"_img").src=moviePoster;//포스터
-                document.getElementById("movie_list_relDate_"+i).innerHTML=json[0].Data[0].Result[i].repRlsDate+" 개봉";//개봉일
-                document.getElementById("movie_list_runtime_"+i).innerHTML=json[0].Data[0].Result[i].runtime+"분";//상영시간
+                document.getElementById("movie_query_list_title_"+i).innerHTML=json[0].Data[0].Result[i].title;//영화 제목
+                document.getElementById("movie_query_list_poster_"+i+"_img").src=moviePoster;//포스터
+                
+                //개봉날짜 체크
+                var releaseYq = json[0].Data[0].Result[i].repRlsDate.substring(0,4);
+                var releaseMq = json[0].Data[0].Result[i].repRlsDate.substring(4,6);
+                var releaseDq = json[0].Data[0].Result[i].repRlsDate.substring(6,8);
+                var releaseDateq = releaseYq+"."+releaseMq+"."+releaseDq+" 개봉";
+                if(releaseDq=="00"){
+                   releaseDateq =  releaseYq+"."+releaseMq+". 개봉";
+                }
+                
+                document.getElementById("movie_query_list_relDate_"+i).innerHTML=releaseDateq;//개봉일
+                document.getElementById("movie_query_list_runtime_"+i).innerHTML=json[0].Data[0].Result[i].runtime+"분";//상영시간
             }
             
             document.getElementById("question_box").style.top="20px";
@@ -375,7 +434,7 @@
 	<%-- <div class="movielist_bg"><img src="${ pageContext.request.contextPath }/resources/img/main_bg.png"></div> --%>
    
     <!-- header -->
-	<div id="header" style="z-index:3;">
+	<div id="header" onclick="location.href='/movie/'" style="z-index:3;">
 			<%-- <div class="main_bg"><img src="${ pageContext.request.contextPath }/resources/img/main_bg.png"></div> --%>
 			<div class="gnb">
 				<ul>
@@ -431,10 +490,12 @@
                      
                      <div class="movie_title_box">
                         <div id="movie_release_title_${n}"></div>
-                     </div>
+                     </div>  
                      
                      <div class="movie_infos">
-                        <div id="movie_release_relDate_${n}"></div>
+                     	<div class="movie_release_rel">
+	                        <div id="movie_release_relDate_${n}"></div>
+                     	</div>
                         <div id="movie_release_runtime_${n}"></div>
                      </div>
                      
@@ -466,7 +527,9 @@
                      </div>
                      
                      <div class="movie_infos">
-                        <div id="movie_release_relDate_${n}"></div>
+                     	<div class="movie_release_rel">
+	                        <div id="movie_release_relDate_${n}"></div>
+                     	</div>
                         <div id="movie_release_runtime_${n}"></div>
                      </div>
 
@@ -498,7 +561,9 @@
                      </div>
                      
                      <div class="movie_infos">
-                        <div id="movie_release_relDate_${n}"></div>
+                     	<div class="movie_release_rel">
+	                        <div id="movie_release_relDate_${n}"></div>
+                     	</div>
                         <div id="movie_release_runtime_${n}"></div>
                      </div>
 
@@ -530,7 +595,9 @@
                      </div>
                      
                      <div class="movie_infos">
-                        <div id="movie_release_relDate_${n}"></div>
+                     	<div class="movie_release_rel">
+	                        <div id="movie_release_relDate_${n}"></div>
+                     	</div>
                         <div id="movie_release_runtime_${n}"></div>
                      </div>
 
@@ -538,7 +605,10 @@
                </c:forEach>
             </div>
             
-            <div id="movie_release_list_moreSee"><input type="button" value="더보기" onclick="more_list();"></div>
+            <div id="movie_release_list_moreSee">
+            	<!-- <input type="button" value="더보기" onclick="more_list();"> -->
+             	<button class="btn-1" onclick="more_list();">see more</button>
+            </div>
          </div>
       </div>
       
@@ -569,11 +639,32 @@
                         </div>
                         
                         <div class="movie_title_box">
-                           <div id="movie_rank_rank_${n}"></div>
+                        <div>
+                        <c:choose>
+	                        <c:when test="${n eq 0 }">
+	                        <div style="width:35px; float:left;" id="movie_rank_rank_${n}"></div>
+	                        <img style="width:25px; height:32px;" src="${ pageContext.request.contextPath }/resources/img/maedal_one.png">
+	                        </c:when>
+	                        
+	                         <c:when test="${n eq 1 }">
+	                        <div style="width:35px; float:left;" id="movie_rank_rank_${n}"></div>
+	                        <img style="width:25px; height:32px;" src="${ pageContext.request.contextPath }/resources/img/maedal_two.png">
+	                        </c:when>
+	                        
+	                         <c:when test="${n eq 2 }">
+	                        <div style="width:35px; float:left;" id="movie_rank_rank_${n}"></div>
+	                        <img style="width:25px; height:32px;" src="${ pageContext.request.contextPath }/resources/img/maedal_three.png">
+	                        </c:when>
+	                        
+	                        <c:otherwise>
+	                        <div style="width:35px; float:left;" id="movie_rank_rank_${n}"></div>
+	                        </c:otherwise>
+	                    </c:choose>
+                        </div>
                            <div id="movie_rank_movieNm_${n}"></div>
                         </div>
                         
-                        <div class="movie_infos">
+                        <div class="movie_rank_infos">
                            <div id="movie_rank_salesShare_${n}"></div>
                            <div id="movie_rank_audiAcc_${n}"></div>
                         </div>
@@ -583,6 +674,10 @@
                   </li>
                </c:forEach>
             </ul>
+            
+
+
+            
          </div>
       </div>
       
@@ -597,7 +692,7 @@
                            <input id="recent_query_data_${i}" value="" type="hidden">
                            <a id="recent_query_${i}" href="javascript:void(0);" onclick="load_Query2(recent_query_data_${i}.value);"></a>
                            <div id="del_img_box">
-                              <img id="del_icon_${i}" onclick="recent_del(${i});" style="width:20px" src="${ pageContext.request.contextPath }/resources/img/iconDel.png">
+                              <img id="del_icon_${i}" onclick="recent_del(${i});" style="width:20px" src="${ pageContext.request.contextPath }/resources/img/iconDelwhite.png">
                            </div>
                         </form>
                         
@@ -621,7 +716,7 @@
          <div id="movie_query_list_container">
             <ul id="movie_query_list">
                <c:forEach var="n" begin="0" end="9" step="1">
-                  <li id="movie_list_${n}">
+                  <li id="movie_query_list_${n}">
                      
                      <div id="result_inv_movie_${n}">
                         <div id="movie_query_box_one">
@@ -629,10 +724,10 @@
                               <input type="hidden" id="movie_movieId_${n}">
                               <input type="hidden" id="movie_movieSeq_${n}">
                               
-                              <div id="movie_list_title_${n}"></div>
-                              <div id="movie_list_poster_${n}">
+                              <div id="movie_query_list_title_${n}"></div>
+                              <div id="movie_query_list_poster_${n}">
                                  <div class="poster_box"> 
-                                    <img id="movie_list_poster_${n}_img">
+                                    <img id="movie_query_list_poster_${n}_img">
                                     <div class="poster_hover">
                                        <div class="poster_hover_text">   
                                           <div class="poster_hover_text_3"><a href="javascript:void(0);" onclick="detail(movie_movieId_${n}.value, movie_movieSeq_${n}.value);">상세보기</a></div>
@@ -641,8 +736,12 @@
                                  </div>
                               </div>
                               
-                              <div id="movie_list_relDate_${n}"></div>
-                              <div id="movie_list_runtime_${n}"></div>
+                              <div class="movie_query_rel_run">
+                                  <div class="movie_query_rel">
+		                              <div id="movie_query_list_relDate_${n}"></div>
+                                  </div>
+	                              <div id="movie_query_list_runtime_${n}"></div>
+                              </div>
                            </div>
                         </div>
                      </div>

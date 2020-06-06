@@ -18,6 +18,56 @@ body{
 	z-index:-5;
 }
 .movielist_foot_bg > img{ width:100%; height:200px; background-repeat: no-repeat; }
+/* 버튼 */
+button,
+button::after {
+  -webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+button {
+  background: none;
+  border: 3px solid #fff;
+  border-radius: 5px;
+/*   color: #fff; */
+  color:#a5b1c2;
+  display: block;
+  font-size: 1.6em;
+  font-weight: bold;
+  margin: 1em auto;
+  padding: 3px 8em;
+  position: relative;
+  text-transform: uppercase;
+}
+
+button::before,
+button::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+}
+
+button:hover {
+	color: #fff;
+/* 	color:#a5b1c2; */
+  /* color: #2ecc71; */
+}
+
+/* BUTTON 1 */
+.btn-1::after {
+  height: 0;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+
+.btn-1:hover:after {
+  height: 100%;
+}
+
+
 /* 공툥요소 */
 
 /* header */
@@ -106,11 +156,15 @@ body{
 }
 .poster_box{
  	position: relative;
+ 	text-align: center;
+ 	width:215px;
 }
 
 .poster_box > img {
 	margin: 0px auto;
-	text-align: center; 
+	width:215px;
+	height:305px;
+/* 	text-align: center;  */
 }
 .poster_hover_text{
 	position: relative;
@@ -176,10 +230,14 @@ body{
 	color:white;
 }
 
-.movie_infos > div{
+.movie_infos div{
+	display:inline;
 	color:white;
 }
-
+.movie_release_rel{
+	border-right:1px solid #f1f1f1;
+	margin-right: 8px;
+}
 #movie_list_nav{
 	text-align:center;
 	border:1px solid white;
@@ -217,7 +275,6 @@ body{
 	overflow: hidden;
 }
 #select_movie_lists_release>div{
-	border:1px solid red;
 	width:230px;
 	height:450px;
 	float:left;
@@ -228,7 +285,6 @@ body{
 	overflow: hidden;
 }
 #select_movie_lists_release_2>div{
-	border:1px solid red;
 	width:230px;
 	height:450px;
 	float:left;
@@ -239,7 +295,6 @@ body{
 	overflow: hidden;
 }
 #select_movie_lists_release_3>div{
-	border:1px solid red;
 	width:230px;
 	height:450px;
 	float:left;
@@ -251,7 +306,6 @@ body{
 	overflow: hidden;
 }
 #select_movie_lists_release_4>div{
-	border:1px solid red;
 	width:230px;
 	height:450px;
 	float:left;

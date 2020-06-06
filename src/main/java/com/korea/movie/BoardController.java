@@ -88,6 +88,8 @@ public class BoardController {
       model.addAttribute("releaseDts", releaseDts);
       model.addAttribute("title", title);
       model.addAttribute("trailer", trailer);
+      model.addAttribute("count", row_total);
+      
       return Common.Movie.VIEW_PATH + "movie_detail.jsp";
    }
    
@@ -112,6 +114,12 @@ public class BoardController {
       
       List<BoardVO>list = null;
       list = board_dao.selectList(map); 
+      
+      String content = "";
+      for(int i = 0; i < list.size(); i++) {
+         content = list.get(i).getContent().replaceAll("\n", "<br>");
+         list.get(i).setContent(content);
+      }
       
       //전체 게시물 수 구하기
       int row_total = board_dao.getRowTotal(m_name); 
@@ -140,6 +148,8 @@ public class BoardController {
       model.addAttribute("m_name", m_name);
       model.addAttribute("movieId", movieId);
       model.addAttribute("movieSeq", movieSeq);
+      model.addAttribute("count", row_total);
+      
       
       return Common.Movie.VIEW_PATH + "movie_detail.jsp";
    }
@@ -148,21 +158,21 @@ public class BoardController {
    @RequestMapping("/checkLogin.do")
    @ResponseBody
    public String checkLogin(String id, String m_name) {//String id
-	   HttpSession session = request.getSession();
-	   UserVO user = (UserVO)session.getAttribute("user");
-	   String content = board_dao.selectReview(id, m_name);
-	   
-	   String res = "";
-	   if(user == null) {
-		   res = "no";
-	   }else {
-		   if(content == null ) {
-			   res= user.getId();
-		   }else {
-			   res = "already";
-		   }
-	   }
-	   return res;
+      HttpSession session = request.getSession();
+      UserVO user = (UserVO)session.getAttribute("user");
+      String content = board_dao.selectReview(id, m_name);
+      
+      String res = "";
+      if(user == null) {
+         res = "no";
+      }else {
+         if(content == null ) {
+            res= user.getId();
+         }else {
+            res = "already";
+         }
+      }
+      return res;
    }
    
    //리뷰 작성하는 폼으로 이동
@@ -175,45 +185,48 @@ public class BoardController {
    @RequestMapping("/modify_form.do")
    public String modify_form(Model model, String id, String m_name, String type, String totalVar1, String totalVar2) {//나중에 바인딩 할거라 model 필요
 
-	   BoardVO vo = board_dao.selectModify(id , m_name);
-	   model.addAttribute("vo", vo);
-	   model.addAttribute("type", type);
-	   model.addAttribute("totalVar1", totalVar1);
-	   model.addAttribute("totalVar2", totalVar2);
-	   return Common.Board.VIEW_PATH + "review_modify_form.jsp";    
+      BoardVO vo = board_dao.selectModify(id , m_name);
+      model.addAttribute("vo", vo);
+      model.addAttribute("type", type);
+      model.addAttribute("totalVar1", totalVar1);
+      model.addAttribute("totalVar2", totalVar2);
+      return Common.Board.VIEW_PATH + "review_modify_form.jsp";    
    }
    
    //리뷰 등록
    @RequestMapping("/insert.do")
    public String insert(BoardVO vo, String type, String totalVar1, String totalVar2) {
-	   System.out.println("리뷰 등록시 로그인되있는 아이디"+vo.getId() + "/영화이름 :" + vo.getM_name());
-	   System.out.println("타입은 : "+type);
+      System.out.println("리뷰 등록시 로그인되있는 아이디"+vo.getId() + "/영화이름 :" + vo.getM_name());
+      System.out.println("타입은 : "+type);
        /*
         * String m_name = vo.getM_name().trim(); vo.setM_name(m_name);
         */
        String content = vo.getContent().replaceAll("<br>", "\n");
        vo.setContent(content);
        board_dao.insert(vo);
-       if( type.equals("1") ) {
-    	   System.out.println("등록타입1 지나가요");
-    	   return "redirect:movieInfoDetail.do&movieId="+totalVar1+"&movieSeq="+totalVar2+"&m_name="+vo.getM_name();
+       
+       if( type.equals("1") ) { 
+          System.out.println("등록타입1 지나가요");
+          return "redirect:movieInfoDetail.do&movieId="+totalVar1+"&movieSeq="+totalVar2+"&m_name="+vo.getM_name();
        } else {
-    	   System.out.println("등록타입2 지나가요");
-    	   return "redirect:movieInfoDetailRank.do&title="+totalVar1+"&releaseDts="+totalVar2;
+          System.out.println("등록타입2 지나가요");
+          return "redirect:movieInfoDetailRank.do&title="+totalVar1+"&releaseDts="+totalVar2;
        }
    }
    
    //수정 
    @RequestMapping("/modify.do")
    public String modify(BoardVO vo, String type, String totalVar1, String totalVar2) {
-	   System.out.println("수정인데 로그인되있는 아이디"+vo.getId() + "/영화이름 :" + vo.getM_name());
-	   System.out.println("타입은 : "+type);
-	   
-	   board_dao.update(vo);
-	   if( type.equals("1") ) {  
-    	   return "redirect:movieInfoDetail.do&movieId="+totalVar1+"&movieSeq="+totalVar2+"&m_name="+vo.getM_name();
+      System.out.println("수정인데 로그인되있는 아이디"+vo.getId() + "/영화이름 :" + vo.getM_name());
+      System.out.println("타입은 : "+type);
+      String content = vo.getContent().replaceAll("<br>", "\n");
+      vo.setContent(content);
+      
+      board_dao.update(vo);
+      if( type.equals("1") ) {  
+          return "redirect:movieInfoDetail.do&movieId="+totalVar1+"&movieSeq="+totalVar2+"&m_name="+vo.getM_name();
        } else {
-    	   return "redirect:movieInfoDetailRank.do&title="+totalVar1+"&releaseDts="+totalVar2;
+          return "redirect:movieInfoDetailRank.do&title="+totalVar1+"&releaseDts="+totalVar2;
        }
    }
    
@@ -231,4 +244,3 @@ public class BoardController {
       
    }
 }
-

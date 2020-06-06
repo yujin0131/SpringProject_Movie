@@ -1,15 +1,63 @@
 @charset "UTF-8";
-*{margin:0; padding:0;}
+* { margin:0; padding:0; }
 li{ list-style:none; }
 a{ text-decoration:none; }
+
+body{
+   /* background: #FDFCF0; */
+   /* background: linear-gradient(-135deg, gray, #313131) fixed; */
+	
+}
+
+#moviewrap{width:100%; height:100%; position:relative; }
+
+ /* background img */
+.main_bg{ width:100%; z-index:-1000; position:absolute; }
+.main_bg > img{ width:100%; height:300px; background-repeat: no-repeat; }
+				
+
+
+
+.m_list_bg{ width:100%; height:630px; z-index:-1000; position:absolute; }
+.m_list_bg > img{ width:100%; height:100%; background-repeat: no-repeat; }
+
+.f_bg{ width:100%; height:200px; z-index:-1000; position:absolute; }
+.f_bg > img{ width:100%; height:100%; background-repeat: no-repeat; }
+
+/* header */
+#header{ width:100%; height:300px; position:absolute; }
+
+#header .gnb{ width:80%; height:40px; position:relative; margin:0 auto; }
+#header .gnb ul{ width:200px; float:right; list-style:none; }
+#header .gnb ul li{ float:right; margin-right:10px; }
+#header .gnb ul > li > a{ text-decoration:none; color:white; letter-spacing:2px; font-size:13px; }
+
+#header .nav{ width:80%; height:240px; position:relative; margin:10px auto; }
+#header .nav #nav_left{ width:180px; height:180px; position:absolute; margin:30px 4%; }
+#header .nav #nav_left > img{ width:180px; height:180px;}
+					
+							
+#header .nav #nav_right{ width:180px; height:180px; position:absolute; margin-left:82%; margin-top:40px; }
+#header .nav #nav_right > img{ width:220px; height:160px; }
+#header .nav > h2{ width:50%; height:70px; position:absolute; margin:30px 25%; }
+#header .nav > h2 > img{ width:100%; height:70px;}
+
+#header .nav ul{ width:60%; height:60px; list-style:none; position:absolute; margin-top:120px; margin-left:20%; }
+#header .nav ul > li{ float:left; width:25%; height:50px; text-align:center; line-height:80px; }
+#header .nav ul > li > a{ text-decoration:none; color:white; font-size:18px; font-weight:400px; letter-spacing:2px; text-shadow: 5px 5px 5px white, 0 0 120px purple, 0 0 5px maroon; }
+#header .nav ul > li > a:visited { text-decoration: none; }
 
 #container{
 	border:1px solid black;
 	width:1100px;
-	height:2200px;
-	margin: 100px auto;
+	top:300px;
+	margin-left:210px;
 	position : relative;
 	overflow: hidden;
+	border-radius: 30px;
+	background: linear-gradient(to right, #cecece, white 50%, #cecece);
+	opacity:0.91;
+
 }
 
 /* #chart_title{
@@ -27,8 +75,7 @@ a{ text-decoration:none; }
 #movie_first_box{
 	width:1100px;
 	height:400px;
-	position:relative;
-	overflow: hidden;
+	float:left;
 	background-repeat: no-repeat;
 	background-size: 75% auto;
 	background-position: center 0;
@@ -69,6 +116,7 @@ a{ text-decoration:none; }
 	height:480px;
 	margin-right: 30px;
 	color:white;
+	
 }
 
 #movie_titles{
@@ -103,6 +151,7 @@ a{ text-decoration:none; }
 	display: inline;
 	padding-right:10px;
 	border-right:1px solid #b2bec3;
+	
 }
 
 #movie_detail_relDate{
@@ -133,16 +182,17 @@ a{ text-decoration:none; }
 	display: inline;
 }
 
+
 #movie_detail_plots{
 	border-bottom:1px solid #b2bec3;
 	box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2);
-	position : absolute;
+	float:left;
 	left : 0%;
 	top : 410px;
 	width:1080px;
 	padding-left:10px;
 	padding-right:10px;
-
+	
 	
 }
 
@@ -165,7 +215,7 @@ a{ text-decoration:none; }
 
 
 #movie_detail_still_box{
-	position : absolute;
+	float:center;
 	top : 560px;
 	width:1080px;
 	letter-spacing:3px;
@@ -233,16 +283,102 @@ a{ text-decoration:none; }
 }
 
 #movie_trailer_box{
-	border:1px solid black;
-	float:left;
-	position : absolute;
+	float:center;
 	left : 74px;
 	top : 900px;
-	width:950px;
+	width:1100px;
+	height:534px;
+	margin-top:280px;
+
 }
 
 #review_box{
-	position: relative;
-	top:1200px;
-	left:60px;
+	float:center;
+	margin-top:50px;
+	
+
 }
+
+.table_box{background:red;background:red;}
+
+
+/* footer */
+#footer{ width:99%; height:240px; position:absolute; margin-top:300px; margin-bottom:0;}
+#footer .f_logo{ width:150px; height:150px; position:absolute;}
+#footer .f_logo > img{ width:150px; height:150px; margin-top:30px; }
+
+#footer .f_txt{ width:50%; height:100px; position:relative; margin:0 auto; }
+#footer address{ width:100%; height:30px; position:absolute; margin-top:80px; text-align:center; color:white; }
+#footer .team1{ width:100%; height:30px; position:absolute; margin:110px auto; text-align:center; color:white; }
+#footer .team2{ width:100%; height:30px; position:absolute; margin:140px auto; text-align:center; color:white; }
+
+
+#no_login_logo{width:60px; height:60px;}
+.back_c {margin:0; line-height:89px; width:100px; height:100px;}   /* 뒷배경 사진은 나중에 바꾸기!!!!!!!!!!!! */
+         
+.write {width:25px; height:25px; line-height:10px;}
+   
+h3, h5 {display: inline}
+      
+.p {margin: 0;}
+      
+.close{width:15px; height:15px;}
+
+/* 
+
+@font-face {
+  font-family: neon;
+  src: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/707108/neon.ttf);
+}
+
+.neon_font {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.neon {
+  font-family: neon;
+  color: #fffff4;
+  font-size: 80px;
+  text-shadow: .5vw .5vw .1vw  #bc4a03;
+  animation: neon 2s linear infinite;
+  animation-iteration-count:1;
+}
+
+.flux {
+  font-family: neon;
+  color: #fff9ff;
+  font-size: 80px;
+  text-shadow: .5vw .5vw .1vw  #994099;
+  animation: flux 2s linear infinite;
+  animation-iteration-count: 1;
+}
+
+
+@keyframes neon {
+  0%,
+  100% {
+    text-shadow: 0 0 .5vw #FA1C16, 0 0 1.5vw #FA1C16, 0 0 5vw #FA1C16, 0 0 5vw #FA1C16, 0 0 .2vw #FA1C16, .5vw .5vw .1vw #40340A;
+    color: #f2be04;
+  }
+  50% {
+    text-shadow: 0 0 1vw #ffe070, 0 0 3vw #FED128, 0 0 10vw #ffe070, 0 0 10vw #FED128, 0 0 .4vw #ffe070, .5vw .5vw .1vw #FED128;
+    color: #f6fcb8;
+     
+  }
+}
+
+
+@keyframes flux {
+  0%,
+  100% {
+    text-shadow: 0 0 .5vw #b201b2, 0 0 1.5vw #b201b2, 0 0 5vw #b201b2, 0 0 5vw #b201b2, 0 0 .2vw #b201b2, .5vw .5vw .1vw #40340A;
+    color: #916b9e;
+  }
+  50% {
+    text-shadow: 0 0 1vw #edaacb, 0 0 3vw #ff71b8, 0 0 10vw #edaacb, 0 0 10vw #ff71b8, 0 0 .4vw #edaacb, .5vw .5vw .1vw #ff71b8;
+    color: #ffedf6;
+  }
+}
+ */
