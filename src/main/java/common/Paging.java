@@ -57,7 +57,7 @@ public class Paging {
 		for(int i=startPage; i<= endPage ;i++){
 			if(i>totalPage)break;
 			if(i == nowPage){ //현재 있는 페이지
-				sb.append("&nbsp;<b><font color='#f00'>");
+				sb.append("&nbsp;<b><font color='#510984'>");
 				sb.append(i);
 				sb.append("</font></b>");
 			}

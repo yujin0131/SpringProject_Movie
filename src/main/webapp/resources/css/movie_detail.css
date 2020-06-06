@@ -15,7 +15,52 @@ body{
 .main_bg{ width:100%; z-index:-1000; position:absolute; }
 .main_bg > img{ width:100%; height:300px; background-repeat: no-repeat; }
 				
+/* review table */
+.table_head{
+	background:white;
+	border:1px solid black;
+	font-size: 14px;
+}
+.table_head th{
+	height:27px;
+	font-size: 14px;
+	border-radius: 7px;
+}
+.table_box{
+	background:white;
+	font-size: 14px;
+	margin-bottom: 7px;
+	border-right:none;
+}
+.table_box td{
+	height:70px;
+	border-radius: 7px;
+}
 
+.table_talk tr{
+	margin-bottom: 7px;
+}
+#starno{
+      text-shadow:
+       -1px -1px 0 black,
+       1px -1px 0 black,
+       -1px 1px 0 black,
+       1px 1px 0 black; 
+       text-decoration: none;
+       font-size:24px;
+       color: gray; 
+}
+#review_count{
+   font-size:19px;
+   font-weight: bold;
+   color: #8a5daa;
+}
+
+#review_movie_name{
+   font-size:14px;
+   font-weight: bold;
+   color: #510984;
+}
 
 
 .m_list_bg{ width:100%; height:630px; z-index:-1000; position:absolute; }
@@ -51,7 +96,7 @@ body{
 	border:1px solid black;
 	width:1100px;
 	top:300px;
-	margin-left:210px;
+	margin:0px auto;
 	position : relative;
 	overflow: hidden;
 	border-radius: 30px;
@@ -294,12 +339,23 @@ body{
 
 #review_box{
 	float:center;
-	margin-top:50px;
-	
-
+}
+#review_nono{
+   font-size:14px;
 }
 
-.table_box{background:red;background:red;}
+#review_title{
+   float:left; width:40%;
+}
+
+#review_title2{
+   float:left;
+}
+
+table.review_table_two {
+   border-collapse: separate;
+   border-spacing: 0 20px;
+}
 
 
 /* footer */

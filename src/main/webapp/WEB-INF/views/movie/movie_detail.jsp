@@ -420,105 +420,95 @@ body {
 
 			<!-- 여기서 부터 review -->
 			
-			<div id="review_box">
-				<div id="main" align="center">
+			   <div id="review_box">
+            <div id="main" align="center">
 
-					<input type="hidden" action="checkLogin.do" method="GET" name="id"
-						id="id" value="${sessionScope.user.id }">
-					<div id="review_title">
-						
-						실관람 평점<br>
+               <input type="hidden" action="checkLogin.do" method="GET" name="id"id="id" value="${sessionScope.user.id }">
+               
+               <div id="review_title" style="margin-top:20px; padding-left:230px; width:200px">
+                	  실관람 평점<br>
+                  <a id="starno">★</a>
+                  <h3>${avg_f2}</h3>
+                  <h5>/ 5</h5>
+                  <div style="background:url(${pageContext.request.contextPath}/resources/img/circle_black.png); 
+                           background-repeat:no-repeat; background-size:80px;
+                           background-position:64px;
+                           padding-left:6px;
+                           padding-top:7px;">
+                  <h1 class="back_c" style="color:white;">${avg}</h1></div>
+               </div>
+               <div id="review_title2" style="margin-top:87px;">
+                  <c:choose>
+                     <c:when test="${count eq 0}">
+                     <c:if test="${empty title}">아직 ${m_name}에 대한 관람평이 없습니다.</c:if>
+                     <c:if test="${empty m_name}">아직 ${title}에 대한 관람평이 없습니다.</c:if>
+                     </c:when>
+                  
+                     <c:otherwise>
+                        <c:if test="${empty title}">${m_name}에 대한</c:if>
+                           <c:if test="${empty m_name}">${title}에 대한</c:if>
+                           <a id="review_count">${count}</a>개의 이야기가 있어요!
+                        </c:otherwise>
+                     </c:choose>
+                  </div>
 
-						<h3>${avg_f2}</h3>
-						<h5>/ 5</h5>
+               <table width="950px" align="center">
+                  <tr>
+                     <c:choose>
+                        <c:when test="${ empty sessionScope.user }">
+                           <td width="80" align="center">
+                           <img id="no_login_logo" src="${ pageContext.request.contextPath }/resources/img/logo_test.png">
+                           </td>
+                           
+                           <td width="2" class="td_b">
+                           <img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif">
+                           </td>
+                           
+                           <td align="center">
+                           <a id="review_movie_name">
+                              <c:if test="${empty title}">${m_name}</c:if>
+                                       <c:if test="${empty m_name}">${title}</c:if>
+                           </a>
+                           <a id="review_nono"> 영화는 재미있게 보셨나요? 영화의 어떤 점이 좋았는지 이야기해주세요.</a></td>
+                        </c:when>
 
-						<h1 class="back_c">${avg}</h1>
-					</div>
-					
-
-					<table width="950px" align="center">
-					
-					<tr><td colspan="4" style="color:red;">
-					<c:choose>
-						<c:when test="${count eq 0}">
-						<c:if test="${empty title}">아직 ${m_name}에 대한 관람평이 없습니다.</c:if>
-						<c:if test="${empty m_name}">아직 ${title}에 대한 관람평이 없습니다.</c:if>
-					</c:when>
-					
-					<c:otherwise>
-						<c:if test="${empty title}">${m_name}에 대한 ${count}개의 이야기가 있어요!</c:if>
-	            		<c:if test="${empty m_name}">${title}에 대한 ${count}개의 이야기가 있어요!</c:if>
-            		</c:otherwise>
-            		
-            		</c:choose>
-            		</td></tr>
-					
-						<tr style="border-top:1px solid black;">
-							
-							<c:choose>
-								<c:when test="${ empty sessionScope.user }">
-									<td width="80" align="center">
-									<img id="no_login_logo" src="${ pageContext.request.contextPath }/resources/img/logo_test.png">
-									</td>
-									
-									<td width="2" class="td_b">
-									<img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif">
-									</td>
-									
-									<td align="center">
-									<b>
-										<c:if test="${empty title}">${m_name}</c:if>
-                                    	<c:if test="${empty m_name}">${title}</c:if>
-									</b> 영화는 재미있게 보셨나요? 영화의 어떤 점이 좋았는지 이야기해주세요.</td>
-								</c:when>
-
-								<c:otherwise>
-									<td width="80" align="center">${sessionScope.user.id }</td>
-									<td width="2" class="td_b"><img
-										src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif">
-									</td>
-									<td align="center"><b>${sessionScope.user.id }</b>님, <b>
-											<c:if test="${empty title}">
+                        <c:otherwise>
+                           <td width="80" align="center">${sessionScope.user.id }</td>
+                           <td width="2" class="td_b"><img
+                              src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif">
+                           </td>
+                           <td align="center"><b>${sessionScope.user.id }</b>님, <b>
+                                 <c:if test="${empty title}">
                                         ${m_name}
                                      </c:if> <c:if test="${empty m_name}">
                                  ${title}
                               </c:if>
-									</b> 영화는 재미있게 보셨나요? 영화의 어떤 점이 좋았는지 이야기해주세요.</td>
-								</c:otherwise>
-							</c:choose>
+                           </b> 영화는 재미있게 보셨나요? 영화의 어떤 점이 좋았는지 이야기해주세요.</td>
+                        </c:otherwise>
+                     </c:choose>
 
-							<!-- <td width="120" onclick="write();"> -->
-							<td width="120" class="new" onclick="check();">
-								<!-- <td width="120" onclick="location.href='insert_form.do'"> -->
-								<img src="${pageContext.request.contextPath}/resources/img/write1.png" class="write"> 관람평쓰기
-							</td>
-						</tr>
-					</table>
+                     <!-- <td width="120" onclick="write();"> -->
+                     <td width="120" class="new" onclick="check();">
+                        <!-- <td width="120" onclick="location.href='insert_form.do'"> -->
+                        <img src="${pageContext.request.contextPath}/resources/img/write1.png" class="write"> 관람평쓰기
+                     </td>
+                  </tr>
+               </table>
 
-					
 
 					<table width="950" align="center">
-						<tr>
+						<tr class="table_head">
 
-							<td width="76" align="center">아이디</td>
-							<td width="2" class="td_b">
-							<img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif">
-							</td>
+							<th width="76" align="center">아이디</th>
 
-							<td width="150" align="center">영화</td>
-							<td width="2" class="td_b">
-							<img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif">
-							</td>
+							<th width="260" align="center" >영화</th>
 
-							<td width="40" class="td_b" align="center">평점</td>
+							<th width="40" class="td_b" align="center">평점</th>
 
-							<td width="2" class="td_b">
-							<img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif">
-							</td>
 
-							<td width="600" class="td_b" align="center"><pre>관람평</pre></td>
-							<td width="2" class="td_b"></td>
-							<td width="76" class="td_b" align="center"></td>
+							<th width="600" class="td_b" align="center">관람평</th><!-- <pre>관람평</pre> -->
+
+							<th width="76" class="td_b" align="center"></th>
 
 						</tr>
 
@@ -550,29 +540,16 @@ body {
 									</div>
 								</td>
 							</tr>
-
-							<%-- <tr id="review_one_box"><img src="${pageContext.request.contextPath}/resources/img/review_box.png"> --%>
 	
-							<tr id="table_box">
+							<tr class="table_box">
 								<td width="76" align="center">${vo.id }</td>
-								<td width="2" class="td_b">
-								<img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif">
-								</td>
 								
-								<td width="150" align="center">${vo.m_name }</td>
-								<td width="2" class="td_b">
-								<img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif">
-								</td>
+								<td width="260" align="center">${vo.m_name }</td>
 	
 								<td width="40" class="td_b" align="center">${vo.scope }</td>
-	
-								<td width="2" class="td_b">
-								<img rc="${pageContext.request.contextPath}/resources/img/td_bg_01.gif"></td>
-	
+
 								<td width="600" overflow:hidden; class="td_b" align="center">${vo.content }</td>
-								<td width="2" class="td_b">
-								<img src="${pageContext.request.contextPath}/resources/img/td_bg_01.gif"></td>
-	
+
 								<td width="76" class="td_b" align="center">
 								<input width="15"
 									height="15" type="image" name="button"
@@ -598,12 +575,6 @@ body {
 						<tr height="20"></tr>
 
 					</table>
-					<!-- <table>
-						<div class="neon_font">
-						<tr><td>
-				  		<div class="neon">CINEMA</div></td><td colspan="3"></td> <td><div class="flux">FESTIVAL</div></td>
-						</tr></div>
-					</table> -->
 				</div>
 			</div>
 		</div>
