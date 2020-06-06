@@ -13,59 +13,57 @@
    <link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/movie_query.css">
    
    <style type="text/css">
+       
        body{
            background-image: url(${ pageContext.request.contextPath }/resources/img/footer_bg.png);
            background-repeat: repeat;
            
        }
-       
-        
-   
-#back-top {
-position: fixed;
-bottom: 30px;
-margin-left: -150px;
-}
+		#back-top {
+		position: fixed;
+		bottom: 30px;
+		margin-left: -150px;
+		}
 
-#back-top a {
-width: 108px;
-display: block;
-text-align: center;
-font: 11px/100% Arial, Helvetica, sans-serif;
-text-transform: uppercase;
-text-decoration: none;
-color: #bbb;
-
-/* transition */
--webkit-transition: 1s;
--moz-transition: 1s;
-transition: 1s;
-}
-#back-top a:hover {
-color: #000;
-}
-
-/* arrow icon (span tag) */
-#back-top span {
-width: 108px;
-height: 108px;
-display: block;
-margin-bottom: 7px;
-background: #ddd url(up-arrow.png) no-repeat center center;
-
-/* rounded corners */
--webkit-border-radius: 15px;
--moz-border-radius: 15px;
-border-radius: 15px;
-
-/* transition */
--webkit-transition: 1s;
--moz-transition: 1s;
-transition: 1s;
-}
-#back-top a:hover span {
-background-color: #777;
-}
+		#back-top a {
+		width: 108px;
+		display: block;
+		text-align: center;
+		font: 11px/100% Arial, Helvetica, sans-serif;
+		text-transform: uppercase;
+		text-decoration: none;
+		color: #bbb;
+		
+		/* transition */
+		-webkit-transition: 1s;
+		-moz-transition: 1s;
+		transition: 1s;
+		}
+		#back-top a:hover {
+		color: #000;
+		}
+		
+		/* arrow icon (span tag) */
+		#back-top span {
+		width: 108px;
+		height: 108px;
+		display: block;
+		margin-bottom: 7px;
+		background: #ddd url(up-arrow.png) no-repeat center center;
+		
+		/* rounded corners */
+		-webkit-border-radius: 15px;
+		-moz-border-radius: 15px;
+		border-radius: 15px;
+		
+		/* transition */
+		-webkit-transition: 1s;
+		-moz-transition: 1s;
+		transition: 1s;
+		}
+		#back-top a:hover span {
+		background-color: #777;
+		}
        
    </style>
    
@@ -99,10 +97,7 @@ background-color: #777;
       var today = loadDate()-1;//1일에 문제될수있음
       var releaseStart = releaseDtStart();
       var releaseEnd = releaseDtEnd();
-      /* console.log(today);
-      console.log(releaseStart);
-      console.log(releaseEnd); */
-   
+
       var moreCount = 1;//더보기 카운트
    
       function more_list(){
@@ -115,7 +110,6 @@ background-color: #777;
       }
       //박스오피스 버튼
       function boxOfficeView(){
-         
          load_boxOff_list();
          document.getElementById("contents_release").style.display="none";
          document.getElementById("contents_query").style.display="none";
@@ -162,7 +156,7 @@ background-color: #777;
             for(var i=0 ; i<json[0].Data[0].Result.length ; i++){
                
                 var moviePoster = cutPoster(json[0].Data[0].Result[i].posters);//json형식으로 넘어온 값이 여러개의 포스터일 경우 하나의 포스터를 가져옴
-               var releaseTitle = json[0].Data[0].Result[i].title;
+                var releaseTitle = json[0].Data[0].Result[i].title;
                 if( releaseTitle == null ){
                    releaseTitle = '불러오지 못함';
                 }
@@ -420,19 +414,7 @@ background-color: #777;
    </script> 
 </head>
 <body>
-   <!-- <div id="nav">
-         <ul>
-            <li><a href="home.do">Home</a></li>
-            <li><a href="#">영화</a></li>
-            <li><a href="#">예매</a></li>
-            <li><a href="#">영화관</a></li>
-            <li><a href="#">커뮤니티</a></li>
-         </ul>
-     </div> -->
-     
-   
-	<%-- <div class="movielist_bg"><img src="${ pageContext.request.contextPath }/resources/img/main_bg.png"></div> --%>
-   
+
     <!-- header -->
 	<div id="header" onclick="location.href='/movie/'" style="z-index:3;">
 			<%-- <div class="main_bg"><img src="${ pageContext.request.contextPath }/resources/img/main_bg.png"></div> --%>
