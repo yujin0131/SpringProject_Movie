@@ -18,5 +18,15 @@
 	<bean id="user_daoBean" class="dao.UserDAO">
 		<property name="sqlSession" ref="sqlSessionBean"/> 
 	</bean>
+	
+	<bean id="theaterdao_Bean" class="dao.TheaterDAO">
+		<constructor-arg ref="sqlSessionBean"/>
+	</bean>
+	<bean id="ticketdao_Bean" class="dao.TicketDAO">
+		<constructor-arg ref="sqlSessionBean"/>
+	</bean>
+	<bean id="seatdao_Bean" class="dao.SeatDAO">
+		<constructor-arg ref="sqlSessionBean"/>
+	</bean>
 			
 </beans>

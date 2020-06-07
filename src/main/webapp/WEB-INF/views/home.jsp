@@ -4,8 +4,17 @@
 <%@ page session="false" %>
 <html>
 <head>
+	
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/main.css">
 	<link rel="shortcut icon" type="image/x-icon" href="${ pageContext.request.contextPath }/resources/img/icon.jpg"/>
+	<script type="text/javascript">
+		
+	window.onload=function(){
+        alert("${sessionScope.user.id}");
+     };
+	</script>
+	
+	
 	<title>Cinema</title>	
 </head>
 <body>
@@ -16,8 +25,16 @@
 			<div class="main_bg"><img src="${ pageContext.request.contextPath }/resources/img/main_bg.png"></div>
 			<div class="gnb">
 				<ul>
-					<li><a href="#">로그인</a></li>
-					<li><a href="#">회원가입</a></li>
+			<c:if test="${empty param.l_idx }">
+					<li><a href="login_form.do?seat=0">로그인</a></li>
+					<li><a href="register_form.do">회원가입</a></li>
+			</c:if>
+			
+			<c:if test="${not empty param.l_idx }">
+					<li style='color:white;'><span style='font-weight: bold;'>${ param.name }</span> 님 환영합니다.</li>
+					<li><a href="logout.do">로그아웃</a></li>
+					<li><a href="mypage.do?l_idx=${ param.l_idx }">마이페이지</a></li>
+			</c:if>
 				</ul>
 			</div>
 			<div class="nav">
@@ -25,8 +42,8 @@
 				<h2><img src="${ pageContext.request.contextPath }/resources/img/nav_logo.png"></h2>
 				<ul>
 					<li><a href="movieReleaseList.do">영화</a></li>
-					<li><a href="#">예매</a></li>
-					<li><a href="#">영화관</a></li>
+					<li><a href="ticketing.do">예매</a></li>
+					<li><a href="location.do">영화관</a></li>
 					<li><a href="review.do">커뮤니티</a></li>				
 				</ul>
 				<h1 id="nav_right"><img src="${ pageContext.request.contextPath }/resources/img/logo_test2.png"></h1>
@@ -54,7 +71,7 @@
 								THIS IS ME! 우리는 누구나 특별하다!
 							</p></a>
 						</div>
-						<div class="case"><a href="#">예 매</a></div>
+						<div class="case"><a href="ticketing.do?m_name=위대한 쇼맨">예 매</a></div>
 						<div class="like"><a href="#">Like</a></div>
 					</li>
 					<li>
@@ -72,7 +89,7 @@
 								‘빅토르’는 꿈에 그리던 첫사랑과 재회하게 되는데...
 							</p></a>
 						</div>
-						<div class="case"><a href="#">예 매</a></div>
+						<div class="case"><a href="ticketing.do?m_name=카페 벨에포크">예 매</a></div>
 						<div class="like"><a href="#">Like</a></div>
 					</li>
 					<li>
@@ -90,7 +107,7 @@
 								목숨을 건 단 한 번의 기회를 노리는데…
 							</p></a>
 						</div>
-						<div class="case"><a href="#">예 매</a></div>
+						<div class="case"><a href="ticketing.do?m_name=프리즌 이스케이프">예 매</a></div>
 						<div class="like"><a href="#">Like</a></div>
 					</li>
 					<li>
@@ -111,7 +128,7 @@
 								자신의 스타일대로 진정한 자유를 외친 여성들의 유쾌한 반란이 시작된다!
 							</p></a>
 						</div>
-						<div class="case"><a href="#">예 매</a></div>
+						<div class="case"><a href="ticketing.do?m_name=미스비헤이비어">예 매</a></div>
 						<div class="like"><a href="#">Like</a></div>
 					</li>
 				</ul>			

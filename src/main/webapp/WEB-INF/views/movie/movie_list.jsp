@@ -229,6 +229,7 @@
                document.getElementById("movie_openDt_"+i).value=openDts;//영화 코드(영진위)
                document.getElementById("movie_movieNm_"+i).value=json[0].boxOfficeResult.dailyBoxOfficeList[i].movieNm;//영화 제목에서 자르기(영진위)
                 document.getElementById("movie_rank_movieNm_"+i).innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].movieNm;;//영화 제목
+                document.getElementById("ticket"+i).href="ticketing.do?m_name="+json[0].boxOfficeResult.dailyBoxOfficeList[i].movieNm;
                 document.getElementById("movie_rank_rank_"+i).innerHTML=json[0].boxOfficeResult.dailyBoxOfficeList[i].rank+" 위";//순위
                 document.getElementById("movie_rank_salesShare_"+i).innerHTML="예매율 : "+json[0].boxOfficeResult.dailyBoxOfficeList[i].salesShare+" %";//예매율
                 document.getElementById("movie_rank_audiAcc_"+i).innerHTML="누적관객수 : "+json[0].boxOfficeResult.dailyBoxOfficeList[i].audiAcc+"명";//누적관객수
@@ -416,27 +417,42 @@
 <body>
 
     <!-- header -->
-	<div id="header" onclick="location.href='/movie/'" style="z-index:3;">
-			<%-- <div class="main_bg"><img src="${ pageContext.request.contextPath }/resources/img/main_bg.png"></div> --%>
+		<div id="header" onclick="location.href='/movie/'" style="z-index:3;">
+			<div class="main_bg"><img src="${ pageContext.request.contextPath }/resources/img/main_bg.png"></div>
 			<div class="gnb">
 				<ul>
+			<c:if test="${empty param.l_idx }">
+					<li><a href="login_form.do?seat=0">로그인</a></li>
+					<li><a href="register_form.do">회원가입</a></li>
+			</c:if>
+			
+			<c:if test="${not empty param.l_idx }">
+					<li style='color:white;'><span style='font-weight: bold;'>${ param.name }</span> 님 환영합니다.</li>
+					<li><a href="logout.do">로그아웃</a></li>
+					<li><a href="mypage.do?l_idx=${ param.l_idx }">마이페이지</a></li>
+			</c:if>
+				</ul>
+				
+				<!-- <ul>
 					<li><a href="#">로그인</a></li>
 					<li><a href="#">회원가입</a></li>
-				</ul>
+				</ul> -->
 			</div>
 			<div class="nav">
 				<h1 id="nav_left"><img src="${ pageContext.request.contextPath }/resources/img/logo_test.png"></h1>
 				<h2><img src="${ pageContext.request.contextPath }/resources/img/nav_logo.png"></h2>
 				<ul>
 					<li><a href="movieReleaseList.do">영화</a></li>
-					<li><a href="#">예매</a></li>
-					<li><a href="#">영화관</a></li>
+					<li><a href="ticketing.do">예매</a></li>
+					<li><a href="location.do">영화관</a></li>
 					<li><a href="review.do">커뮤니티</a></li>				
 				</ul>
 				<h1 id="nav_right"><img src="${ pageContext.request.contextPath }/resources/img/logo_test2.png"></h1>
 			</div>
 		</div>
 	<!-- header 끝 -->
+	
+	<%-- <jsp:include page="../header.jsp"/> --%>
 
     <div id="container">
 		<div id="container_inner">
@@ -613,7 +629,7 @@
                               <img id="movie_rank_poster_${n}_img">
                               <div class="poster_hover">
                                  <div class="poster_hover_text">
-                                    <div class="poster_hover_text_2"><a href="#">예매하기</a></div>      
+                                    <div class="poster_hover_text_2"><a id="ticket${n}">예매하기</a></div>      
                                     <div class="poster_hover_text_1"><a href="javascript:void(0);" onclick="detailRank(movie_openDt_${n}.value, movie_movieNm_${n}.value, movie_trailer_src_${n}.value);">상세보기</a></div>
                                  </div>   
                               </div>

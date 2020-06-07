@@ -16,7 +16,7 @@ public class BoardDAO {
 		this.sqlSession = sqlSession;
 	}
 	
-	//전체 게시글 조회
+	//영화 게시글 조회
 	public List<BoardVO> selectList(String m_name){
 		
 		List<BoardVO> list = null;
@@ -36,16 +36,6 @@ public class BoardDAO {
 		int num = sqlSession.selectOne("b.num", m_name);
 		return num;
 	}
-	
-	//영화 조회
-	
-	/*
-	 * public String selectM( String m_name ) {
-	 * 
-	 * String user_m_name = sqlSession.selectOne("b.user_m_name", m_name); return
-	 * user_m_name; }
-	 */
-	
 	
 	//리뷰썼는지 확인
 	public String selectReview(String id, String m_name) {//String id
@@ -109,12 +99,34 @@ public class BoardDAO {
 		return list;
 	}
 		
-	//게시판의 전체 게시물 수
+	//게시판의 해당영화 게시물 수
 	public int getRowTotal(String m_name) {
 	
 		int count = sqlSession.selectOne("board_count", m_name);
 		return count;
 	}
+	
+	//게시판의 해당영화 게시물 수
+	public int getRowTotal2() {
+		
+		int count = sqlSession.selectOne("board_total_count");
+		return count;
+	}
+	//페이징을 포함한 검색
+	public List<BoardVO> selectListTotal(){	
+		List<BoardVO> list = null;
+		list = sqlSession.selectList("b.board_list_total_condition");
+		return list;
+	}
+	
+	//마이페이지 리뷰블러오기
+	public List<BoardVO> myReview(String id){
+		 List<BoardVO> list = null;
+		 list=sqlSession.selectList("b.board_myreviews", id);
+		 return list;
+		
+	}
+	
 	
 }
 

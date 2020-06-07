@@ -6,11 +6,32 @@ public class UserVO {
 	private String id;
 	private String pwd;
 	private String name;
-	private String addr;
+	private String postcode; // 우편번호
+	private String addr; // 주소
+	private String d_addr; // 상세주소
+	private String ex_addr; // 참고항목
 	private String tell;
 	private String email;
 	private int myPoint;
 
+	public String getPostcode() {
+		return postcode;
+	}
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
+	}
+	public String getD_addr() {
+		return d_addr;
+	}
+	public void setD_addr(String d_addr) {
+		this.d_addr = d_addr;
+	}
+	public String getEx_addr() {
+		return ex_addr;
+	}
+	public void setEx_addr(String ex_addr) {
+		this.ex_addr = ex_addr;
+	}
 	public String getName() {
 		return name;
 	}

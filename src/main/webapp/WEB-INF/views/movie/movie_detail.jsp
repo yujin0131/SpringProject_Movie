@@ -420,7 +420,7 @@ body {
 
 			<!-- 여기서 부터 review -->
 			
-			   <div id="review_box">
+			<div id="review_box">
             <div id="main" align="center">
 
                <input type="hidden" action="checkLogin.do" method="GET" name="id"id="id" value="${sessionScope.user.id }">
@@ -589,8 +589,7 @@ body {
 		</div>
 		<div class="f_txt">
 			<p class="f_logo">
-				<img
-					src="${ pageContext.request.contextPath }/resources/img/logo_test.png">
+				<img src="${ pageContext.request.contextPath }/resources/img/logo_test.png">
 			</p>
 			<address>서울특별시 마포구 서강로 136 아이비티워 2층,3층</address>
 			<p class="team1">2조 Spring Project Movie</p>

@@ -1,0 +1,53 @@
+@charset "UTF-8";
+* { margin:0; padding:0; }
+li{ list-style:none; }
+a{ text-decoration:none; }
+
+
+/* review table */
+.table_head{
+	background:white;
+	border:1px solid black;
+	font-size: 14px;
+}
+.table_head th{
+	height:27px;
+	font-size: 14px;
+	border-radius: 7px;
+}
+.table_box{
+	background:white;
+	font-size: 14px;
+	margin-bottom: 7px;
+	border-right:none;
+}
+.table_box td{
+	height:70px;
+	border-radius: 7px;
+}
+
+.table_talk tr{
+	margin-bottom: 7px;
+}
+#starno{
+      text-shadow:
+       -1px -1px 0 black,
+       1px -1px 0 black,
+       -1px 1px 0 black,
+       1px 1px 0 black; 
+       text-decoration: none;
+       font-size:24px;
+       color: gray; 
+}
+#review_count{
+   font-size:19px;
+   font-weight: bold;
+   color: #8a5daa;
+}
+
+#review_movie_name{
+   font-size:14px;
+   font-weight: bold;
+   color: #510984;
+}
+

@@ -243,4 +243,59 @@ public class BoardController {
       return res;
       
    }
+   
+   
+   @RequestMapping("/review.do")
+   public String reviews(Model model, Integer page) {
+		/*
+		 * int nowPage = 1; if(page != null) { nowPage = page; }
+		 * 
+		 * //한 페이지에 표시되는 게시물의 시작과 끝 번호를 계산 int start = (nowPage - 1) *
+		 * Common.Board.BLOCKLIST + 1; int end = start + Common.Board.BLOCKLIST - 1;
+		 */
+		/*
+		 * Map<String, Object> map = new HashMap<String, Object>(); map.put("start",
+		 * start); map.put("end", end);
+		 */
+		 
+	      
+	      List<BoardVO>list = null;
+	      list = board_dao.selectListTotal();
+	      
+	      String content = "";
+	       for(int i = 0; i < list.size(); i++) {
+	          content = list.get(i).getContent().replaceAll("\n", "<br>");
+	          list.get(i).setContent(content);
+	       }
+	      
+			/*
+			 * //전체 게시물 수 구하기 int row_total = board_dao.getRowTotal2();
+			 * 
+			 * //Paging클래스를 사용하여 페이지 메뉴 생성하기 추가해야하나 "&m_name="+m_name,
+			 * 
+			 * String pageMenu = Paging.getPaging("review.do", nowPage, row_total,
+			 * Common.Board.BLOCKLIST, Common.Board.BLOCKPAGE);
+			 */
+	     // String user_m_name = board_dao.selectM(title);
+	      
+	      model.addAttribute("list", list);
+	      
+	     // model.addAttribute("user_m_name", user_m_name);
+			/*
+			 * model.addAttribute("pageMenu", pageMenu); model.addAttribute("count",
+			 * row_total);
+			 */
+	      System.out.println(list.get(0).getM_name());
+	   return Common.Board.VIEW_PATH + "community.jsp";   
+   }
+   
+   
+   @RequestMapping("/selectreview.do")
+   @ResponseBody
+   public List<BoardVO> mypageReview(String id){
+	   List<BoardVO> list = null;
+	   list=board_dao.myReview(id);
+	   return list;
+   }
+   
 }
