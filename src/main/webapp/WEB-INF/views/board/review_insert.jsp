@@ -82,6 +82,7 @@
 
 </head>
 <body>
+
 	<form action="insert.do" method="GET" name="f">
 		<table width=100% align="center" class="top">
 			<tr>

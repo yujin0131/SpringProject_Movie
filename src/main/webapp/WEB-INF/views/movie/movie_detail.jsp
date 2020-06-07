@@ -7,21 +7,26 @@
 <meta charset="UTF-8">
 <title>영화 그 이상의 감동. CGW</title>
 
-<link rel="stylesheet"
-	href="${ pageContext.request.contextPath }/resources/css/movie_detail.css">
-<style type="text/css">
-body {
-	background-image:
-		url(${ pageContext.request.contextPath }/resources/img/m_list_bg.png);
-	background-repeat: repeat-y;
-	background-size: 100%;
-}
-</style>
+	<link rel="stylesheet"
+		href="${ pageContext.request.contextPath }/resources/css/movie_detail.css">
+	<style type="text/css">
+		body {
+			background-image: url(${ pageContext.request.contextPath }/resources/img/m_list_bg.png);
+			background-repeat: repeat-y;
+			background-size: 100%;
+		}
+		#header .nav > h2 > img { width:100%; height:70px;   
+			animation: main_bg 0.7s linear infinite;
+			animation-iteration-count: 2;
+			}
+		@keyframes main_bg {
+		    50% {opacity:0.2;}
+		    100% {opacity:1;}
+		}
+	</style>
 
-
-<script type="text/javascript"
-	src="${ pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
-<script type="text/javascript">
+	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
+	<script type="text/javascript">
    
       if (self.name != 'reload') {
          self.name = 'reload';
@@ -250,7 +255,7 @@ body {
          if( "${type}" == "1" ){
             var totalVar1 = "${movieId}";
             var totalVar2 = "${movieSeq}";
-         } else {
+         } else if("${type}" == "2"){
             //( "${type}" == "2" )
             var totalVar1 = "${title}";
             var totalVar2 = "${releaseDts}";
@@ -301,41 +306,35 @@ body {
 <body>
 	<div id="moviewrap">
 		<!-- header -->
-		<div id="header" onclick="location.href='/movie/'">
-			<div class="main_bg">
-				<img
-					src="${ pageContext.request.contextPath }/resources/img/main_bg.png">
-			</div>
+		<div id="header" onclick="location.href='/movie/'" style="z-index:3;">
 			<div class="gnb">
 				<ul>
-					<li><a href="#">로그인</a></li>
-					<li><a href="#">회원가입</a></li>
+					<c:if test="${empty sessionScope.user.id}">
+						<li><a href="login_form.do?seat=0">로그인</a></li>
+						<li><a href="register_form.do">회원가입</a></li>
+					</c:if>
+					
+					<c:if test="${not empty sessionScope.user.id }">
+						<li style='color:white;'><span style='font-weight: bold;'>${ sessionScope.user.name }</span> 님 환영합니다.</li>
+						<li><a href="logout.do">로그아웃</a></li>
+						<li><a href="mypage.do?l_idx=${ param.l_idx }">마이페이지</a></li>
+					</c:if>
 				</ul>
 			</div>
+			
 			<div class="nav">
-				<h1 id="nav_left">
-					<img src="${ pageContext.request.contextPath }/resources/img/logo_test.png">
-				</h1>
-				<h2>
-					<img src="${ pageContext.request.contextPath }/resources/img/nav_logo.png">
-				</h2>
-				
-				
+				<h1 id="nav_left"><img src="${ pageContext.request.contextPath }/resources/img/logo_test.png"></h1>
+				<h2><img src="${ pageContext.request.contextPath }/resources/img/nav_logo.png"></h2>
 				<ul>
 					<li><a href="movieReleaseList.do">영화</a></li>
-					<li><a href="#">예매</a></li>
-					<li><a href="#">영화관</a></li>
-					<li><a href="review.do">커뮤니티</a></li>
+					<li><a href="ticketing.do">예매</a></li>
+					<li><a href="location.do">영화관</a></li>
+					<li><a href="review.do">커뮤니티</a></li>				
 				</ul>
-				
-				<h1 id="nav_right">
-					<img src="${ pageContext.request.contextPath }/resources/img/logo_test2.png">
-				</h1>
+				<h1 id="nav_right"><img src="${ pageContext.request.contextPath }/resources/img/logo_test2.png"></h1>
 			</div>
 		</div>
 		<!-- header 끝 -->
-		
-		
 
 		<div id="container">
 

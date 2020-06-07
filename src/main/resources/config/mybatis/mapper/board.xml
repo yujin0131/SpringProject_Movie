@@ -78,24 +78,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where no between #{start} and #{end}
 	</select>
 	
-	<!-- 헤당 영화 게시물 수 조회 -->
+	<!-- 페이지에 따른  전체 게시물 조회 -->	
+	<select id="board_list_total_condition" parameterType="java.util.Map" resultType="board">
+		select * from
+		(select rank() over(order by idx desc) no, r.*
+		from ( select idx, m_name, id, ip, content, scope, to_char(regdate, 'yyyy/mm/dd') regdate from review) r)
+		where no between #{start} and #{end}
+
+	</select>
+	
+	<!-- 해당 영화 게시물 수 조회 -->
 	<select id="board_count" resultType="int" parameterType="java.lang.String">
 		select count(*) from review where m_name like '%'||#{m_name}||'%'
 	</select>
 	
 	<!-- 전체 게시물 수 조회 -->
-	<select id="board_total_count" resultType="int" parameterType="java.lang.String">
+	<select id="board_total_count" resultType="int">
 		select count(*) from review
 	</select>
 	
-	<!-- 페이지에 따른  전체 게시물 조회 -->				<!-- 여기선 hashmap인지 map인지 확실히 해줘야 함! -->
-	<select id="board_list_total_condition" resultType="board">
-		select * from
-		(select rank() over(order by idx desc) no, r.*
-		from ( select idx, m_name, id, ip, content, scope, to_char(regdate, 'yyyy/mm/dd') regdate from review) r)
-		<!-- where no between #{start} and #{end} -->
 
-	</select>
 	
 	<select id="board_myreviews" resultType="board" parameterType="java.lang.String">
 		select * from review where id = #{id}

@@ -10,6 +10,10 @@
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/user.css">
 	
 	<style>
+		 body{
+           background-image: url(${ pageContext.request.contextPath }/resources/img/footer_bg.png);
+           background-repeat: repeat; 
+       }
 	  .field_form {width:80%; height:620px; position:relative; margin:50px auto;}
       .field_form > ul{width:100%; height:580; position:absolute; background:rgb(119, 119, 119, 0.5); border-radius:40px; }
       .field_form > ul > li {list-style:none; margin-top:30px; }
@@ -30,8 +34,9 @@
 <body>
 	
 	<div id="moviewrap">
+		<jsp:include page="../header.jsp"/>
 		<!-- header -->
-			<div id="header" onclick="location.href='/movie/'">
+			<%-- <div id="header" onclick="location.href='/movie/'">
 				<div class="main_bg"><img src="${ pageContext.request.contextPath }/resources/img/main_bg.png"></div>
 				<div class="gnb">
 					<ul>
@@ -50,14 +55,11 @@
 					</ul>
 					<h1 id="nav_right"><img src="${ pageContext.request.contextPath }/resources/img/logo_test2.png"></h1>
 				</div>
-			</div>
+			</div> --%>
 		<!-- header 끝 -->
 
 		<div id="container">
-			<div class="m_list_bg">
-				<img src="${ pageContext.request.contextPath }/resources/img/m_list_bg.png">
-			</div>
-			
+
 			<div class="field_form">
 				<ul>
 					<li class="li1">

@@ -17,7 +17,12 @@
 	
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/user.css">
 	
+	
 	<style>
+		body{
+           background-image: url(${ pageContext.request.contextPath }/resources/img/footer_bg.png);
+           background-repeat: repeat; 
+       }
 		.find_id_pwd_form {align:center; padding-top:40px;}
 		.find_id_pwd_form ul > li {list-style:none;}
 		.find_id_pwd_form h3 {width:300px; height:50px; background:rgb(119, 119, 119, 0.3); color:white; border-radius:20px; text-align:center; font-size:20px; font-weight:bold; line-height:50px; margin-bottom:20px;}
@@ -196,8 +201,9 @@
 </head>
 <body>
 	<div id="moviewrap">
+		<jsp:include page="../header.jsp"/>
 		<!-- header -->
-			<div id="header" onclick="location.href='/movie/'">
+			<%-- <div id="header" onclick="location.href='/movie/'">
 				<div class="main_bg"><img src="${ pageContext.request.contextPath }/resources/img/main_bg.png"></div>
 				<div class="gnb">
 					<ul>
@@ -216,13 +222,10 @@
 					</ul>
 					<h1 id="nav_right"><img src="${ pageContext.request.contextPath }/resources/img/logo_test2.png"></h1>
 				</div>
-			</div>
+			</div> --%>
 		<!-- header 끝 -->
 
 		<div id="container">
-			<div class="m_list_bg">
-				<img src="${ pageContext.request.contextPath }/resources/img/m_list_bg.png">
-			</div>
 			
 			<div class="find_id_pwd_form">
 				<ul>

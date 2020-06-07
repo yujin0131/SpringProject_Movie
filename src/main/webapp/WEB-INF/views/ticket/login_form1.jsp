@@ -68,8 +68,9 @@
 </head>
 <body>
 	<div id="moviewrap">
+		<jsp:include page="../header.jsp"/>
 		<!-- header -->
-		<div id="header" onclick="location.href='/movie/'">
+		<%-- <div id="header" onclick="location.href='/movie/'">
 			<div class="main_bg"><img src="${ pageContext.request.contextPath }/resources/img/main_bg.png"></div>
 			<div class="gnb">
 				<ul>
@@ -88,7 +89,7 @@
 				</ul>
 				<h1 id="nav_right"><img src="${ pageContext.request.contextPath }/resources/img/logo_test2.png"></h1>
 			</div>
-		</div>
+		</div> --%>
 		<!-- header 끝 -->
 
 		<div id="container">

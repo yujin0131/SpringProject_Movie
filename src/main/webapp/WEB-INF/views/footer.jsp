@@ -14,7 +14,7 @@
 
 <div id="moviewrap">
 	<!-- footer -->
-	<div id="footer">
+	<div id="footer2">
 		<div class="f_bg">
 			<img
 				src="${ pageContext.request.contextPath }/resources/img/footer_bg.png">

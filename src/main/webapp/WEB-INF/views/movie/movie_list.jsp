@@ -16,55 +16,62 @@
        
        body{
            background-image: url(${ pageContext.request.contextPath }/resources/img/footer_bg.png);
-           background-repeat: repeat;
-           
+           background-repeat: repeat; 
        }
+       
 		#back-top {
-		position: fixed;
-		bottom: 30px;
-		margin-left: -150px;
+			position: fixed;
+			bottom: 30px;
+			margin-left: -150px;
 		}
 
 		#back-top a {
-		width: 108px;
-		display: block;
-		text-align: center;
-		font: 11px/100% Arial, Helvetica, sans-serif;
-		text-transform: uppercase;
-		text-decoration: none;
-		color: #bbb;
-		
-		/* transition */
-		-webkit-transition: 1s;
-		-moz-transition: 1s;
-		transition: 1s;
+			width: 108px;
+			display: block;
+			text-align: center;
+			font: 11px/100% Arial, Helvetica, sans-serif;
+			text-transform: uppercase;
+			text-decoration: none;
+			color: #bbb;
+			
+			/* transition */
+			-webkit-transition: 1s;
+			-moz-transition: 1s;
+			transition: 1s;
 		}
 		#back-top a:hover {
-		color: #000;
+			color: #000;
 		}
 		
 		/* arrow icon (span tag) */
 		#back-top span {
-		width: 108px;
-		height: 108px;
-		display: block;
-		margin-bottom: 7px;
-		background: #ddd url(up-arrow.png) no-repeat center center;
-		
-		/* rounded corners */
-		-webkit-border-radius: 15px;
-		-moz-border-radius: 15px;
-		border-radius: 15px;
-		
-		/* transition */
-		-webkit-transition: 1s;
-		-moz-transition: 1s;
-		transition: 1s;
+			width: 108px;
+			height: 108px;
+			display: block;
+			margin-bottom: 7px;
+			background: #ddd url(up-arrow.png) no-repeat center center;
+			
+			/* rounded corners */
+			-webkit-border-radius: 15px;
+			-moz-border-radius: 15px;
+			border-radius: 15px;
+			
+			/* transition */
+			-webkit-transition: 1s;
+			-moz-transition: 1s;
+			transition: 1s;
 		}
 		#back-top a:hover span {
-		background-color: #777;
+			background-color: #777;
 		}
-       
+        
+        #header .nav > h2 > img{ width:100%; height:70px;   
+			animation: main_bg 0.7s linear infinite;
+			animation-iteration-count: 2;}
+		@keyframes main_bg{
+		    50% {opacity:0.2;}
+		    100% {opacity:1;}
+		}
    </style>
    
    <script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
@@ -139,7 +146,7 @@
            return posters;
       }
       
-      //목록을 가져오는 함수
+      //성영 예정작 목록을 가져오는 함수
       function load_release_list(){
          //192.168.1.101:9090/vs/list.do
          var url ='http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
@@ -182,7 +189,7 @@
                 if(movie_add_button.children[0] == undefined ){
                    if(today >= json[0].Data[0].Result[i].repRlsDate-2){
                        var aTag=document.createElement("a");
-                       aTag.href="#";
+                       aTag.href="ticketing.do?m_name="+releaseTitle; 
                        aTag.innerHTML="예매하기";
                        movie_add_button.appendChild(aTag);
                       /* document.getElementById("movie_action_button_text_"+i).innerHTML="예매"; */
@@ -353,10 +360,15 @@
             for(var i=0 ; i<json[0].Data[0].Result.length ; i++){
 
                 var moviePoster = cutPoster(json[0].Data[0].Result[i].posters);//json형식으로 넘어온 값이 여러개의 포스터일 경우 하나의 포스터를 가져옴
-         
+                var queryTitle = json[0].Data[0].Result[i].title;
+                if( queryTitle == null ){
+                	queryTitle = '불러오지 못함';
+                }
                 document.getElementById("movie_movieId_"+i).value=json[0].Data[0].Result[i].movieId;//영화 코드1
                 document.getElementById("movie_movieSeq_"+i).value=json[0].Data[0].Result[i].movieSeq;//영화 코드2
-                document.getElementById("movie_query_list_title_"+i).innerHTML=json[0].Data[0].Result[i].title;//영화 제목
+                document.getElementById("movie_query_list_title_"+i).innerHTML=queryTitle;//영화 제목
+                var td = document.getElementById("movie_query_title_data_"+i);
+                td.value=queryTitle;//영화 제목
                 document.getElementById("movie_query_list_poster_"+i+"_img").src=moviePoster;//포스터
                 
                 //개봉날짜 체크
@@ -418,26 +430,22 @@
 
     <!-- header -->
 		<div id="header" onclick="location.href='/movie/'" style="z-index:3;">
-			<div class="main_bg"><img src="${ pageContext.request.contextPath }/resources/img/main_bg.png"></div>
+			
 			<div class="gnb">
 				<ul>
-			<c:if test="${empty param.l_idx }">
-					<li><a href="login_form.do?seat=0">로그인</a></li>
-					<li><a href="register_form.do">회원가입</a></li>
-			</c:if>
-			
-			<c:if test="${not empty param.l_idx }">
-					<li style='color:white;'><span style='font-weight: bold;'>${ param.name }</span> 님 환영합니다.</li>
-					<li><a href="logout.do">로그아웃</a></li>
-					<li><a href="mypage.do?l_idx=${ param.l_idx }">마이페이지</a></li>
-			</c:if>
+					<c:if test="${empty sessionScope.user.id}">
+						<li><a href="login_form.do?seat=0">로그인</a></li>
+						<li><a href="register_form.do">회원가입</a></li>
+					</c:if>
+					
+					<c:if test="${not empty sessionScope.user.id }">
+						<li style='color:white;'><span style='font-weight: bold;'>${ sessionScope.user.name }</span> 님 환영합니다.</li>
+						<li><a href="logout.do">로그아웃</a></li>
+						<li><a href="mypage.do?l_idx=${ param.l_idx }">마이페이지</a></li>
+					</c:if>
 				</ul>
-				
-				<!-- <ul>
-					<li><a href="#">로그인</a></li>
-					<li><a href="#">회원가입</a></li>
-				</ul> -->
 			</div>
+			
 			<div class="nav">
 				<h1 id="nav_left"><img src="${ pageContext.request.contextPath }/resources/img/logo_test.png"></h1>
 				<h2><img src="${ pageContext.request.contextPath }/resources/img/nav_logo.png"></h2>
@@ -721,6 +729,7 @@
                            <div class="movie_query_result_box_${n}">
                               <input type="hidden" id="movie_movieId_${n}">
                               <input type="hidden" id="movie_movieSeq_${n}">
+                              <input type="hidden" id="movie_query_title_data_${n}">
                               
                               <div id="movie_query_list_title_${n}"></div>
                               <div id="movie_query_list_poster_${n}">
@@ -728,7 +737,7 @@
                                     <img id="movie_query_list_poster_${n}_img">
                                     <div class="poster_hover">
                                        <div class="poster_hover_text">   
-                                          <div class="poster_hover_text_3"><a href="javascript:void(0);" onclick="detail(movie_movieId_${n}.value, movie_movieSeq_${n}.value);">상세보기</a></div>
+                                          <div class="poster_hover_text_3"><a href="javascript:void(0);" onclick="detail(movie_movieId_${n}.value, movie_movieSeq_${n}.value, movie_query_title_data_${n}.value);">상세보기</a></div>
                                        </div>
                                     </div>
                                  </div>

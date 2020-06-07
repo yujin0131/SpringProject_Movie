@@ -41,9 +41,9 @@
    
    <div id="moviewrap">
    
-   
+   	<jsp:include page="../header.jsp"/>
       <!-- header -->
-      <div id="header">
+      <%-- <div id="header">
          <div class="main_bg"><img src="${ pageContext.request.contextPath }/resources/img/main_bg.png"></div>
          <div class="gnb">
             
@@ -59,7 +59,7 @@
             </ul>
             <h1 id="nav_right"><img src="${ pageContext.request.contextPath }/resources/img/logo_test2.png"></h1>
          </div>
-      </div>
+      </div> --%>
       <!-- header 끝 -->
       </div>
       

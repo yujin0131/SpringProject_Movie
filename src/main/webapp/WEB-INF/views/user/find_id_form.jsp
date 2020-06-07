@@ -9,6 +9,10 @@
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/user.css">
 	
 	<style>
+		body{
+           background-image: url(${ pageContext.request.contextPath }/resources/img/footer_bg.png);
+           background-repeat: repeat; 
+       }
 		.find_id_pwd_form {align:center; padding-top:40px;}
 		.find_id_pwd_form ul > li {list-style:none;}
 		.find_id_pwd_form ul > li > h3 {width:300px; height:50px; background:rgb(119, 119, 119, 0.3); color:white; border-radius:20px; text-align:center; font-size:20px; font-weight:bold; line-height:50px; margin-bottom:20px;}
@@ -107,9 +111,6 @@
 		<jsp:include page="../header.jsp" />
 
 		<div id="container">
-			<div class="m_list_bg">
-				<img src="${ pageContext.request.contextPath }/resources/img/m_list_bg.png">
-			</div>
 			
 			<div class="find_id_pwd_form">
 				<ul>

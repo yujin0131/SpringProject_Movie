@@ -99,6 +99,13 @@ public class BoardDAO {
 		return list;
 	}
 		
+	//페이징을 포함한 검색
+	public List<BoardVO> selectListTotal(Map<String, Object> map){	
+		List<BoardVO> list = null;
+		list = sqlSession.selectList("b.board_list_total_condition", map);
+		return list;
+	}
+	
 	//게시판의 해당영화 게시물 수
 	public int getRowTotal(String m_name) {
 	
@@ -106,17 +113,11 @@ public class BoardDAO {
 		return count;
 	}
 	
-	//게시판의 해당영화 게시물 수
+	//게시물 수
 	public int getRowTotal2() {
 		
 		int count = sqlSession.selectOne("board_total_count");
 		return count;
-	}
-	//페이징을 포함한 검색
-	public List<BoardVO> selectListTotal(){	
-		List<BoardVO> list = null;
-		list = sqlSession.selectList("b.board_list_total_condition");
-		return list;
 	}
 	
 	//마이페이지 리뷰블러오기

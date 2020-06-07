@@ -1,18 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
+
 <html>
 <head>
 	
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/css/main.css">
 	<link rel="shortcut icon" type="image/x-icon" href="${ pageContext.request.contextPath }/resources/img/icon.jpg"/>
-	<script type="text/javascript">
-		
-	window.onload=function(){
-        alert("${sessionScope.user.id}");
-     };
-	</script>
 	
 	
 	<title>Cinema</title>	
@@ -25,13 +19,13 @@
 			<div class="main_bg"><img src="${ pageContext.request.contextPath }/resources/img/main_bg.png"></div>
 			<div class="gnb">
 				<ul>
-			<c:if test="${empty param.l_idx }">
+			<c:if test="${empty sessionScope.user.id}">
 					<li><a href="login_form.do?seat=0">로그인</a></li>
 					<li><a href="register_form.do">회원가입</a></li>
 			</c:if>
 			
-			<c:if test="${not empty param.l_idx }">
-					<li style='color:white;'><span style='font-weight: bold;'>${ param.name }</span> 님 환영합니다.</li>
+			<c:if test="${not empty sessionScope.user.id }">
+					<li style='color:white;'><span style='font-weight: bold;'>${ sessionScope.user.name }</span> 님 환영합니다.</li>
 					<li><a href="logout.do">로그아웃</a></li>
 					<li><a href="mypage.do?l_idx=${ param.l_idx }">마이페이지</a></li>
 			</c:if>
@@ -62,7 +56,7 @@
 					<li>
 						<img src="${ pageContext.request.contextPath }/resources/img/main_poster1.jpg">
 						<div class="h_info">
-							<a href="#"><p>
+							<a href="movieInfoDetailRank.do?releaseDts=20171220&title=위대한%20쇼맨&trailer=https://www.youtube.com/embed/cnIOq6P8PUU"><p>
 								불가능한 꿈, 그 이상의 쇼!<br>
 								<br>
 								쇼 비즈니스의 창시자이자, 꿈의 무대로 전세계를 매료시킨 남자 ‘바넘’의 이야기에서 영감을 받아 탄생한 오리지널 뮤지컬 영화 <위대한 쇼맨>. 
@@ -77,7 +71,7 @@
 					<li>
 						<img src="${ pageContext.request.contextPath }/resources/img/main_poster2.jpg">
 						<div class="h_info">
-							<a href="#"><p>
+							<a href="movieInfoDetailRank.do?releaseDts=20200520&title=카페%20벨에포크&trailer=https://www.youtube.com/embed/HRf5kRhfKrM"><p>
 								1분 1초 설레며, 24시간 사랑했던
 								내 인생 가장 찬란했던 순간으로 돌아갈 수 있다면?
 								<br>
@@ -95,7 +89,7 @@
 					<li>
 						<img src="${ pageContext.request.contextPath }/resources/img/main_poster3.jpg">
 						<div class="h_info">
-							<a href="#"><p>
+							<a href="movieInfoDetailRank.do?releaseDts=20200506&title=프리즌%20이스케이프&trailer=https://www.youtube.com/embed/KYXPiPohZw0"><p>
 								404일의 감금, 나가야 할 문은 15개!<br>
 								성공률 0%의 탈옥이 시작된다!<br>
 								<br>
@@ -113,7 +107,7 @@
 					<li>
 						<img src="${ pageContext.request.contextPath }/resources/img/main_poster4.jpg">
 						<div class="h_info">
-							<a href="#"><p>
+							<a href="movieInfoDetailRank.do?releaseDts=20200527&title=미스비헤이비어&trailer=https://www.youtube.com/embed/Zg3wm2ELgvA"><p>
 								“왕관을 거부한 유쾌한 반란”<br>
 								<br>
 								우리는 예쁘지도 추하지도 않다! 우리는 화가 났을 뿐!
