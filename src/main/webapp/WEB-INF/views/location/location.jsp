@@ -135,7 +135,7 @@
 		</div>
 	
 		<!-- footer -->
-			<div id="footer">
+			<div id="footer" style="margin-top:900px;">
 				<div class="f_bg">
 					<img
 						src="${ pageContext.request.contextPath }/resources/img/footer_bg.png">
