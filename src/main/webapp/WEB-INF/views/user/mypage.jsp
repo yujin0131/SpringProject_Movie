@@ -88,7 +88,7 @@ window.onload=function(){
 		if( xhr.readyState == 4 && xhr.status == 200 ){
 		    var data = xhr.responseText;
 			var json=eval(data);
-			alert(data);
+
 			var div =document.getElementById("myReview");
 			for(var i = 0 ; i < json.length ; i++){
 				var indiv = document.createElement("div");
