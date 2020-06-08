@@ -181,7 +181,7 @@ window.onload=function(){
 </div>
 </div>
 <!-- footer -->
-		<div id="footer">
+		<div id="footer" style="margin-top:800px;">
 			
 			<div class="f_txt">
 				<p class="f_logo"><img src="${ pageContext.request.contextPath }/resources/img/logo_test.png"></p>

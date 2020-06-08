@@ -309,15 +309,15 @@
 		<div id="header" onclick="location.href='/movie/'" style="z-index:3;">
 			<div class="gnb">
 				<ul>
-					<c:if test="${empty sessionScope.user.id}">
+					<c:if test="${empty sessionScope.user}">
 						<li><a href="login_form.do?seat=0">로그인</a></li>
 						<li><a href="register_form.do">회원가입</a></li>
 					</c:if>
 					
-					<c:if test="${not empty sessionScope.user.id }">
+					<c:if test="${not empty sessionScope.user}">
 						<li style='color:white;'><span style='font-weight: bold;'>${ sessionScope.user.name }</span> 님 환영합니다.</li>
 						<li><a href="logout.do">로그아웃</a></li>
-						<li><a href="mypage.do?l_idx=${ param.l_idx }">마이페이지</a></li>
+						<li><a href="mypage.do?l_idx=${ sessionScope.user.l_idx }">마이페이지</a></li>
 					</c:if>
 				</ul>
 			</div>

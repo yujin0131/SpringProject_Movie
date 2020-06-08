@@ -58,7 +58,7 @@
 					alert("회원정보가 일치하지 않습니다.");
 					return;
 				}else {
-					
+					/* return history.back(); */
 					return location.href="home.do?l_idx="+ json[0].l_idx+"&name="+json[0].name;
 				}
 				
