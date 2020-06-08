@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,17 +10,12 @@
 	<link rel="shortcut icon" type="image/x-icon" href="${ pageContext.request.contextPath }/resources/img/icon.jpg" />
 
 	<style>		
-		/* body{
+		body{
            background-image: url(${ pageContext.request.contextPath }/resources/img/footer_bg.png);
            background-repeat: repeat; 
-           
-       } */
-       
-       body {
-       	overflow:hidden;
+           overflow:hidden;
        }
-       
-		.login_form {align:center;}
+		.login_form {align:center; padding-top:40px;}
 		.login_form ul > li {list-style:none;}
 		.login_form ul > li > h3 {width:300px; height:50px; background:rgb(119, 119, 119, 0.3); color:white; border-radius:20px; text-align:center; font-size:20px; font-weight:bold; line-height:50px; margin-bottom:20px;}
 		.li1{float:left; width:300px; height:auto; margin-left:800px;}
@@ -66,8 +59,8 @@
 					alert("회원정보가 일치하지 않습니다.");
 					return;
 				}else {
-					/* return history.back(); */
-					return location.href="home.do?l_idx="+ json[0].l_idx+"&name="+json[0].name;
+					return history.go(-1);
+					/* return location.href="ticketform2.do"; */
 				}
 				
 			}
@@ -80,22 +73,14 @@
 </head>
 <body>
 	<div id="moviewrap">
-		<%-- <jsp:include page="../header.jsp"/> --%>
+		<jsp:include page="../header.jsp"/>
 		<!-- header -->
-		<div id="header">
+		<%-- <div id="header" onclick="location.href='/movie/'">
 			<div class="main_bg"><img src="${ pageContext.request.contextPath }/resources/img/main_bg.png"></div>
 			<div class="gnb">
 				<ul>
-			<c:if test="${empty sessionScope.user}">
-					<li><a href="login_form.do?seat=0">로그인</a></li>
+					<li><a href="login_form.do">로그인</a></li>
 					<li><a href="register_form.do">회원가입</a></li>
-			</c:if>
-			
-			<c:if test="${not empty sessionScope.user }">
-					<li style='color:white;'><span style='font-weight: bold;'>${ sessionScope.user.name }</span> 님 환영합니다.</li>
-					<li><a href="logout.do">로그아웃</a></li>
-					<li><a href="mypage.do?l_idx=${ sessionScope.user.l_idx }">마이페이지</a></li>
-			</c:if>
 				</ul>
 			</div>
 			<div class="nav">
@@ -103,21 +88,21 @@
 				<h2><img src="${ pageContext.request.contextPath }/resources/img/nav_logo.png"></h2>
 				<ul>
 					<li><a href="movieReleaseList.do">영화</a></li>
-					<li><a href="ticketing.do">예매</a></li>
-					<li><a href="location.do">영화관</a></li>
+					<li><a href="#">예매</a></li>
+					<li><a href="#">영화관</a></li>
 					<li><a href="review.do">커뮤니티</a></li>				
 				</ul>
 				<h1 id="nav_right"><img src="${ pageContext.request.contextPath }/resources/img/logo_test2.png"></h1>
-				
 			</div>
-			
-		</div>
+		</div> --%>
 		<!-- header 끝 -->
 
 		<div id="container">
+			<%-- <div class="m_list_bg">
+				<img src="${ pageContext.request.contextPath }/resources/img/m_list_bg.png">
+			</div> --%>
 			
 			<div class="login_form">
-			<div class="m_list_bg"><img src="${ pageContext.request.contextPath }/resources/img/m_list_bg.png"></div>
 				<ul>
 					<li class="li1">				
 						<h3>로그인</h3>

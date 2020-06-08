@@ -159,16 +159,20 @@ public class UserController {
 	
 	// 로그인 폼으로 이동
 	@RequestMapping("/login_form.do")
-	public String login_form() {
-	      return Common.User.VIEW_PATH + "login_form.jsp";
-	}
 	public String login_form(int seat) {
 		if(seat==1) {
-	         return "WEB-INF/views/ticket/login_form1.jsp";
-	      }else {
-	      return Common.User.VIEW_PATH + "login_form.jsp";
-	   }
+			return "WEB-INF/views/ticket/login_form1.jsp";
+		} else if( seat==2 ){
+			return Common.Movie.VIEW_PATH + "login_form3.jsp";
+		}
+		else {
+			return Common.User.VIEW_PATH + "login_form.jsp";
+		}
 	}
+	/*
+	 * public String login_form() { return Common.User.VIEW_PATH + "login_form.jsp";
+	 * }
+	 */
 	
 	// 로그인할 id 검색
 	@RequestMapping("/login.do")
@@ -489,6 +493,9 @@ public class UserController {
 			}
 			
 			result = "success";
+	
+			HttpSession session = request.getSession();
+			session.removeAttribute("user");
 			return result;
 		}
 	

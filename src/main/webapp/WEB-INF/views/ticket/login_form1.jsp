@@ -10,6 +10,11 @@
 	<link rel="shortcut icon" type="image/x-icon" href="${ pageContext.request.contextPath }/resources/img/icon.jpg" />
 
 	<style>		
+		body{
+           background-image: url(${ pageContext.request.contextPath }/resources/img/footer_bg.png);
+           background-repeat: repeat; 
+           overflow:hidden;
+       }
 		.login_form {align:center; padding-top:40px;}
 		.login_form ul > li {list-style:none;}
 		.login_form ul > li > h3 {width:300px; height:50px; background:rgb(119, 119, 119, 0.3); color:white; border-radius:20px; text-align:center; font-size:20px; font-weight:bold; line-height:50px; margin-bottom:20px;}
@@ -93,9 +98,9 @@
 		<!-- header 끝 -->
 
 		<div id="container">
-			<div class="m_list_bg">
+			<%-- <div class="m_list_bg">
 				<img src="${ pageContext.request.contextPath }/resources/img/m_list_bg.png">
-			</div>
+			</div> --%>
 			
 			<div class="login_form">
 				<ul>
@@ -115,7 +120,7 @@
 			</div>
 		</div>
 			<!-- footer -->
-			<div id="footer">
+			<div id="footer" style="margin-top:750px;">
 				<div class="f_bg">
 					<img src="${ pageContext.request.contextPath }/resources/img/footer_bg.png">
 				</div>

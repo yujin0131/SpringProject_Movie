@@ -429,7 +429,7 @@
 <body>
 
     <!-- header -->
-		<div id="header" onclick="location.href='/movie/'" style="z-index:3;">
+		<div id="header" style="z-index:3;">
 			
 			<div class="gnb">
 				<ul>
@@ -447,8 +447,8 @@
 			</div>
 			
 			<div class="nav">
-				<h1 id="nav_left"><img src="${ pageContext.request.contextPath }/resources/img/logo_test.png"></h1>
-				<h2><img src="${ pageContext.request.contextPath }/resources/img/nav_logo.png"></h2>
+				<h1 id="nav_left"><img src="${ pageContext.request.contextPath }/resources/img/logo_test.png" onclick="location.href='/movie/'"></h1>
+				<h2><img src="${ pageContext.request.contextPath }/resources/img/nav_logo.png" onclick="location.href='/movie/'"></h2>
 				<ul>
 					<li><a href="movieReleaseList.do">영화</a></li>
 					<li><a href="ticketing.do">예매</a></li>

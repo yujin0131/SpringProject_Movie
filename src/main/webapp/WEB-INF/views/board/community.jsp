@@ -107,7 +107,7 @@
 		<tr>
 			<td colspan="11" align="right">
 			<div class="user" id="user_${list.id}m_name_${list.m_name}" align="right"
-				style="position: absolute; left:900px;  background:url(${pageContext.request.contextPath}/resources/img/text.png); background-size:200px 100px;
+				style="position: absolute; left:860px;  background:url(${pageContext.request.contextPath}/resources/img/text.png); background-size:200px 100px;
 	 			background-position:center; background-repeat: no-repeat; display:none;">
 			<input width="15" height="15" type="image" name="button"
 				class="close" src="${pageContext.request.contextPath}/resources/img/close.png"
@@ -119,7 +119,7 @@
 
 			<div name="no" class="user2" id="user2_${list.id}m_name2_${list.m_name}"
 				style="background:url(${pageContext.request.contextPath}/resources/img/text.png); background-size:320px 110px;
-               			background-position:center; background-repeat: no-repeat; font-size:12px; position: absolute; left:830px; text-align:center; display:none;">
+               			background-position:center; background-repeat: no-repeat; font-size:12px; position: absolute; left:800px; text-align:center; display:none;">
 				<br> &nbsp&nbsp&nbsp스포일러 및 욕설/비방하는
 				<input width="15" height="15" type="image" name="button" class="close"
 					src="${pageContext.request.contextPath}/resources/img/close.png"
@@ -151,13 +151,13 @@
 		<tr><td colspan="11" align="right">${list.regdate}</td></tr>		
 		</c:forEach>
 		<tr>
-				<td colspan="11" align="center" height="70px;">${ pageMenu }</td>
+			<td colspan="11" align="center" height="70px;">${ pageMenu }</td>
 		</tr>
 	</table>
 	</div>
 	
 	<!-- footer -->
-	<div id="footer">
+	<div id="footer" style="margin-top:300px;">
 		<div class="f_bg">
 			<img
 				src="${ pageContext.request.contextPath }/resources/img/footer_bg.png">

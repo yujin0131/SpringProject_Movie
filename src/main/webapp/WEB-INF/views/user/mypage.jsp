@@ -49,6 +49,38 @@ div::-webkit-scrollbar {
     border-radius: 8px;
     box-shadow: inset 0px 0px 5px white;
   }
+.modify {
+
+    width:100px;
+
+    background-color: rgb(119, 119, 119, 0.3);
+
+    border: none;
+
+    color:white;
+
+    padding: 15px 0;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    display: inline-block;
+
+    font-size: 15px;
+
+    margin: 4px;
+
+    cursor: pointer;
+    border-radius:10px;
+
+}
+.modify :hover {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
 </style>
 
 <script type="text/javascript">
@@ -69,9 +101,17 @@ window.onload=function(){
 				var indiv = document.createElement("div");
 		    	var p = document.createElement("p");
 		    	p.style.float="left";
-		    	p.innerHTML="티켓번호:"+json[i].t_idx+" /영화 :"+json[i].m_name+" / 좌석 : "+json[i].seat+"/상영관 :"+json[i].city+" "+json[i].district+"/ 시간 :"+(json[i].time).substring(0,16)+"/결재금액:"+json[i].pay_money+"원";
+		    	
+		    	p.innerHTML="티켓번호:"+json[i].t_idx+" / 영화 :"+json[i].m_name+" / 좌석 : "+json[i].seat+"/ 상영관 :"+json[i].city+" "+json[i].district+"/ 시간 :"+(json[i].time).substring(0,16)+"/ 결재금액:"+json[i].pay_money+"원";
 		    	//alert(p.innerHTML);
 		    	indiv.appendChild(p);
+				div.appendChild(indiv);
+			}
+			if(json.length==0){
+				var indiv = document.createElement("div");
+		    	var p = document.createElement("p"); 
+		    	p.innerHTML="예약한 티켓이 없습니다..."
+		    		indiv.appendChild(p);
 				div.appendChild(indiv);
 			}
 			review();
@@ -88,7 +128,7 @@ window.onload=function(){
 		if( xhr.readyState == 4 && xhr.status == 200 ){
 		    var data = xhr.responseText;
 			var json=eval(data);
-
+		
 			var div =document.getElementById("myReview");
 			for(var i = 0 ; i < json.length ; i++){
 				var indiv = document.createElement("div");
@@ -99,6 +139,13 @@ window.onload=function(){
 		    	indiv.appendChild(p);
 				div.appendChild(indiv);
 			}
+			if(json.length==0){
+				var indiv = document.createElement("div");
+		    	var p = document.createElement("p");
+		    	p.innerHTML="리뷰를 작성한 내용이 없습니다..."
+		    		indiv.appendChild(p);
+				div.appendChild(indiv);
+			}
 		}
 	}
 	
@@ -106,13 +153,15 @@ window.onload=function(){
 </head>
 <body>
 
-  <jsp:include page="header.jsp"/>
+  <jsp:include page="../header.jsp"/>
   <div style="width:100% ;height:600px  ;margin:300px auto ;overflow: hidden;position: absolute;" align="center">
  
 	 <P style="width:80%; height:50px; background:rgb(119, 119, 119, 0.3); color:white; border-radius:20px; text-align:center; font-size:20px; font-weight:bold; line-height:50px;">${ sessionScope.user.name }님 환영합니다</P>
-	 <div><input type="button" value="로그아웃" onClick="location.href='logout.do'"></div>
-	 <div><a href="change_info_form.do" class="btn btn-primary btn-lg">회원정보 변경</a></div>
-	 <div><a href="confirm_pwd.do?l_idx=${param.l_idx}" class="btn btn-primary btn-lg">회원 탈퇴</a></div>
+	 <div>
+	  <a href="change_info_form.do" class="modify">회원정보 변경</a>
+	  <a href="confirm_pwd.do?l_idx=${param.l_idx}" class="modify">회원 탈퇴</a>
+	 </div>
+	
 	 <P style="width:80%; height:50px; background:rgb(119, 119, 119, 0.3); color:white; border-radius:20px; text-align:center; font-size:20px; font-weight:bold; line-height:50px;">영화 예매 내역</P>
  	
  	 <div id= "ticket" style="overflow:scroll;overflow-x:hidden; width:80%; height:100px;background-color:#F4F1E5;border-radius: 8px;">

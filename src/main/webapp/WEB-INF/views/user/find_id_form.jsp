@@ -19,6 +19,16 @@
 		.li1{float:left; width:300px; height:auto; margin-left:33%;}
 		.li2{float:left; width:300px; height:auto; margin-left:4%;}
 		.find_id_pwd_form{overflow:hidden;}
+		
+		#footer{ width:100%; height:300px; position:absolute; margin-top:900px;}
+		#footer .f_logo{ width:150px; height:150px; position:absolute; margin-top:-3px; }
+		#footer .f_logo > img{ width:150px; height:150px; }
+		
+		#footer .f_txt{ width:50%; height:150px; position:relative; margin:25px auto; }
+		#footer address{ width:100%; height:30px; position:absolute; margin:30px auto; text-align:center; color:white; }
+		#footer .team1{ width:100%; height:30px; position:absolute; margin:60px auto; text-align:center; color:white; }
+		#footer .team2{ width:100%; height:30px; position:absolute; margin:90px auto; text-align:center; color:white; }
+				
 	</style>
 
 
@@ -121,7 +131,7 @@
 					   			<input class="form_field" placeholder="Name" name="name" id="name" required />
 					   			<input class="form_field" placeholder="Email" name="email" id="email" required />
 					   			<input type="button" value="아이디 찾기" class="btn btn-primary btn-block btn-large" onClick="send(this.form);">
-								<input type="button" value="취소" class="btn btn-primary btn-block btn-large" onClick="location.href='login_form.do';" style="margin-top:10px;">
+								<input type="button" value="취소" class="btn btn-primary btn-block btn-large" onClick="history.go(-1);" style="margin-top:10px;">
 					    		<!-- <label for="name" class="form__label">Name</label> -->
 					    	</div>
 					    </form>
@@ -134,7 +144,7 @@
 					   			<input class="form_field" placeholder="ID" name="id" id="id" required />
 					   			<input class="form_field" placeholder="Email" name="email" id="email" required />
 					   			<input type="button" value="비밀번호 찾기" class="btn btn-primary btn-block btn-large" onClick="sendEmail(this.form);">
-								<input type="button" value="취소" class="btn btn-primary btn-block btn-large" onClick="location.href='login_form.do';" style="margin-top:10px;">
+								<input type="button" value="취소" class="btn btn-primary btn-block btn-large" onClick="history.go(-1);" style="margin-top:10px;">
 					    	</div>
 					    </form>
 			    	</li>
@@ -144,7 +154,15 @@
 			
 		</div>
 	
-		<jsp:include page="../footer.jsp" />
+		<div id="footer" style="margin-top:700px;">
+			
+			<div class="f_txt">
+				<p class="f_logo"><img src="${ pageContext.request.contextPath }/resources/img/logo_test.png"></p>
+				<address>서울특별시 마포구 서강로 136 아이비티워 2층,3층</address>
+				<p class="team1">2조 Spring Project Movie</p>
+				<p class="team2">민형, 성수, 우성, 선영, 원경, 유진</p>
+			</div>
+		</div>
 
 	</div>
 	

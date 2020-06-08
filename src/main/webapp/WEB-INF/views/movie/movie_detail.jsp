@@ -215,7 +215,7 @@
             
             if(data == 'no'){
                alert("로그인 후 이용하세요");   
-               location.href="login_form.do";
+               location.href="login_form.do?seat=2";
             }else if(data == 'already'){
                alert("이미 리뷰를 작성 하셨습니다.");
                return;
@@ -306,7 +306,7 @@
 <body>
 	<div id="moviewrap">
 		<!-- header -->
-		<div id="header" onclick="location.href='/movie/'" style="z-index:3;">
+		<div id="header" style="z-index:3;">
 			<div class="gnb">
 				<ul>
 					<c:if test="${empty sessionScope.user}">
@@ -323,8 +323,8 @@
 			</div>
 			
 			<div class="nav">
-				<h1 id="nav_left"><img src="${ pageContext.request.contextPath }/resources/img/logo_test.png"></h1>
-				<h2><img src="${ pageContext.request.contextPath }/resources/img/nav_logo.png"></h2>
+				<h1 id="nav_left"><img src="${ pageContext.request.contextPath }/resources/img/logo_test.png" onclick="location.href='/movie/'"></h1>
+				<h2><img src="${ pageContext.request.contextPath }/resources/img/nav_logo.png" onclick="location.href='/movie/'"></h2>
 				<ul>
 					<li><a href="movieReleaseList.do">영화</a></li>
 					<li><a href="ticketing.do">예매</a></li>

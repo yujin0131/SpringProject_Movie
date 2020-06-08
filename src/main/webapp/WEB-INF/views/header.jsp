@@ -13,7 +13,7 @@
 	
 	<div id="moviewrap">
 		<!-- header -->
-		<div id="header" onclick="location.href='/movie/'">
+		<div id="header" >
 			<%-- <div class="main_bg"><img src="${ pageContext.request.contextPath }/resources/img/main_bg.png"></div> --%>
 			<div class="gnb">
 				<ul>
@@ -30,8 +30,8 @@
 				</ul>
 			</div>
 			<div class="nav">
-				<h1 id="nav_left"><img src="${ pageContext.request.contextPath }/resources/img/logo_test.png"></h1>
-				<h2><img src="${ pageContext.request.contextPath }/resources/img/nav_logo.png"></h2>
+				<h1 id="nav_left"><img src="${ pageContext.request.contextPath }/resources/img/logo_test.png" onclick="location.href='/movie/'"></h1>
+				<h2><img src="${ pageContext.request.contextPath }/resources/img/nav_logo.png" onclick="location.href='/movie/'"></h2>
 				<ul>
 					<li><a href="movieReleaseList.do">영화</a></li>
 					<li><a href="ticketing.do">예매</a></li>

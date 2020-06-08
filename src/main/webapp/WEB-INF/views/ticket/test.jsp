@@ -86,7 +86,7 @@ window.onload=function(){
  function select() {
 	
 	 
-	if( "${empty param.m_name}" ){
+	if( ${empty param.m_name} ){
 		
 		return;
 	}else{

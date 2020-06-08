@@ -83,7 +83,7 @@ window.onload=function(){
 </script>
 </head>
 <body>
- <jsp:include page="header.jsp"/>
+ <jsp:include page="../header.jsp"/>
  <div style="width:100% ;height:600px  ;margin:300px auto ;overflow: hidden;position: absolute;" align="center">
 
 <div>

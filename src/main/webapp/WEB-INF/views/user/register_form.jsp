@@ -133,7 +133,7 @@
 					return;
 				}
 				
-				alert("사용이 가능한 아이디 입니다.")
+				alert("사용이 가능한 아이디 입니다.");
 				id_check_click = true;
 				
 				document.getElementById("id").readOnly = true;

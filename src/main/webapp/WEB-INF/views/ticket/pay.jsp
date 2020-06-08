@@ -20,7 +20,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>결재</title>
 <script type="text/javascript"  src="${pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
 <script type="text/javascript">
  	function pay() {
@@ -32,7 +32,7 @@
 	function resultFn() {
 		if(xhr.readyState==4 && xhr.status==200){
 			alert("결재 성공");
-			alert(${sessionScope.user.l_idx});
+			
 			location.href="mypage.do?l_idx="+${sessionScope.user.l_idx};
 		}
 	} 
@@ -44,6 +44,31 @@ body{
            background-image: url(${ pageContext.request.contextPath }/resources/img/footer_bg.png);
            background-repeat: repeat;
            
+       }
+       input{
+       
+    width:100px;
+
+    background-color: rgb(119, 119, 119, 0.3);
+
+    border: none;
+
+    color:white;
+
+    padding: 15px 0;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    display: inline-block;
+
+    font-size: 15px;
+
+    margin: 4px;
+
+    cursor: pointer;
+    border-radius:10px;
        }
 /* footer */
 
@@ -58,10 +83,10 @@ body{
 </style>
 </head>
 <body>
- <jsp:include page="header.jsp"/>
+ <jsp:include page="../header.jsp"/>
  
  <div  style="width:100% ;height:600px  ;margin:300px auto ;overflow: hidden;position: absolute;" align="center">
-	 <input  type="button" value="찐결재" onclick="pay();">
+	 <input  type="button" value="결재" onclick="pay();">
  </div>
 	
 	<!-- footer -->
@@ -77,20 +102,3 @@ body{
 		<!-- footer 끝 -->
 </body>
 </html>
-<!-- --예매 DB
-
---시퀀스
-create sequence seq_ticket_idx;
-
---테이블
-create table ticket(
-	t_idx number primary key,--예매번호
-	m_name varchar2(100) not null,--영화이름
-	id varchar2(100),--예매회원ID(forignkey)
-	city varchar2(100),--상영지역
-	district varchar2(100),--각 지역별 위치
-	date_s date,--상영날짜
-	time varchar2(100),--상영시간
-	seat varchar2(10),--좌석 번호
-	pay_money varchar2(100)--결재금액	
-); -->

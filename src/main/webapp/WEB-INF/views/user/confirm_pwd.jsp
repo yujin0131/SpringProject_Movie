@@ -56,7 +56,7 @@
 			
 			if(data == 'success'){
 				alert("회원이 탈퇴 되었습니다. 회원 정보가 모두 삭제 되었습니다.");
-				return location.href="location.href='home.do'";
+				return location.href='home.do';
 			}
 			
 			
