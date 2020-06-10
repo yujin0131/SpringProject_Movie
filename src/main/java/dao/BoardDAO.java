@@ -16,91 +16,120 @@ public class BoardDAO {
 		this.sqlSession = sqlSession;
 	}
 	
-	//전체 게시글 조회
-	public List<BoardVO> selectList(){
+	//영화 게시글 조회
+	public List<BoardVO> selectList(String m_name){
 		
 		List<BoardVO> list = null;
-		list = sqlSession.selectList("b.board_list");
+		list = sqlSession.selectList("b.board_list", m_name);
 		return list;	
 	}
+	
+	//평점 조회
+	public int selectSum( String m_name ) {
+	
+		int sum = sqlSession.selectOne("b.sum", m_name);
+		return sum;
+	}
+	
+	public int selectNum( String m_name ) {
+		
+		int num = sqlSession.selectOne("b.num", m_name);
+		return num;
+	}
+	
+	//리뷰썼는지 확인
+	public String selectReview(String id, String m_name) {//String id
+		/*
+		 * BoardVO vo = sqlSession.selectOne("b.user_content", id);
+		 * return vo;
+		 */
+		
+		HashMap<Object, Object> map = new HashMap<Object, Object>();
+		map.put("id", id);
+		map.put("m_name", m_name);
+		String content = sqlSession.selectOne("b.user_contnet", map);
+		return content;
+	}
+	
+	
 	
 	//게시글 추가
 	public int insert( BoardVO vo ) {
 		
-		int res = sqlSession.insert("b.board_insert", vo);
-		return res;
+	//HashMap<Object, Object> map = new HashMap<Object, Object>();
+	//map.put("vo", vo);
+	//map.put("scope", scope);
+	
 		
+	int res = sqlSession.insert("b.board_insert", vo);
+	
+	return res;
+			
 	}
 	
-	//idx에 해당하는 게시글 한 건 얻어오기
-	public BoardVO selectOne( int idx ) {
-		BoardVO vo = null;
-		vo = sqlSession.selectOne("b.board_one", idx);
-		return vo;
-	}
-	
-	//조회수 증가
-	public int update_readhit(int idx) {
+	//게시글 수정하기 위해 정보 하나 얻어오기
+	public BoardVO selectModify(String id, String m_name) {
 		
-		int res = sqlSession.update("b.board_update_readhit", idx);
-		return res;
-		
-	}
-	
-	//기준글의 step보다 큰 값 +1처리
-	public int update_step( BoardVO baseVo ) {
-		int res = sqlSession.update("b.board_update_step", baseVo);
+		HashMap<Object, Object> map = new HashMap<Object, Object>();
+		map.put("id", id);
+		map.put("m_name", m_name);
+		BoardVO res = sqlSession.selectOne("b.board_modify", map);
 		return res;
 	}
 	
-	//댓글달기
-	public int reply( BoardVO vo ) {
-		int res = sqlSession.insert("b.board_reply", vo);
+	public int update(BoardVO vo) {
+		int res = sqlSession.update("b.board_update", vo);
 		return res;
 	}
 	
-	//삭제를 위한 게시글의 정보 가져오기
-	public BoardVO selectOne(int idx, String pwd) {
-		BoardVO vo = null;
+	//삭제
+	public int delete(String id, String m_name) {
 		
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("idx", idx);
-		map.put("pwd", pwd);
-		
-		vo = sqlSession.selectOne("b.board_idx_pwd", map);
-		
-		return vo;
-	}
-	
-	//게시글 삭제(된 것 처럼) 업데이트
-	public int del_update( BoardVO vo ) {
-		
-		int res = sqlSession.update("b.board_del_update", vo);
+		HashMap<Object, Object> map = new HashMap<Object, Object>();
+		map.put("id", id);
+		map.put("m_name", m_name);
+		int res = sqlSession.delete("b.board_delete", map);
 		return res;
-		
 	}
 	
 	//페이징을 포함한 검색
-	public List<BoardVO> selectList(Map<String, Integer> map){
-		
+	public List<BoardVO> selectList(Map<String, Object> map){	
 		List<BoardVO> list = null;
 		list = sqlSession.selectList("b.board_list_condition", map);
 		return list;
-		
 	}
-
-	//게시판의 전체 게시물 수
-	public int getRowTotal() {
 		
-		int count = sqlSession.selectOne("b.board_count");
+	//페이징을 포함한 검색
+	public List<BoardVO> selectListTotal(Map<String, Object> map){	
+		List<BoardVO> list = null;
+		list = sqlSession.selectList("b.board_list_total_condition", map);
+		return list;
+	}
+	
+	//게시판의 해당영화 게시물 수
+	public int getRowTotal(String m_name) {
+	
+		int count = sqlSession.selectOne("board_count", m_name);
 		return count;
+	}
+	
+	//게시물 수
+	public int getRowTotal2() {
+		
+		int count = sqlSession.selectOne("board_total_count");
+		return count;
+	}
+	
+	//마이페이지 리뷰블러오기
+	public List<BoardVO> myReview(String id){
+		 List<BoardVO> list = null;
+		 list=sqlSession.selectList("b.board_myreviews", id);
+		 return list;
 		
 	}
 	
+	
 }
-
-
-
 
 
 

@@ -26,9 +26,35 @@
 	<!-- 컨트롤러 수동 생성시 autowired사용 가능하게 하는 속성 -->
 	<context:annotation-config/>
 	
+	<!-- 수동생성 -->
+	<beans:bean class="com.korea.movie.MovieListController"> 
+		<beans:property name="movieListDAO" ref="movie_daoBean"/>   
+	</beans:bean>
+	
+	<!-- TicketController -->
+	<beans:bean class="com.korea.movie.TicketController">
+			<beans:constructor-arg ref="theaterdao_Bean"/>
+			<beans:constructor-arg ref="ticketdao_Bean"/>
+			<beans:constructor-arg ref="seatdao_Bean"/>
+	</beans:bean>
+	
 	<!-- BoardController 수동생성 -->
  	<beans:bean class="com.korea.movie.BoardController">
 		<beans:property name="board_dao" ref="board_daoBean"/>
 	</beans:bean>
 	
+	<!-- UserController 수동생성 -->  
+	<beans:bean class="com.korea.movie.UserController">
+		<beans:property name="user_dao" ref="user_daoBean"/>
+		<beans:property ref="mailSender" name="mailSender"/>
+		<beans:property name="ticket_dao" ref="ticketdao_Bean"/>
+	</beans:bean> 
+	
+	<!-- LocationController 수동생성 -->
+	<beans:bean class="com.korea.movie.LocationController"> </beans:bean>
+	
+	<!-- HomeController 수동생성 -->  
+	<beans:bean class="com.korea.movie.HomeController">
+		
+	</beans:bean> 
 </beans:beans>

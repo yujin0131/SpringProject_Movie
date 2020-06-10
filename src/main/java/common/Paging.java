@@ -44,7 +44,7 @@ public class Paging {
 		sb = new StringBuffer();
 //-----그룹페이지처리 이전 --------------------------------------------------------------------------------------------		
 		if(isPrevPage){
-			sb.append("<a href ='"+pageURL+"?page=");
+			sb.append("<a href ='"+pageURL+"&page=");
 			//sb.append(nowPage - blockPage);
 			sb.append( startPage-1 );
 			sb.append("'>prev</a>");
@@ -57,12 +57,12 @@ public class Paging {
 		for(int i=startPage; i<= endPage ;i++){
 			if(i>totalPage)break;
 			if(i == nowPage){ //현재 있는 페이지
-				sb.append("&nbsp;<b><font color='#f00'>");
+				sb.append("&nbsp;<b><font color='#510984'>");
 				sb.append(i);
 				sb.append("</font></b>");
 			}
 			else{//현재 페이지가 아니면
-				sb.append("&nbsp;<a href='"+pageURL+"?page=");
+				sb.append("&nbsp;<a href='"+pageURL+"&page=");
 				sb.append(i);
 				sb.append("'>");
 				sb.append(i);
@@ -74,7 +74,7 @@ public class Paging {
 		
 //-----그룹페이지처리 다음 ----------------------------------------------------------------------------------------------
 		if(isNextPage){
-			sb.append("<a href='"+pageURL+"?page=");
+			sb.append("<a href='"+pageURL+"&page=");
 			
 			sb.append(endPage + 1);
 			/*if(nowPage+blockPage > totalPage)nowPage = totalPage;
